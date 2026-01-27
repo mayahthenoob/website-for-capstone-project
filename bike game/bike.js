@@ -25,7 +25,7 @@ var player = new function(){
     this.rSpeed = 0;
 
     this.img = new Image();
-    this.img.src = "moto.png";
+    this.img.src = "moto.png"; /*might have to change this*/
     this.draw = function(){
         var p1 = c.height - noise(t + this.x) * 0.25;
         var p2 = c.height - noise(t+5 + this.x) * 0.25;
