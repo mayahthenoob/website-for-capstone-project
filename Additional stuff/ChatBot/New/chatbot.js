@@ -1,4 +1,3 @@
- // A simple chatbot that responds with some predefined answers
  function chatbot(input) {
     let output = "";
     input = input.toLowerCase();
@@ -18,7 +17,6 @@
     return output;
   }
 
-  // Display the user message on the chat
   function displayUserMessage(message) {
     let chat = document.getElementById("chat");
     let userMessage = document.createElement("div");
@@ -35,7 +33,6 @@
     chat.scrollTop = chat.scrollHeight;
   }
 
-  // Display the bot message on the chat
   function displayBotMessage(message) {
     let chat = document.getElementById("chat");
     let botMessage = document.createElement("div");
@@ -52,7 +49,6 @@
     chat.scrollTop = chat.scrollHeight;
   }
 
-  // Send the user message and get the bot response
   function sendMessage() {
     let input = document.getElementById("input").value;
     if (input) {
@@ -65,10 +61,8 @@
     }
   }
 
-  // Add a click event listener to the button
   document.getElementById("button").addEventListener("click", sendMessage);
 
-  // Add a keypress event listener to the input
   document.getElementById("input").addEventListener("keypress", function(event) {
     if (event.keyCode == 13) {
       sendMessage();
