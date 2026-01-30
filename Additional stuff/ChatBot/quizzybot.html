@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbot</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .chat-container {
+        width: 350px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .chat-box {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        max-height: 400px;
+    }
+    .message {
+        margin: 5px 0;
+        padding: 8px;
+        border-radius: 5px;
+        max-width: 80%;
+    }
+    .user {
+        background: #007bff;
+        color: white;
+        align-self: flex-end;
+    }
+    .bot {
+        background: #e5e5ea;
+        color: black;
+        align-self: flex-start;
+    }
+    .input-box {
+        display: flex;
+        border-top: 1px solid #ccc;
+    }
+    .input-box input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        outline: none;
+    }
+    .input-box button {
+        padding: 10px;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-box" id="chat-box"></div>
+    <div class="input-box">
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    const chatBox = document.getElementById("chat-box");
+    const userInput = document.getElementById("user-input");
+
+    // Predefined responses
+    const responses = {
+        "hi": "Hello! How can I help you?",
+        "hello": "Hi there! What’s up?",
+        "how are you": "I'm just a bot, but I'm doing great! How about you?",
+        "bye": "Goodbye! Have a great day!",
+        "your name": "I'm ChatBot, your virtual assistant.",
+        "default": "Sorry, I don't understand that. Can you rephrase?"
+    };
+
+    function sendMessage() {
+        const message = userInput.value.trim().toLowerCase();
+        if (message === "") return;
+
+        // Display user message
+        displayMessage(message, "user");
+
+        // Get bot response
+        const botReply = responses[message] || responses["default"];
+        setTimeout(() => {
+            displayMessage(botReply, "bot");
+        }, 500);
+
+        userInput.value = "";
+    }
+
+    function displayMessage(text, sender) {
+        const msgDiv = document.createElement("div");
+        msgDiv.classList.add("message", sender);
+        msgDiv.textContent = text;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Allow Enter key to send message
+    userInput.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+    });
+</script>
+
+</body>
+</html>
