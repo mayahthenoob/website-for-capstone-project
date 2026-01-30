@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", sans-serif;
+  text-decoration: none;
+  list-style: none;
+}
+
+body {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 280px;
+  padding: 0 18px;
+  border-radius: 24px;
+  background: #ffffff;
+  border-right: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.logo-details {
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  font-size: 32px;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+}
+
+.logo_name {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-left: 12px;
+  letter-spacing: -0.5px;
+}
+
+.nav-links {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-links::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links li a {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  border-radius: 8px;
+  padding: 0 12px;
+  transition: all 0.2s ease;
+  color: #64748b;
+}
+
+.nav-links li a i {
+  font-size: 20px;
+  min-width: 35px;
+}
+
+.nav-links li a .link_name {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.nav-links li a:hover {
+  background-color: #f8fafc;
+  color: #3b82f6;
+}
+
+.nav-links li.active a {
+  background-color: #eff6ff;
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.nav-links li.active a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 3px;
+  background: #3b82f6;
+  border-radius: 0 4px 4px 0;
+}
+
+.spacer {
+  margin-top: auto;
+}
+
+.bottom-links {
+  padding: 10px 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.profile-section {
+  padding: 20px 0;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-content img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.profile-info p {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.logout-btn {
+  font-size: 20px;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn:hover {
+  color: #ef4444;
+}
