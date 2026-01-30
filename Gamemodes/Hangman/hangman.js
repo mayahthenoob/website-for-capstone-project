@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // DOM Elements
   const wordDisplay = document.getElementById('word-display');
   const keyboard = document.getElementById('keyboard');
   const remainingGuessesEl = document.getElementById('remaining-guesses');
   const gameMessageEl = document.getElementById('game-message');
   const resetBtn = document.getElementById('reset-btn');
-  
-  // Hangman SVG parts
+
+  const wordInput = document.getElementById('word-input');
+  const guessWordBtn = document.getElementById('guess-word-btn');
+
   const hangmanParts = {
     head: document.getElementById('head'),
     body: document.getElementById('body'),
@@ -16,151 +17,150 @@ document.addEventListener('DOMContentLoaded', () => {
     rightLeg: document.getElementById('right-leg'),
     face: document.getElementById('face')
   };
-  
-  // Game variables
+
   let selectedWord = '';
   let correctLetters = [];
   let wrongLetters = [];
   let remainingGuesses = 6;
   let gameOver = false;
-  
-  // Categories and words
+
   const wordCategories = {
     animals: ['ELEPHANT', 'GIRAFFE', 'KANGAROO', 'DOLPHIN', 'CHEETAH'],
     countries: ['CANADA', 'BRAZIL', 'JAPAN', 'GERMANY', 'AUSTRALIA'],
     fruits: ['BANANA', 'WATERMELON', 'PINEAPPLE', 'STRAWBERRY', 'BLUEBERRY']
   };
-  
-  // Initialize game
+
   function initGame() {
-    // Reset game state
     correctLetters = [];
     wrongLetters = [];
     remainingGuesses = 6;
     gameOver = false;
     gameMessageEl.textContent = '';
-    
-    // Select random category and word
+    wordInput.value = '';
+
     const categories = Object.keys(wordCategories);
     const randomCategory = categories[Math.floor(Math.random() * categories.length)];
     const words = wordCategories[randomCategory];
     selectedWord = words[Math.floor(Math.random() * words.length)];
-    
-    // Update UI
-    document.getElementById('category').textContent = `Category: ${randomCategory.charAt(0).toUpperCase() + randomCategory.slice(1)}`;
+
+    document.getElementById('category').textContent =
+      `Category: ${randomCategory.charAt(0).toUpperCase() + randomCategory.slice(1)}`;
+
     remainingGuessesEl.textContent = `Remaining guesses: ${remainingGuesses}`;
-    
-    // Hide all hangman parts
-    Object.values(hangmanParts).forEach(part => {
-      part.style.display = 'none';
-    });
-    
-    // Create word display
+
+    Object.values(hangmanParts).forEach(part => part.style.display = 'none');
+
     wordDisplay.innerHTML = '';
-    for (let i = 0; i < selectedWord.length; i++) {
+    selectedWord.split('').forEach(letter => {
       const letterEl = document.createElement('div');
       letterEl.classList.add('word-letter');
-      letterEl.dataset.letter = selectedWord[i];
+      letterEl.dataset.letter = letter;
       wordDisplay.appendChild(letterEl);
-    }
-    
-    // Create keyboard
+    });
+
     keyboard.innerHTML = '';
     for (let i = 65; i <= 90; i++) {
       const letter = String.fromCharCode(i);
       const keyEl = document.createElement('button');
       keyEl.classList.add('keyboard-letter');
       keyEl.textContent = letter;
-      keyEl.dataset.letter = letter;
       keyEl.addEventListener('click', () => handleGuess(letter));
       keyboard.appendChild(keyEl);
     }
   }
-  
-  // Handle letter guess
+
   function handleGuess(letter) {
-    if (gameOver || wrongLetters.includes(letter) || correctLetters.includes(letter)) return;
-    
+    if (gameOver || correctLetters.includes(letter) || wrongLetters.includes(letter)) return;
+
+    const key = document.querySelector(`.keyboard-letter:nth-child(${letter.charCodeAt(0) - 64})`);
+
     if (selectedWord.includes(letter)) {
-      // Correct guess
       correctLetters.push(letter);
       updateWordDisplay();
-      
-      // Mark keyboard letter as correct
-      document.querySelector(`.keyboard-letter[data-letter="${letter}"]`).classList.add('correct', 'used');
-      
-      // Check if player won
+      key.classList.add('correct', 'used');
+
       if (checkWin()) {
-        gameOver = true;
-        gameMessageEl.textContent = 'Congratulations! You won!';
+        gameMessageEl.textContent = '🎉 Congratulations! You won!';
         gameMessageEl.style.color = 'green';
+        gameOver = true;
       }
     } else {
-      // Wrong guess
       wrongLetters.push(letter);
       remainingGuesses--;
       remainingGuessesEl.textContent = `Remaining guesses: ${remainingGuesses}`;
-      
-      // Mark keyboard letter as wrong
-      document.querySelector(`.keyboard-letter[data-letter="${letter}"]`).classList.add('wrong', 'used');
-      
-      // Show hangman part
+      key.classList.add('wrong', 'used');
       updateHangmanDrawing();
-      
-      // Check if player lost
+
       if (remainingGuesses === 0) {
-        gameOver = true;
-        gameMessageEl.textContent = `Game Over! The word was: ${selectedWord}`;
-        gameMessageEl.style.color = 'red';
-        
-        // Show face
-        hangmanParts.face.style.display = 'block';
-        
-        // Reveal all letters
-        document.querySelectorAll('.word-letter').forEach(el => {
-          el.textContent = el.dataset.letter;
-        });
+        endGame(false);
       }
     }
   }
-  
-  // Update hangman drawing
+
   function updateHangmanDrawing() {
-    switch(wrongLetters.length) {
-      case 1: hangmanParts.head.style.display = 'block'; break;
-      case 2: hangmanParts.body.style.display = 'block'; break;
-      case 3: hangmanParts.leftArm.style.display = 'block'; break;
-      case 4: hangmanParts.rightArm.style.display = 'block'; break;
-      case 5: hangmanParts.leftLeg.style.display = 'block'; break;
-      case 6: hangmanParts.rightLeg.style.display = 'block'; break;
+    const parts = Object.values(hangmanParts);
+    if (wrongLetters.length <= parts.length) {
+      parts[wrongLetters.length - 1].style.display = 'block';
     }
   }
-  
-  // Update word display with correctly guessed letters
+
   function updateWordDisplay() {
     document.querySelectorAll('.word-letter').forEach(el => {
-      const letter = el.dataset.letter;
-      if (correctLetters.includes(letter)) {
-        el.textContent = letter;
+      if (correctLetters.includes(el.dataset.letter)) {
+        el.textContent = el.dataset.letter;
       }
     });
   }
-  
-  // Check if player won
+
   function checkWin() {
     return selectedWord.split('').every(letter => correctLetters.includes(letter));
   }
-  
-  // Keyboard event listener
-  document.addEventListener('keydown', e => {
-    if (/^[a-z]$/i.test(e.key)) {
-      handleGuess(e.key.toUpperCase());
+
+  function endGame(win) {
+    gameOver = true;
+    Object.values(hangmanParts).forEach(part => part.style.display = 'block');
+
+    document.querySelectorAll('.word-letter').forEach(el => {
+      el.textContent = el.dataset.letter;
+    });
+
+    gameMessageEl.textContent = win
+      ? '🎉 You guessed the word!'
+      : `❌ Game Over! The word was: ${selectedWord}`;
+    gameMessageEl.style.color = win ? 'green' : 'red';
+  }
+
+  // 🔥 NEW: Guess full word
+  function guessWholeWord() {
+    if (gameOver) return;
+
+    const guess = wordInput.value.trim().toUpperCase();
+    if (!guess) return;
+
+    if (guess === selectedWord) {
+      selectedWord.split('').forEach(l => {
+        if (!correctLetters.includes(l)) correctLetters.push(l);
+      });
+      updateWordDisplay();
+      endGame(true);
+    } else {
+      remainingGuesses = 0;
+      remainingGuessesEl.textContent = 'Remaining guesses: 0';
+      endGame(false);
     }
+
+    wordInput.value = '';
+  }
+
+  guessWordBtn.addEventListener('click', guessWholeWord);
+  wordInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') guessWholeWord();
   });
-  
-  // Reset button
+
+  document.addEventListener('keydown', e => {
+    if (/^[a-z]$/i.test(e.key)) handleGuess(e.key.toUpperCase());
+  });
+
   resetBtn.addEventListener('click', initGame);
-  
-  // Start the game
   initGame();
 });
