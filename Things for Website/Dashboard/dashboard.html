@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Carnival Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Inter", system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Header */
+    .header {
+      height: 64px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 22px;
+      color: var(--muted);
+    }
+
+    /* Layout */
+    .container {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 20px;
+      height: fit-content;
+    }
+
+    .add-quiz {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .add-quiz:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Main */
+    .main {
+      display: grid;
+      gap: 24px;
+    }
+
+    /* Quiz Card */
+    .quiz-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .progress-circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 6px solid var(--border);
+      border-top-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .quiz-info h3 {
+      margin: 0 0 4px;
+    }
+
+    .quiz-info p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .status {
+      margin-top: 8px;
+      font-size: 13px;
+      color: green;
+      font-weight: 500;
+    }
+
+    /* Tables */
+    .tables {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .table-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .table-header h4 {
+      margin: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .action {
+      text-align: right;
+      color: var(--primary);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .tables {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <i class='bx bx-menu'></i>
+      <div class="logo">Quiz Carnival</div>
+    </div>
+    <div class="header-right">
+      <i class='bx bx-bell'></i>
+      <i class='bx bx-message-rounded'></i>
+      <i class='bx bx-user-circle'></i>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="add-quiz">
+        <i class='bx bx-plus' style="font-size:32px;"></i>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+      <!-- Active Quiz -->
+      <div class="quiz-card">
+        <div class="progress-circle">27%</div>
+        <div class="quiz-info">
+          <h3>Subject Name</h3>
+          <p>Name of Quiz</p>
+          <p>Instructions</p>
+          <div class="status">Passed</div>
+        </div>
+      </div>
+
+      <!-- Tables -->
+      <div class="tables">
+
+        <!-- Upcoming -->
+        <div class="table-card">
+          <div class="table-header">
+            <h4>Upcoming Quizzes</h4>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Quiz Name</th>
+                <th>Subject</th>
+                <th>Age Group</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Quiz Name</td>
+                <td>Subject</td>
+                <td>12–15</td>
+                <td class="action"><i class='bx bx-link-external'></i></td>
+              </tr>
+              <tr>
+                <td>Quiz Name</td>
+                <td>Subject</td>
+                <td>15–18</td>
+                <td class="action"><i class='bx bx-link-external'></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Passed -->
+        <div class="table-card">
+          <div class="table-header">
+            <h4>Passed Quizzes</h4>
+            <i class='bx bx-plus-circle' style="font-size:20px;color:var(--primary)"></i>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Quiz Name</th>
+                <th>Subject</th>
+                <th>Age Group</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Quiz Name</td>
+                <td>Subject</td>
+                <td>10–12</td>
+                <td class="action"><i class='bx bx-check-circle'></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
