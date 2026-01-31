@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Carnival Dashboard</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Outfit", sans-serif;
+    list-style: none;
+    text-decoration: none;
+  }
+
+  body {
+    background-color: #f4f6fb;
+    display: flex;
+    height: 100vh;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 280px;
+    padding: 0 18px;
+    background: #ffffff;
+    border-right: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+    z-index: 100;
+  }
+
+  .sidebar.collapsed {
+    width: 80px;
+    padding: 0;
+  }
+
+  .logo-details {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+  }
+
+  .sidebar.collapsed .logo-details {
+    justify-content: center;
+  }
+
+  .logo-icon {
+    font-size: 32px;
+    color: #3b82f6;
+  }
+
+  .logo_name {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1e293b;
+    white-space: nowrap;
+  }
+
+  .sidebar.collapsed .logo_name,
+  .sidebar.collapsed .logo-icon {
+    display: none;
+  }
+
+  .toggle-btn {
+    font-size: 28px;
+    cursor: pointer;
+    color: #3b82f6;
+  }
+
+  .nav-links {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-grow: 1;
+  }
+
+  .nav-links li a {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 0 12px;
+    border-radius: 8px;
+    color: #64748b;
+  }
+
+  .sidebar.collapsed .nav-links li a {
+    justify-content: center;
+  }
+
+  .nav-links li a i {
+    font-size: 20px;
+    min-width: 36px;
+  }
+
+  .sidebar.collapsed .link_name {
+    display: none;
+  }
+
+  .nav-links li.active a {
+    background: #eff6ff;
+    color: #3b82f6;
+  }
+
+  /* ================= Main ================= */
+  .main-container {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-container.expanded {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+  }
+
+  /* ================= Header ================= */
+  .header {
+    height: 64px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    flex-shrink: 0;
+  }
+
+  /* ================= Dashboard Body ================= */
+  .container {
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    height: 100%;
+  }
+
+  .sidebar-add .add-quiz {
+    border: 2px dashed #e5e7eb;
+    border-radius: 12px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    cursor: pointer;
+  }
+
+  .sidebar-add .add-quiz:hover {
+    border-color: #4f46e5;
+    color: #4f46e5;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 100%;
+  }
+
+  .quiz-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .progress-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 6px solid #e5e7eb;
+    border-top-color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  .status {
+    margin-top: 8px;
+    font-size: 13px;
+    color: green;
+    font-weight: 500;
+  }
+
+  .expand-icon {
+    cursor: pointer;
+    font-size: 20px;
+    color: #4f46e5;
+  }
+
+  @media (max-width: 900px) {
+    .sidebar { width: 80px; }
+    .main-container { margin-left: 80px; width: calc(100% - 80px); }
+    .container { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="logo-details">
+      <i class="bx bx-globe logo-icon"></i>
+      <span class="logo_name">Quiz Carnival</span>
+      <i class="bx bx-chevron-left toggle-btn" id="toggle-btn"></i>
+    </div>
+
+    <ul class="nav-links">
+      <li class="active"><a href="#"><i class="bx bx-home-alt"></i><span class="link_name">Home</span></a></li>
+      <li><a href="#"><i class="bx bx-user"></i><span class="link_name">Users</span></a></li>
+      <li><a href="#"><i class="bx bx-package"></i><span class="link_name">Products</span></a></li>
+      <li><a href="#"><i class="bx bx-category"></i><span class="link_name">Categories</span></a></li>
+      <li><a href="#"><i class="bx bx-line-chart"></i><span class="link_name">Analytics</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- Main -->
+  <div class="main-container" id="main-container">
+    <div class="header">
+      <div>Dashboard</div>
+      <div>
+        <i class="bx bx-bell"></i>
+        <i class="bx bx-user-circle"></i>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="sidebar-add">
+        <div class="add-quiz"><i class="bx bx-plus" style="font-size:32px;"></i></div>
+      </div>
+
+      <div class="main">
+        <div class="quiz-card">
+          <div class="progress-circle">27%</div>
+          <div>
+            <h3>Subject Name</h3>
+            <p>Name of Quiz</p>
+            <p>Instructions</p>
+            <div class="status">Passed</div>
+          </div>
+        </div>
+</body>
+</html>
