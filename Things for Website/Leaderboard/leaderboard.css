@@ -182,12 +182,12 @@ tbody tr.hide td img {
     text-align: center;
 }
 
-.status.delivered {
+.status.online {
     background-color: #86e49d;
     color: #006b21;
 }
 
-.status.cancelled {
+.status.offline {
     background-color: #d893a3;
     color: #b30021;
 }
@@ -195,11 +195,6 @@ tbody tr.hide td img {
 .status.pending {
     background-color: #ebc474;
 }
-
-.status.shipped {
-    background-color: #6fcaea;
-}
-
 
 @media (max-width: 1000px) {
     td:not(:first-of-type) {
