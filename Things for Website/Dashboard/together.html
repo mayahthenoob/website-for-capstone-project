@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Carnival Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <link rel="stylesheet" href="together.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="logo-details">
+      <i class="bx bx-globe logo-icon"></i>
+      <span class="logo_name">Quiz Carnival</span>
+      <i class='bx bx-chevron-left toggle-sidebar' id="sidebarToggle"></i>
+    </div>
+
+    <ul class="nav-links">
+      <li class="active">
+        <a href="#">
+          <i class="bx bx-home-alt"></i>
+          <span class="link_name">Home</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <i class="bx bx-user"></i>
+          <span class="link_name">User Management</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <i class="bx bx-package"></i>
+          <span class="link_name">Product Management</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <i class="bx bx-category"></i>
+          <span class="link_name">Category Management</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <i class="bx bx-line-chart"></i>
+          <span class="link_name">Analytics</span>
+        </a>
+      </li>
+
+      <!-- Radial Menu toggle button instead of + button -->
+      <li>
+        <div class="add-quiz-btn" id="openUploaderBtn" title="Upload File">
+          <i class='bx bx-plus'></i>
+          <span class="link_name">Upload File</span>
+        </div>
+      </li>
+
+    </ul>
+
+    <div class="profile-section">
+      <div class="profile-content">
+        <img src="https://i.pravatar.cc/150?img=8" alt="Profile" />
+        <div class="profile-info">
+          <h4>John Doe</h4>
+          <p>Administrator</p>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main dashboard content -->
+  <div class="container">
+    <header class="header">
+      <div class="header-left">
+        <i class='bx bx-menu' id="sidebarToggleMobile"></i>
+        <div class="logo">Quiz Carnival</div>
+      </div>
+      <div class="header-right">
+        <i class='bx bx-bell'></i>
+        <i class='bx bx-message-rounded'></i>
+        <i class='bx bx-user-circle'></i>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Active Quiz -->
+      <section class="quiz-card">
+        <div class="progress-circle">27%</div>
+        <div class="quiz-info">
+          <h3>Subject Name</h3>
+          <p>Name of Quiz</p>
+          <p>Instructions</p>
+          <div class="status">Passed</div>
+        </div>
+      </section>
+
+      <!-- Tables -->
+      <section class="tables">
+        <div class="table-card">
+          <div class="table-header">
+            <h4>Upcoming Quizzes</h4>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Quiz Name</th>
+                <th>Subject</th>
+                <th>Age Group</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Quiz Name</td>
+                <td>Subject</td>
+                <td>12–15</td>
+                <td class="action"><i class='bx bx-link-external'></i></td>
+              </tr>
+              <tr>
+                <td>Quiz Name</td>
+                <td>Subject</td>
+                <td>15–18</td>
+                <td class="action"><i class='bx bx-link-external'></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-card">
+          <div class="table-header">
+            <h4>Passed Quizzes</h4>
+            <i class='bx bx-plus-circle' style="font-size:20px;color:var(--primary)"></i>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Quiz Name</th>
+                <th>Subject</th>
+                <th>Age Group</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Quiz Name</td>
+                <td>Subject</td>
+                <td>10–12</td>
+                <td class="action"><i class='bx bx-check-circle'></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Radial Menu (hidden by default) -->
+  <ul class="radial-menu" id="radialMenu">
+    <div class="toggle" id="radialToggle"><ion-icon name="add-outline"></ion-icon></div>
+    <li style="--i:0; --clr: #ff2972;">
+      <a href="#"><ion-icon name="home-outline"></ion-icon></a>
+    </li>
+    <li style="--i:1; --clr: #fee800;">
+      <a href="#"><ion-icon name="person-outline"></ion-icon></a>
+    </li>
+    <li style="--i:2; --clr: #04fc43;">
+      <a href="#"><ion-icon name="settings-outline"></ion-icon></a>
+    </li>
+    <li style="--i:3; --clr: #fe00f1;">
+      <a href="#"><ion-icon name="mail-outline"></ion-icon></a>
+    </li>
+    <li style="--i:4; --clr: #00b0fe;">
+      <a href="#"><ion-icon name="key-outline"></ion-icon></a>
+    </li>
+    <li style="--i:5; --clr: #fea600;">
+      <a href="#"><ion-icon name="videocam-outline"></ion-icon></a>
+    </li>
+    <li style="--i:6; --clr: #a529ff;">
+      <a href="#"><ion-icon name="game-controller-outline"></ion-icon></a>
+    </li>
+    <li style="--i:7; --clr: #01bdab;">
+      <a href="#"><ion-icon name="camera-outline"></ion-icon></a>
+    </li>
+  </ul>
+
+  <!-- File uploader modal (hidden by default) -->
+  <div class="file-uploader" id="fileUploader">
+    <div class="uploader-content">
+      <header>Upload Your File</header>
+      <form action="#" id="uploadForm">
+        <input class="file-input" type="file" name="file" hidden />
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Browse File to Upload</p>
+      </form>
+      <section class="progress-area"></section>
+      <section class="uploaded-area"></section>
+      <button class="close-uploader" id="closeUploaderBtn" title="Close uploader">&times;</button>
+    </div>
+  </div>
+
+  <!-- FontAwesome for uploader icon -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
