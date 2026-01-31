@@ -1,0 +1,212 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #2f363e;
+}
+
+/* Menu Container */
+.menu {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Toggle Button */
+.menu .toggle {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #2f363e;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10000;
+    font-size: 2em;
+    transition: transform 0.5s;
+}
+
+.menu.active .toggle {
+    transform: rotate(315deg);
+}
+
+/* Menu Items */
+.menu-item {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    list-style: none;
+    transform: translate(-50%, -50%) rotate(0deg) translateX(0px);
+    transform-origin: center center;
+    transition: transform 0.5s ease;
+}
+
+/* Semi-circle expansion */
+.menu.active .menu-item {
+    transform: translate(-50%, -50%) 
+               rotate(calc(-90deg + (180deg / 5 * var(--i)))) 
+               translateX(110px);
+}
+
+/* Links and icon rotation */
+.menu-item a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: 2px solid;
+    border-radius: 50%;
+    font-size: 1.5em;
+    transition: all 0.3s ease;
+    /* Keep icons upright */
+    transform: rotate(calc(90deg - (180deg / 5 * var(--i))));
+}
+
+/* Hover Effects */
+.menu-item a:hover {
+    color: #fff; /* text color when hovered */
+    transform: scale(1.1) rotate(calc(90deg - (180deg / 5 * var(--i))));
+}
+
+/* Item colors */
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #2f363e;
+}
+
+/* Menu Container */
+.menu {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Toggle Button */
+.menu .toggle {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #2f363e;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10000;
+    font-size: 2em;
+    transition: transform 0.5s;
+}
+
+.menu.active .toggle {
+    transform: rotate(315deg);
+}
+
+/* Menu Items */
+.menu-item {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    list-style: none;
+    transform: translate(-50%, -50%) rotate(0deg) translateX(0px);
+    transform-origin: center center;
+    transition: transform 0.5s ease;
+}
+
+/* Semi-circle expansion */
+.menu.active .menu-item {
+    transform: translate(-50%, -50%) 
+               rotate(calc(-90deg + (180deg / 5 * var(--i)))) 
+               translateX(110px);
+}
+
+/* Links and icon rotation */
+.menu-item a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: 2px solid;
+    border-radius: 50%;
+    font-size: 1.5em;
+    transition: all 0.3s ease;
+    transform: rotate(calc(90deg - (180deg / 5 * var(--i))));
+}
+
+/* Hover Effects */
+.menu-item a:hover {
+    color: #fff; /* text color when hovered */
+    transform: scale(1.1) rotate(calc(90deg - (180deg / 5 * var(--i))));
+}
+
+/* Item colors */
+.item0 { --i: 0; border-color: #ff2972; }
+.item1 { --i: 1; border-color: #fee800; }
+.item2 { --i: 2; border-color: #04fc43; }
+.item3 { --i: 3; border-color: #fe00f1; }
+.item4 { --i: 4; border-color: #00b0fe; }
+.item5 { --i: 5; border-color: #fea600; }
+
+/* Icon colors */
+.item0 a i { color: #ff2972; }
+.item1 a i { color: #fee800; }
+.item2 a i { color: #04fc43; }
+.item3 a i { color: #fe00f1; }
+.item4 a i { color: #00b0fe; }
+.item5 a i { color: #fea600; }
+
+/* Hover background & shadow colors per item */
+.item0 a:hover { background: #ff2972; box-shadow: 0 0 15px #ff2972; }
+.item1 a:hover { background: #fee800; box-shadow: 0 0 15px #fee800; }
+.item2 a:hover { background: #04fc43; box-shadow: 0 0 15px #04fc43; }
+.item3 a:hover { background: #fe00f1; box-shadow: 0 0 15px #fe00f1; }
+.item4 a:hover { background: #00b0fe; box-shadow: 0 0 15px #00b0fe; }
+.item5 a:hover { background: #fea600; box-shadow: 0 0 15px #fea600; }
+
+
+/* Icon colors */
+.item0 a i { color: #ff2972; }
+.item1 a i { color: #fee800; }
+.item2 a i { color: #04fc43; }
+.item3 a i { color: #fe00f1; }
+.item4 a i { color: #00b0fe; }
+.item5 a i { color: #fea600; }
+
+/* Hover background & shadow colors per item */
+.item0 a:hover { background: #ff2972; box-shadow: 0 0 15px #ff2972; }
+.item1 a:hover { background: #fee800; box-shadow: 0 0 15px #fee800; }
+.item2 a:hover { background: #04fc43; box-shadow: 0 0 15px #04fc43; }
+.item3 a:hover { background: #fe00f1; box-shadow: 0 0 15px #fe00f1; }
+.item4 a:hover { background: #00b0fe; box-shadow: 0 0 15px #00b0fe; }
+.item5 a:hover { background: #fea600; box-shadow: 0 0 15px #fea600; }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Radial Button</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="extra1.css">
+</head>
+<body>
+    <ul class="menu">
+        <div class="toggle"><i class='bx bx-plus'></i></div>
+        <li class="menu-item item0"><a href="#"><i class='bx bx-bot'></i></a></li>
+        <li class="menu-item item1"><a href="#"><i class='bx bxs-calculator'></i></a></li>
+        <li class="menu-item item2"><a href="#"><i class='bx bx-search-alt-2'></i></a></li>
+        <li class="menu-item item3"><a href="#"><i class='bx bx-note'></i></a></li>
+        <li class="menu-item item4"><a href="#"><i class='bx bx-notepad'></i></a></li>
+        <li class="menu-item item5"><a href="#"><i class='bx bx-time-five'></i></a></li>
+    </ul>
+
+    <script>
+        const toggle = document.querySelector('.toggle');
+        const menu = document.querySelector('.menu');
+
+        toggle.onclick = function() {
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

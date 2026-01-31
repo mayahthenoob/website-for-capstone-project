@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Radial Button</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="extra2.css">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #2f363e;
+        }
+
+        /* Menu Container */
+        .menu {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Toggle Button */
+        .menu .toggle {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #2f363e;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 2em;
+            transition: transform 0.5s;
+        }
+
+        .menu.active .toggle {
+            transform: rotate(315deg);
+        }
+
+        /* Menu Items */
+        .menu-item {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            list-style: none;
+            transform: translate(-50%, -50%) rotate(0deg) translateX(0px);
+            transform-origin: center center;
+            transition: transform 0.5s ease;
+        }
+
+        /* Reversed semi-circle expansion (from bottom-left to top-right) */
+        .menu.active .menu-item {
+            transform: translate(-50%, -50%) 
+                       rotate(calc(-90deg + (180deg / 5 * var(--i)))) 
+                       translateX(110px);
+        }
+
+        /* Links and glass icon style */
+        .menu-item a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            border: none; /* removed border */
+            border-radius: 50%;
+            font-size: 1.5em;
+            transition: all 0.3s ease;
+
+            /* Glass effect */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+
+            transform: rotate(calc(-90deg + (180deg / 5 * var(--i))));
+        }
+
+        /* Hover glass highlight */
+        .menu-item a:hover {
+            transform: scale(1.1) rotate(calc(-90deg + (180deg / 5 * var(--i))));
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Glass-like icon color */
+        .menu-item a i {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s ease;
+        }
+
+        .menu-item a:hover i {
+            color: #fff;
+        }
+
+        /* Item index for rotation */
+        .item0 { --i: 0; }
+        .item1 { --i: 1; }
+        .item2 { --i: 2; }
+        .item3 { --i: 3; }
+        .item4 { --i: 4; }
+        .item5 { --i: 5; }
+    </style>
+</head>
+<body>
+    <ul class="menu">
+        <div class="toggle"><i class='bx bx-plus'></i></div>
+        <li class="menu-item item0"><a href="#"><i class='bx bx-bot'></i></a></li>
+        <li class="menu-item item1"><a href="#"><i class='bx bxs-calculator'></i></a></li>
+        <li class="menu-item item2"><a href="#"><i class='bx bx-search-alt-2'></i></a></li>
+        <li class="menu-item item3"><a href="#"><i class='bx bx-note'></i></a></li>
+        <li class="menu-item item4"><a href="#"><i class='bx bx-notepad'></i></a></li>
+        <li class="menu-item item5"><a href="#"><i class='bx bx-time-five'></i></a></li>
+    </ul>
+
+    <script>
+        const toggle = document.querySelector('.toggle');
+        const menu = document.querySelector('.menu');
+
+        toggle.onclick = function() {
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
