@@ -7,11 +7,21 @@ document.addEventListener('DOMContentLoaded', function () {
   const eventDateEl = document.getElementById('event-date');
   const eventListEl = document.getElementById('event-list');
 
+  // Modal Elements
+  const modal = document.getElementById('event-modal');
+  const saveBtn = document.getElementById('save-event-btn');
+  const closeBtn = document.getElementById('close-modal-btn');
+  const dateInput = document.getElementById('event-date-input');
+  const titleInput = document.getElementById('event-title-input');
+  const startTimeInput = document.getElementById('event-start-time');
+  const endTimeInput = document.getElementById('event-end-time');
+  const descInput = document.getElementById('event-desc-input');
+
   let currentDate = new Date();
   let selectedDate = null;
 
   /* ======================
-     EVENTS STORAGE
+      EVENTS STORAGE
   ====================== */
   const events = {};
 
@@ -23,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ======================
-     EDIT / DELETE
+      EDIT / DELETE
   ====================== */
   window.deleteEvent = function (dateStr, index) {
     if (!confirm("Delete this event?")) return;
@@ -51,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   /* ======================
-     RENDER CALENDAR
+      RENDER CALENDAR
   ====================== */
   function renderCalendar() {
     const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
@@ -111,12 +121,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const [y, m, d] = dateStr.split('-').map(Number);
         selectedDate = new Date(y, m - 1, d);
 
-        const title = prompt("Event title:");
-        if (title) {
-          const time = prompt("Event time:", "All day") || "All day";
-          addEvent(dateStr, time, title);
-        }
-
+        // Fill modal date input (YYYY-MM-DD format)
+        dateInput.value = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        
+        // Open the Modal
+        modal.style.display = 'flex';
+        
         renderCalendar();
         showEvents(dateStr);
       };
@@ -124,7 +134,48 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ======================
-     SHOW EVENTS
+      MODAL LOGIC
+  ====================== */
+  closeBtn.onclick = () => {
+    modal.style.display = 'none';
+  };
+
+  saveBtn.onclick = () => {
+    const title = titleInput.value.trim();
+    const dateVal = dateInput.value;
+    const start = startTimeInput.value;
+    const end = endTimeInput.value;
+
+    if (title && dateVal) {
+      // Re-format date to match your event object keys (Y-M-D)
+      const dateObj = new Date(dateVal);
+      // Use UTC components to avoid timezone shift issues with date inputs
+      const dateKey = `${dateObj.getUTCFullYear()}-${dateObj.getUTCMonth() + 1}-${dateObj.getUTCDate()}`;
+      
+      const timeRange = (start && end) ? `${start} to ${end}` : "All day";
+      
+      addEvent(dateKey, timeRange, title);
+      
+      // Reset and close
+      modal.style.display = 'none';
+      titleInput.value = "";
+      startTimeInput.value = "";
+      endTimeInput.value = "";
+      descInput.value = "";
+    } else {
+      alert("Please enter a title.");
+    }
+  };
+
+  // Close modal if user clicks the dark background
+  window.onclick = (event) => {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  };
+
+  /* ======================
+      SHOW EVENTS
   ====================== */
   function showEvents(dateStr) {
     const [y, m, d] = dateStr.split('-').map(Number);
@@ -180,8 +231,9 @@ document.addEventListener('DOMContentLoaded', function () {
   todayBtn.onclick = () => {
     currentDate = new Date();
     selectedDate = new Date();
+    const dateKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
     renderCalendar();
-    showEvents(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`);
+    showEvents(dateKey);
   };
 
   renderCalendar();

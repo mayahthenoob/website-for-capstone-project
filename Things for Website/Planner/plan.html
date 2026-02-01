@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendar with Events</title>
-  <link rel="stylesheet" href="plans.css">
+  <link rel="stylesheet" href="plan.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -51,6 +51,33 @@
     </div>
   </div>
 
-  <script src="plans.js"></script>
+  <div class="modal-overlay" id="event-modal">
+  <div class="modal-content">
+    <h2 class="modal-title">Add Event</h2>
+    
+    <input type="text" id="event-title-input" class="modal-input" placeholder="Event Title">
+    
+    <input type="date" id="event-date-input" class="modal-input">
+    
+    <div class="time-range">
+      <div class="time-input-wrapper">
+        <input type="time" id="event-start-time" class="modal-input">
+      </div>
+      <span class="to-text">to</span>
+      <div class="time-input-wrapper">
+        <input type="time" id="event-end-time" class="modal-input">
+      </div>
+    </div>
+    
+    <textarea id="event-desc-input" class="modal-input" placeholder="Description" rows="3"></textarea>
+    
+    <div class="modal-actions">
+      <button class="btn-add" id="save-event-btn">Add</button>
+      <button class="btn-cancel" id="close-modal-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+  <script src="plan.js"></script>
 </body>
 </html>
