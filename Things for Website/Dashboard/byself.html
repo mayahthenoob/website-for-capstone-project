@@ -97,7 +97,7 @@
       padding: 0 12px;
       border-radius: 12px;
       color: #ffffffcc;
-      transition: 0.3s;
+      transition: background 0.3s, color 0.3s;
     }
 
     .sidebar.collapsed .nav-links li a {
@@ -154,43 +154,11 @@
       height: calc(100% - 64px);
     }
 
-    /* ========== TOP ROW (FIXED GRID) ========== */
+    /* ========== TOP ROW (2 FIXED COLUMNS) ========== */
     .top-row {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;
-    }
-
-    /* ADD QUIZ CARD */
-    .add-quiz-card {
-      height: 170px;
-      border: 2px dashed rgba(255,255,255,0.4);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: 0.25s;
-    }
-
-    .add-quiz-card i {
-      font-size: 36px;
-      color: #3b82f6;
-    }
-
-    .add-quiz-card span {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .add-quiz-card:hover {
-      background: rgba(255,255,255,0.2);
-      border-color: #3b82f6;
-      transform: translateY(-3px);
     }
 
     /* QUIZ CARDS */
@@ -203,6 +171,7 @@
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(12px);
       border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.05);
       transition: 0.3s;
     }
 
@@ -242,6 +211,38 @@
       gap: 6px;
     }
 
+    /* ADD QUIZ CARD (SMALLER) */
+    .add-quiz-card {
+      height: 120px;
+      border: 2px dashed rgba(255,255,255,0.4);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    .add-quiz-card i {
+      font-size: 30px;
+      color: #3b82f6;
+    }
+
+    .add-quiz-card span {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .add-quiz-card:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: #3b82f6;
+      transform: translateY(-2px);
+    }
+
     /* ========== Tables ========== */
     .tables {
       display: grid;
@@ -255,6 +256,26 @@
       border-radius: 12px;
       padding: 20px;
       border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    table th,
+    table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      text-align: left;
     }
 
     /* ========== Responsive ========== */
@@ -281,21 +302,11 @@
     </div>
 
     <ul class="nav-links">
-      <li class="active">
-        <a href="#"><i class="bx bx-home-alt"></i><span class="link_name">Home</span></a>
-      </li>
-      <li>
-        <a href="#"><i class="bx bx-user"></i><span class="link_name">Users</span></a>
-      </li>
-      <li>
-        <a href="#"><i class="bx bx-package"></i><span class="link_name">Products</span></a>
-      </li>
-      <li>
-        <a href="#"><i class="bx bx-category"></i><span class="link_name">Categories</span></a>
-      </li>
-      <li>
-        <a href="#"><i class="bx bx-line-chart"></i><span class="link_name">Analytics</span></a>
-      </li>
+      <li class="active"><a href="#"><i class="bx bx-home-alt"></i><span class="link_name">Home</span></a></li>
+      <li><a href="#"><i class="bx bx-user"></i><span class="link_name">Users</span></a></li>
+      <li><a href="#"><i class="bx bx-package"></i><span class="link_name">Products</span></a></li>
+      <li><a href="#"><i class="bx bx-category"></i><span class="link_name">Categories</span></a></li>
+      <li><a href="#"><i class="bx bx-line-chart"></i><span class="link_name">Analytics</span></a></li>
     </ul>
   </nav>
 
@@ -313,11 +324,7 @@
 
       <!-- TOP ROW -->
       <div class="top-row">
-        <div class="add-quiz-card">
-          <i class="bx bx-plus"></i>
-          <span>Add Quiz</span>
-        </div>
-
+        <!-- TWO QUIZ CARDS FIRST -->
         <div class="quiz-card">
           <div class="progress-circle">27%</div>
           <div class="quiz-info">
@@ -336,6 +343,12 @@
           </div>
         </div>
 
+        <!-- SMALL ADD QUIZ CARD (NEXT ROW) -->
+        <div class="add-quiz-card">
+          <i class="bx bx-plus"></i>
+          <span>Add Quiz</span>
+        </div>
+
         <div class="quiz-card">
           <div class="progress-circle">50%</div>
           <div class="quiz-info">
@@ -346,9 +359,9 @@
         </div>
       </div>
 
-      <!-- TABLES (UNCHANGED STRUCTURE) -->
+      <!-- TABLES -->
       <div class="tables">
-        <!-- your existing table cards here -->
+        <!-- your original table cards remain here -->
       </div>
 
     </div>
