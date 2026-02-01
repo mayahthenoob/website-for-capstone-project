@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
-    <link rel="stylesheet" href="calculator.css">
+    <link rel="stylesheet" href="cal.css">
 </head>
 <body>
 
     <div class="calculator">
 
         <div class="display" id="display"></div>
-        <div class="buttons">
 
+        <div class="buttons">
             <button class="btn operator" onclick="clearDisplay()">C</button>
             <button class="btn operator" onclick="deleteLast()">D</button>
             <button class="btn operator" onclick="appendValue('%')">%</button>
@@ -28,7 +28,6 @@
             <button class="btn" onclick="appendValue('6')">6</button>
             <button class="btn operator" onclick="appendValue('-')">-</button>
 
-
             <button class="btn" onclick="appendValue('1')">1</button>
             <button class="btn" onclick="appendValue('2')">2</button>
             <button class="btn" onclick="appendValue('3')">3</button>
@@ -38,9 +37,11 @@
             <button class="btn" onclick="appendValue('.')">.</button>
             <button class="btn equal" onclick="calculate()">=</button>
         </div>
+
     </div>
 
-    <script src="calculator.js"></script>
-    
+    <script src="cal.js"></script>
 </body>
 </html>
+
+
