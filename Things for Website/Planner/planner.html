@@ -8,49 +8,78 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="container">
-    <div class="calendar-container">
-      <div class="calendar-header">
-        <div class="nav-buttons">
-          <button class="nav-btn" id="prev-month"><i class="fas fa-chevron-left"></i></button>
-          <button class="nav-btn" id="next-month"><i class="fas fa-chevron-right"></i></button>
-        </div>
-        <div class="month-year" id="month-year">September 2025</div>
+
+<div class="container">
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prev-month"><i class="fas fa-chevron-left"></i></button>
+        <button class="nav-btn" id="next-month"><i class="fas fa-chevron-right"></i></button>
       </div>
-      
-      <div class="weekdays">
-        <div class="weekday">Sun</div>
-        <div class="weekday">Mon</div>
-        <div class="weekday">Tue</div>
-        <div class="weekday">Wed</div>
-        <div class="weekday">Thu</div>
-        <div class="weekday">Fri</div>
-        <div class="weekday">Sat</div>
-      </div>
-      
-      <div class="days" id="days"></div>
-      
-      <div class="calendar-footer">
-        <button class="today-btn" id="today-btn"><i class="fas fa-calendar-day"></i> Today</button>
-        <div class="event-indicator">
-          <i class="fas fa-circle" style="color: var(--accent); font-size: 0.6rem;"></i>
-          <span>Has events</span>
-        </div>
-      </div>
+      <div class="month-year" id="month-year"></div>
     </div>
 
-    <!-- Event Panel -->
-    <div class="event-panel" id="event-panel">
-      <div class="event-header">
-        <div class="event-date" id="event-date">Select a date</div>
-        <i class="fas fa-calendar-alt event-icon"></i>
-      </div>
-      <div class="event-list" id="event-list">
-        <div class="no-events">Select a date with events to view them here</div>
-      </div>
+    <div class="weekdays">
+      <div class="weekday">Sun</div><div class="weekday">Mon</div><div class="weekday">Tue</div>
+      <div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div>
+      <div class="weekday">Sat</div>
+    </div>
+
+    <div class="days" id="days"></div>
+
+    <div class="calendar-footer">
+      <button class="today-btn" id="today-btn">Today</button>
     </div>
   </div>
 
-  <script src="planner.js"></script>
+  <div class="event-panel">
+    <div class="event-header">
+      <div class="event-date" id="event-date">Select a date</div>
+    </div>
+    <div class="event-list" id="event-list">
+      <div class="no-events">Select a date</div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EVENT MODAL -->
+<div class="modal-overlay" id="event-modal">
+  <div class="event-modal">
+    <h2>Add Event</h2>
+
+    <label>Title</label>
+    <input id="event-title" type="text">
+
+    <label>Date</label>
+    <input id="event-date-input" type="date">
+
+    <div class="time-row">
+      <div>
+        <label>Start</label>
+        <input id="event-start-time" type="time">
+      </div>
+      <div>
+        <label>End</label>
+        <input id="event-end-time" type="time">
+      </div>
+    </div>
+
+    <label>Colour</label>
+    <div class="color-row">
+      <input type="color" id="event-color-picker" value="#00cec9">
+      <input type="text" id="event-color-text" value="#00cec9">
+    </div>
+
+    <label>Description</label>
+    <textarea id="event-description"></textarea>
+
+    <div class="modal-actions">
+      <button class="add-btn" id="save-event">Add Event</button>
+      <button class="cancel-btn" id="cancel-event">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="planner.js"></script>
 </body>
 </html>
