@@ -1,49 +1,63 @@
-const sliderTabs = document.querySelectorAll(".slider-tab");
-const sliderIndicator = document.querySelector(".slider-indicator");
+const slides = document.querySelectorAll(".slider-item");
+const tabs = document.querySelectorAll(".slider-tab");
+const indicator = document.querySelector(".slider-indicator");
 const sliderControls = document.querySelector(".slider-controls");
+const prevBtn = document.getElementById("slide-prev");
+const nextBtn = document.getElementById("slide-next");
 
-const updateIndicator = (tab, index) => {
-    sliderIndicator.style.transform = `translateX(${tab.offsetLeft}px)`;
-    sliderIndicator.style.width = `${tab.offsetWidth}px`;
+let currentIndex = 0;
+let slideInterval = setInterval(nextSlide, 4000);
 
-    const scrollLeft =
-        tab.offsetLeft -
-        sliderControls.offsetWidth / 2 +
-        tab.offsetWidth / 2;
-
-    sliderControls.scrollTo({
-        left: scrollLeft,
-        behavior: "smooth"
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
     });
-};
+    tabs.forEach((tab, i) => {
+        tab.classList.toggle("active", i === index);
+    });
 
-const swiper = new Swiper(".slider-container", {
-    effect: "fade",
-    speed: 1300,
-    autoplay: {
-        delay: 4000,
-        disableOnInteraction: false
-    },
-    navigation: {
-        prevEl: "#slide-prev",
-        nextEl: "#slide-next"
-    },
-    on: {
-        slideChange: () => {
-            updateIndicator(sliderTabs[swiper.activeIndex], swiper.activeIndex);
-        }
-    }
-});
+    // Update indicator
+    const tab = tabs[index];
+    indicator.style.width = tab.offsetWidth + "px";
+    indicator.style.transform = `translateX(${tab.offsetLeft}px)`;
 
-sliderTabs.forEach((tab, index) => {
+    // Center the tab
+    const scrollLeft = tab.offsetLeft - sliderControls.offsetWidth / 2 + tab.offsetWidth / 2;
+    sliderControls.scrollTo({ left: scrollLeft, behavior: "smooth" });
+}
+
+function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+}
+
+function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
+}
+
+// Tab click
+tabs.forEach((tab, index) => {
     tab.addEventListener("click", () => {
-        swiper.slideTo(index);
-        updateIndicator(tab, index);
+        currentIndex = index;
+        showSlide(index);
+        resetInterval();
     });
 });
 
-updateIndicator(sliderTabs[0], 0);
+// Navigation buttons
+nextBtn.addEventListener("click", () => { nextSlide(); resetInterval(); });
+prevBtn.addEventListener("click", () => { prevSlide(); resetInterval(); });
+
+// Auto slide reset
+function resetInterval() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(nextSlide, 4000);
+}
+
+// Initial setup
+showSlide(currentIndex);
 
 window.addEventListener("resize", () => {
-    updateIndicator(sliderTabs[swiper.activeIndex], swiper.activeIndex);
+    showSlide(currentIndex);
 });

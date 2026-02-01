@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
     <link rel="stylesheet" href="home.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
 </head>
 <body>
 
-<div class="slider-container swiper">
-    <div class="slider-wrapper swiper-wrapper">
-        <div class="slider-item swiper-slide">
+<div class="slider-container">
+    <div class="slider-wrapper">
+        <div class="slider-item active">
             <div class="slide-content">
                 <h3 class="slide-subtitle">Slide 01</h3>
                 <h2 class="slide-title">Lorem ipsum dolor sit amet.</h2>
@@ -20,8 +19,7 @@
                 <a href="#" class="slide-button"><span>Learn More</span></a>
             </div>
         </div>
-
-        <div class="slider-item swiper-slide">
+        <div class="slider-item">
             <div class="slide-content">
                 <h3 class="slide-subtitle">Slide 02</h3>
                 <h2 class="slide-title">Lorem ipsum dolor sit amet.</h2>
@@ -29,8 +27,7 @@
                 <a href="#" class="slide-button"><span>Learn More</span></a>
             </div>
         </div>
-
-        <div class="slider-item swiper-slide">
+        <div class="slider-item">
             <div class="slide-content">
                 <h3 class="slide-subtitle">Slide 03</h3>
                 <h2 class="slide-title">Lorem ipsum dolor sit amet.</h2>
@@ -38,8 +35,7 @@
                 <a href="#" class="slide-button"><span>Learn More</span></a>
             </div>
         </div>
-
-        <div class="slider-item swiper-slide">
+        <div class="slider-item">
             <div class="slide-content">
                 <h3 class="slide-subtitle">Slide 04</h3>
                 <h2 class="slide-title">Lorem ipsum dolor sit amet.</h2>
@@ -47,8 +43,7 @@
                 <a href="#" class="slide-button"><span>Learn More</span></a>
             </div>
         </div>
-
-        <div class="slider-item swiper-slide">
+        <div class="slider-item">
             <div class="slide-content">
                 <h3 class="slide-subtitle">Slide 05</h3>
                 <h2 class="slide-title">Lorem ipsum dolor sit amet.</h2>
@@ -62,7 +57,7 @@
 <div class="slider-controls">
     <ul class="slider-pagination">
         <div class="slider-indicator"></div>
-        <li class="slider-tab">Slide One</li>
+        <li class="slider-tab active">Slide One</li>
         <li class="slider-tab">Slide Two</li>
         <li class="slider-tab">Slide Three</li>
         <li class="slider-tab">Slide Four</li>
@@ -75,7 +70,6 @@
     <button id="slide-next" class="material-symbols-rounded">arrow_right_alt</button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
 <script src="home.js"></script>
 </body>
 </html>
