@@ -1,0 +1,16 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f0f0f0;
+}
+
+#svgCanvas {
+  overflow: visible;
+}
+
+#motionPath {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 0;
+}

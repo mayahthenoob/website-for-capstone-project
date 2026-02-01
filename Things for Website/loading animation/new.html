@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QC Animation</title>
+  <link rel="stylesheet" href="new.css">
+</head>
+<body>
+  <svg id="svgCanvas" width="600" height="300" viewBox="0 0 600 300">
+    <!-- Motion path -->
+    <path id="motionPath" d="M50,250 C150,50 450,50 550,250" fill="transparent" stroke="lightgray" stroke-width="2"/>
+
+    <!-- QC letters as paths for drawing -->
+    <path id="Q" d="M100,150 A50,50 0 1,1 200,150 L180,170" stroke="blue" stroke-width="5" fill="transparent"
+          stroke-dasharray="314" stroke-dashoffset="314"/>
+    <path id="C" d="M250,150 A50,50 0 1,1 150,150" stroke="green" stroke-width="5" fill="transparent"
+          stroke-dasharray="251" stroke-dashoffset="251"/>
+  </svg>
+
+  <script src="new.js"></script>
+</body>
+</html>

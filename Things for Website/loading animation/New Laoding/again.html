@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Animation</title>
+    <link rel="stylesheet" href="again.css">
+</head>
+<body>
+    <div class="container">
+        <p>Welcome To Quiz Carnival</p>
+    </div>
+
+    <div class="loading-page">
+        <!-- Updated SVG for QC -->
+        <svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <!-- Q -->
+            <path d="M128 384a128 128 0 1 1 128-128l-40 40" />
+            <!-- C -->
+            <path d="M384 128a128 128 0 1 1-128 128" />
+        </svg>
+
+        <div class="name-container">
+            <div class="logo-name">Quiz Carnival</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"
+        integrity="sha512-gmwBmiTVER57N3jYS3LinA9eb8aHrJua5iQD7yqYCKa5x6Jjc7VDVaEA0je0Lu0bP9j7tEjV3+1qUm6loO99Kw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="again.js"></script>
+</body>
+</html>
