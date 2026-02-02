@@ -1,0 +1,23 @@
+Footer
+give credit to inspirations
+put link to it 
+add copyright 
+include the social and repositories of both individuals partner (me and Kayden)
+for the first link either put the general links or put something else there
+
+
+Techstack 
+include everything used and from where
+icons, html, css, js, php 
+
+Showcase 
+put main features of website like the radial button
+with what is has how it works
+the quizzes and teacher panel put those things in a video
+
+
+Contact Us
+make the messages sent from there go to the database instead of email to not give exposure and to show on exibition
+
+About
+put how it was hosted or what is being used for hosting and why (try to use infinityfree)
