@@ -5,26 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Bar</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="search.css">
 </head>
 <body>
     <div class="hero">
-        <div class="searchBox">
-            <img src="img/google-logo-9808.png" id="google-img">
-            <input type="search" placeholder="Search" id="input"> <!--make it dragable and give it an animation to extend the height on click make it responsive-->
-            <img src="img/mic.png" alt="" id="mic"> <!--replace images with icons from boxicons and replace the mic with a search-->
+        <div class="searchBox" id="searchBox">
+            <i class='bx bx-search-alt-2 icon'></i>
+            <input type="search" placeholder="Search" id="input">
+            <i class='bx bx-dots-horizontal-rounded icon'></i>
         </div>
     </div>
-    <script type="text/javascript">
-        function showDetails() {
-            var a = document.getElementById('sea');
-            window.location = 'https://www.google.com/search?q=' + a;
-        }
-        let input = document.getElementById('input');
-        if(window.innerWidth < 430){
-        input.setAttribute('placeholder', 'Search')
-        }
-        console.log(window.innerWidth)
-    </script>
+    <script src="search.js"></script>
 </body>
 </html>
