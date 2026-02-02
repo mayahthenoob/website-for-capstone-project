@@ -136,3 +136,5 @@ if (isset($_GET["note"])) {
    └── main.css
 index.php
 db.php
+
+add the functionality of it or test in xampp or whatever can be added anytime

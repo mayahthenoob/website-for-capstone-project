@@ -1,0 +1,4 @@
+add different sound effect
+change favicon
+make a play, pause and restart popup with these options
+make the pipes more spaced out

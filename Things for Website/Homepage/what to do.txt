@@ -8,7 +8,7 @@ for the first link either put the general links or put something else there
 
 Techstack 
 include everything used and from where
-icons, html, css, js, php 
+icons, html, css, js, php and imported things for animations
 
 Showcase 
 put main features of website like the radial button
@@ -21,3 +21,8 @@ make the messages sent from there go to the database instead of email to not giv
 
 About
 put how it was hosted or what is being used for hosting and why (try to use infinityfree)
+
+add a share button so users can share website to others use link and put qr code
+or qr code with link bellow
+
+make a readme file for the section it is on for more insight or make it fo the whole thing

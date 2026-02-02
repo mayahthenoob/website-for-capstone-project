@@ -1,0 +1,2 @@
+add this to results for when it meet a certain criteria
+example when you have an answer streak of 5 and a time that is reasonable you get this with your results

@@ -2,6 +2,7 @@ const display = document.getElementById('display');
 let currentInput = '0';
 const MAX_DISPLAY_LENGTH = 14;
 
+
 function updateDisplay(){
     display.textContent = currentInput;
 
@@ -17,6 +18,8 @@ function updateDisplay(){
 }
 
 function appendValue(value){
+
+
     const lastChar = currentInput.slice(-1);
     const operators = ['/','*','+','-'];
 
@@ -25,7 +28,7 @@ function appendValue(value){
     const parts = currentInput.split(/[+\-*/]/);
     const lastPart = parts[parts.length - 1];
 
-    if (value === '.' && lastPart.includes('.')) return;
+    if  (value === '.' && lastPart.includes('.')) return;
 
     if(currentInput === '0' && value !== '.'){
         currentInput = value;
@@ -37,29 +40,34 @@ function appendValue(value){
         currentInput += value;
     }
 
-    updateDisplay();
+    updateDisplay()
 }
 
 function clearDisplay(){
-    currentInput = '0';
-    updateDisplay();
+    currentInput = '0'
+    updateDisplay()
 }
 
 function deleteLast(){
-    currentInput = currentInput.length > 1
-        ? currentInput.slice(0, -1)
-        : '0';
+    if(currentInput.length > 1){
+        currentInput = currentInput.slice(0,-1);
+    }
+    else{
+        currentInput = '0'
+    }
 
-    updateDisplay();
+    updateDisplay()
 }
 
 function calculate(){
     try {
-        currentInput = String(eval(currentInput));
-    } catch {
-        currentInput = 'Error';
+        let result = eval(currentInput);
+        currentInput = String(result)
+    } catch (error) {
+        currentInput = 'Error'
     }
-    updateDisplay();
+
+    updateDisplay()
 }
 
-updateDisplay();
+updateDisplay()
