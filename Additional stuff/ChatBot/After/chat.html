@@ -1,64 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-	<link rel="stylesheet" href="chat.css">
-	<title>Chatbox</title>
+  <meta charset="UTF-8">
+  <title>Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 400px;
+      height: 600px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* HEADER */
+    .chat-header {
+      height: 55px;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-image {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+    }
+
+    .header-right i {
+      font-size: 22px;
+      margin-left: 15px;
+      cursor: pointer;
+    }
+
+    /* CHAT BODY */
+    .chat-body {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    /* MESSAGES */
+    .message {
+      display: flex;
+      margin: 8px 0;
+    }
+
+    .user {
+      justify-content: flex-end;
+    }
+
+    .bot {
+      justify-content: flex-start;
+    }
+
+    .bubble {
+      max-width: 70%;
+      padding: 10px 14px 18px;
+      border-radius: 14px;
+      position: relative;
+      color: white;
+      font-size: 14px;
+    }
+
+    .user .bubble {
+      background: rgba(0, 123, 255, 0.6);
+      border-bottom-right-radius: 4px;
+    }
+
+    .bot .bubble {
+      background: rgba(255, 255, 255, 0.25);
+      border-bottom-left-radius: 4px;
+    }
+
+    .time {
+      font-size: 10px;
+      position: absolute;
+      bottom: 4px;
+      right: 8px;
+      opacity: 0.7;
+    }
+
+    /* INPUT BAR */
+    .chat-input {
+      height: 55px;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 10px;
+    }
+
+    .chat-input i {
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .chat-input input {
+      flex: 1;
+      height: 36px;
+      border-radius: 18px;
+      border: none;
+      padding: 0 15px;
+      outline: none;
+      font-size: 14px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    .chat-input input::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+
+    #mic.active {
+      color: red;
+    }
+  </style>
 </head>
 <body>
 
-	<div class="chatbox-wrapper">
-		<div class="chatbox-toggle">
-			<i class='bx bx-message-dots'></i>
-		</div>
-		<div class="chatbox-message-wrapper">
-			<div class="chatbox-message-header">
-				<div class="chatbox-message-profile">
-					<img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="" class="chatbox-message-image">
-					<div>
-						<h4 class="chatbox-message-name">Jonathan Doe</h4>
-						<p class="chatbox-message-status">online</p>
-					</div>
-				</div>
-				<div class="chatbox-message-dropdown">
-					<i class='bx bx-dots-vertical-rounded chatbox-message-dropdown-toggle'></i>
-					<ul class="chatbox-message-dropdown-menu">
-						<li>
-							<a href="#">Search</a>
-						</li>
-						<li>
-							<a href="#">Report</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="chatbox-message-content">
-				<h4 class="chatbox-message-no-message">You don't have message yet!</h4>
-				<!-- <div class="chatbox-message-item sent">
-					<span class="chatbox-message-item-text">
-						Lorem, ipsum, dolor sit amet consectetur adipisicing elit. Quod, fugiat?
-					</span>
-					<span class="chatbox-message-item-time">08:30</span>
-				</div>
-				<div class="chatbox-message-item received">
-					<span class="chatbox-message-item-text">
-						Lorem, ipsum, dolor sit amet consectetur adipisicing elit. Quod, fugiat?
-					</span>
-					<span class="chatbox-message-item-time">08:30</span>
-				</div> -->
-			</div>
-			<div class="chatbox-message-bottom">
-				<form action="#" class="chatbox-message-form">
-					<textarea rows="1" placeholder="Type message..." class="chatbox-message-input"></textarea>
-					<button type="submit" class="chatbox-message-submit"><i class='bx bx-send' ></i></button>
-				</form>
-			</div>
-		</div>
-	</div>
-	
+<div class="chat-container">
 
-	<script src="chat.js"></script>
+  <!-- HEADER -->
+  <div class="chat-header">
+    <div class="header-left">
+      <img src="chatbot-pic.png" class="profile-image">
+      <span>Jarvis</span>
+    </div>
+    <div class="header-right">
+      <i class='bx bx-search'></i>
+      <i class='bx bx-dots-vertical-rounded'></i>
+    </div>
+  </div>
+
+  <!-- CHAT BODY -->
+  <div class="chat-body"></div>
+
+  <!-- INPUT -->
+  <div class="chat-input">
+    <i class='bx bx-smile'></i>
+    <input type="text" id="input" placeholder="Type a message">
+    <i class='bx bx-microphone' id="mic"></i>
+    <i class='bx bx-send' id="send"></i>
+  </div>
+
+</div>
+
+<script>
+  function chatbot(input) {
+    input = input.toLowerCase();
+    if (input.includes("hello") || input.includes("hi")) {
+      return "Hello! Nice to meet you 😊";
+    } else if (input.includes("how are you")) {
+      return "I'm doing great! Thanks for asking.";
+    } else if (input.includes("your name")) {
+      return "I'm Jarvis, your personal chatbot.";
+    } else if (input.includes("joke")) {
+      return "Why don’t programmers like nature? Too many bugs 🐛";
+    } else {
+      return "Sorry, I didn’t understand that.";
+    }
+  }
+
+  function getTime() {
+    const now = new Date();
+    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function displayMessage(text, sender) {
+    const chat = document.querySelector(".chat-body");
+
+    const msg = document.createElement("div");
+    msg.className = `message ${sender}`;
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.innerHTML = `${text}<span class="time">${getTime()}</span>`;
+
+    msg.appendChild(bubble);
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function speak(text) {
+    const clean = text.replace(/([\u2700-\u27BF]|[\uD83C-\uDBFF\uDC00-\uDFFF])/g, "");
+    const speech = new SpeechSynthesisUtterance(clean);
+    speech.lang = "en-US";
+    window.speechSynthesis.speak(speech);
+  }
+
+  const input = document.getElementById("input");
+  const sendBtn = document.getElementById("send");
+  const micBtn = document.getElementById("mic");
+
+  function sendMessage() {
+    if (!input.value.trim()) return;
+    displayMessage(input.value, "user");
+
+    const reply = chatbot(input.value);
+    setTimeout(() => {
+      displayMessage(reply, "bot");
+      speak(reply);
+    }, 600);
+
+    input.value = "";
+  }
+
+  sendBtn.onclick = sendMessage;
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") sendMessage();
+  });
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+
+  micBtn.onclick = () => {
+    recognition.start();
+    micBtn.classList.add("active");
+  };
+
+  recognition.onresult = e => {
+    input.value = e.results[0][0].transcript;
+    sendMessage();
+  };
+
+  recognition.onend = () => {
+    micBtn.classList.remove("active");
+  };
+</script>
+
 </body>
 </html>

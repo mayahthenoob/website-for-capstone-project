@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbot with Emoji Picker</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+  * { box-sizing: border-box; font-family: Arial, sans-serif; }
+  body { margin: 0; background: #111; display: flex; justify-content: center; align-items: center; height: 100vh; }
+
+  /* CHAT CONTAINER */
+  .chat-container {
+    width: 400px; 
+    height: 600px; 
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px); 
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* HEADER */
+  .chat-header {
+    height: 55px;
+    background: rgba(0, 0, 0, 0.3); 
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    backdrop-filter: blur(10px);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .profile-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* CHAT BODY */
+  .chat-body {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    overflow-y: auto;
+    color: white;
+  }
+
+  .message { margin: 8px 0; }
+  .user { text-align: right; color: #fff; }
+  .bot { text-align: left; color: #00ffcc; }
+
+  /* INPUT */
+  .chat-input {
+    height: 55px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 10px;
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+
+  .chat-input i {
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .chat-input input {
+    flex: 1;
+    height: 36px;
+    border-radius: 18px;
+    border: none;
+    padding: 0 15px;
+    outline: none;
+    font-size: 14px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    backdrop-filter: blur(5px);
+  }
+
+  .chat-input input::placeholder { color: rgba(255,255,255,0.7); }
+
+  /* EMOJI PICKER */
+  .emoji-picker {
+    position: absolute;
+    bottom: 60px;
+    left: 10px;
+    width: 360px;
+    max-height: 200px;
+    background: #3c3c55;
+    border-radius: 10px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    overflow-y: auto;
+    display: none; /* hidden by default */
+    z-index: 100;
+  }
+
+  .emoji-item {
+    font-size: 28px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .emoji-item .tooltip-text {
+    position: absolute;
+    bottom: 100%;
+    background: #222;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .emoji-item:hover .tooltip-text {
+    opacity: 1;
+    transform: translateY(-18px);
+  }
+</style>
+</head>
+<body>
+
+<div class="chat-container">
+
+  <!-- HEADER -->
+  <div class="chat-header">
+    <div class="header-left">
+      <img src="chatbot-pic.png" alt="Profile" class="profile-image">
+      <span>Bot</span>
+    </div>
+  </div>
+
+  <!-- CHAT BODY -->
+  <div class="chat-body" id="chatBody"></div>
+
+  <!-- INPUT -->
+  <div class="chat-input">
+    <i class='bx bx-smile' id="emoji-btn"></i>
+    <input type="text" placeholder="Type a message" id="chat-input">
+    <i class='bx bx-microphone' id="micBtn"></i>
+
+    <!-- EMOJI PICKER -->
+    <div class="emoji-picker" id="emoji-picker">
+      <div class="emoji-item" data-emoji="😎"><span class="tooltip-text">cool</span>😎</div>
+      <div class="emoji-item" data-emoji="😡"><span class="tooltip-text">angry</span>😡</div>
+      <div class="emoji-item" data-emoji="😁"><span class="tooltip-text">happy</span>😁</div>
+      <div class="emoji-item" data-emoji="😱"><span class="tooltip-text">shocked</span>😱</div>
+      <div class="emoji-item" data-emoji="💀"><span class="tooltip-text">dead</span>💀</div>
+      <div class="emoji-item" data-emoji="😐"><span class="tooltip-text">speechless</span>😐</div>
+      <div class="emoji-item" data-emoji="😴"><span class="tooltip-text">sleepy</span>😴</div>
+      <div class="emoji-item" data-emoji="🎉"><span class="tooltip-text">celebrate</span>🎉</div>
+      <div class="emoji-item" data-emoji="👻"><span class="tooltip-text">ghost</span>👻</div>
+      <div class="emoji-item" data-emoji="❌"><span class="tooltip-text">error</span>❌</div>
+      <div class="emoji-item" data-emoji="🔔"><span class="tooltip-text">bell</span>🔔</div>
+      <div class="emoji-item" data-emoji="⏸️"><span class="tooltip-text">pause</span>⏸️</div>
+      <div class="emoji-item" data-emoji="🕶️"><span class="tooltip-text">glasses</span>🕶️</div>
+      <div class="emoji-item" data-emoji="⚾"><span class="tooltip-text">baseball</span>⚾</div>
+      <div class="emoji-item" data-emoji="🚪"><span class="tooltip-text">closet</span>🚪</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const emojiBtn = document.getElementById('emoji-btn');
+const emojiPicker = document.getElementById('emoji-picker');
+const chatInput = document.getElementById('chat-input');
+const chatBody = document.getElementById('chatBody');
+const micBtn = document.getElementById('micBtn');
+
+let usedMic = false;
+
+// EMOJI PICKER
+emojiBtn.addEventListener('click', () => {
+  emojiPicker.style.display = emojiPicker.style.display === 'grid' ? 'none' : 'grid';
+});
+
+document.querySelectorAll('.emoji-item').forEach(item => {
+  item.addEventListener('click', () => {
+    chatInput.value += item.getAttribute('data-emoji');
+    emojiPicker.style.display = 'none';
+    chatInput.focus();
+  });
+});
+
+document.addEventListener('click', (e) => {
+  if (!emojiPicker.contains(e.target) && !emojiBtn.contains(e.target)) {
+    emojiPicker.style.display = 'none';
+  }
+});
+
+// CHATBOT FUNCTIONS
+function addMessage(text, sender) {
+  const msg = document.createElement('div');
+  msg.classList.add('message', sender);
+  msg.textContent = text;
+  chatBody.appendChild(msg);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function botReply(message) {
+  const msg = message.toLowerCase();
+  if (msg.includes("hi") || msg.includes("hello")) return "Hello, I am bot";
+  if (msg.includes("are you well") || msg.includes("doing well")) return "Yes, I am. Thanks for asking";
+  if (msg.includes("how are you")) return "I am fine";
+  if (msg.includes("your name")) return "My name is bot";
+  if (msg.includes("time")) return "The time is " + new Date().toLocaleTimeString();
+  if (msg.includes("date")) return "Today is " + new Date().toLocaleDateString();
+  if (msg.includes("joke")) return "Why don't programmers like nature? Because there are too many bugs";
+  if (msg.includes("bye")) return "Bye, have a good day";
+  return "Sorry, I don't understand";
+}
+
+// TEXT INPUT
+chatInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && chatInput.value.trim()) {
+    usedMic = false;
+    const text = chatInput.value;
+    addMessage(text, 'user');
+    chatInput.value = '';
+    setTimeout(() => {
+      addMessage(botReply(text), 'bot');
+    }, 500);
+  }
+});
+
+// SPEECH RECOGNITION
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SpeechRecognition) {
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+
+  micBtn.onclick = () => {
+    usedMic = true;
+    recognition.start();
+  };
+
+  recognition.onresult = e => {
+    const speech = e.results[0][0].transcript;
+    addMessage(speech, 'user');
+
+    setTimeout(() => {
+      const reply = botReply(speech);
+      addMessage(reply, 'bot');
+      if (usedMic) {
+        const utterance = new SpeechSynthesisUtterance(reply);
+        utterance.lang = "en-US";
+        window.speechSynthesis.speak(utterance);
+      }
+    }, 500);
+  };
+} else {
+  micBtn.onclick = () => alert("Speech recognition not supported");
+}
+</script>
+
+</body>
+</html>
