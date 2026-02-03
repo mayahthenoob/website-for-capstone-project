@@ -2,3 +2,6 @@ add different sound effect
 change favicon
 make a play, pause and restart popup with these options
 make the pipes more spaced out
+
+make it press space to start game and change bird
+can use this background picture for doodle instead 
