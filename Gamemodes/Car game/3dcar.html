@@ -1,28 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>3D Car Scene - Mobile Controls</title>
+    <title>3D Car Scene</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
-            /* Prevent scrollbars */
             background-color: #a0d7e6;
-            /* Light sky blue background */
             font-family: 'Press Start 2P', cursive, sans-serif;
-            /* A retro arcade font for style */
-            /* Prevent default touch behaviors like pull-to-refresh or selection */
             overscroll-behavior: none;
             touch-action: none;
-            /* For pointer events, might help on some devices */
         }
 
         canvas {
             display: block;
-            /* Remove annoying space below canvas */
         }
 
         #loading-screen {
@@ -33,7 +26,6 @@
             color: white;
             display: flex;
             flex-direction: column;
-            /* For progress text */
             justify-content: center;
             align-items: center;
             font-size: 2em;
@@ -46,7 +38,6 @@
         #loading-screen.hidden {
             opacity: 0;
             pointer-events: none;
-            /* Disable interaction after fading */
         }
 
         #loading-text {
@@ -63,14 +54,10 @@
             top: 10px;
             left: 10px;
             color: white;
-            /* White text */
             text-shadow: 1px 1px 3px black;
-            /* Black shadow for readability */
             z-index: 50;
             font-size: 1.5em;
-            /* Slightly larger font */
             pointer-events: none;
-            /* Let clicks pass through */
         }
 
         #score {
@@ -83,19 +70,13 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: #ff4444;
-            /* Bright red */
             font-size: 4em;
-            /* Large text */
             font-weight: bold;
             text-align: center;
             text-shadow: 2px 2px 5px black;
-            /* Stronger shadow */
             display: none;
-            /* Hidden initially */
             z-index: 101;
-            /* Above everything else */
             pointer-events: auto;
-            /* Enable clicks on restart button */
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -109,7 +90,6 @@
             border: none;
             border-radius: 8px;
             font-size: 0.4em;
-            /* Relative to parent font-size */
             cursor: pointer;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             transition: background-color 0.3s ease;
@@ -124,56 +104,37 @@
         .control-button {
             position: absolute;
             bottom: 20px;
-            /* Position from bottom */
             width: 80px;
-            /* Button width */
             height: 80px;
-            /* Button height */
             background-color: rgba(255, 255, 255, 0.3);
-            /* Semi-transparent white */
             border: 2px solid rgba(0, 0, 0, 0.5);
-            /* Darker border */
             border-radius: 50%;
-            /* Circular buttons */
             z-index: 60;
-            /* Above canvas, below game over */
             display: flex;
-            /* For centering arrow inside */
             justify-content: center;
             align-items: center;
             font-size: 2.5em;
-            /* Arrow size */
             color: rgba(0, 0, 0, 0.7);
-            /* Arrow color */
             cursor: pointer;
-            /* Indicate clickable */
-            /* Prevent text selection on tap */
             user-select: none;
             -webkit-user-select: none;
             -ms-user-select: none;
             -moz-user-select: none;
-            /* Prevent iOS tap highlight */
             -webkit-tap-highlight-color: transparent;
             pointer-events: auto;
-            /* Allow interaction */
         }
 
-        /* Style for when button is pressed */
         .control-button:active {
             background-color: rgba(255, 255, 255, 0.5);
         }
 
         #left-button {
             left: 20px;
-            /* Position left button */
         }
 
         #right-button {
             right: 20px;
-            /* Position right button */
         }
-
-        /* --- End Mobile Control Buttons --- */
 
         /* Import Google Font for UI */
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -269,7 +230,6 @@
             loadingScreen.classList.add('hidden');
             setTimeout(() => {
                 if (loadingScreen) loadingScreen.style.display = 'none';
-                // Start game loop after loading screen fades
                 if (!isGameOver) animate(); // Ensure animate starts only once after loading
             }, 600);
         };
@@ -287,7 +247,6 @@
 
         init(); // Initialize the scene and elements
         setupControls(); // Set up both keyboard and touch controls
-        // animate() will be called by loadingManager.onLoad after everything is ready.
 
         function init() {
             // --- Basic Setup ---
@@ -296,7 +255,6 @@
             scene.fog = new THREE.Fog(0xa0d7e6, roadLength * 0.4, roadLength * 0.9); // Fog for depth
 
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            // Initial camera position (will be adjusted after car model loads)
             camera.position.set(0, 3, -7);
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -326,9 +284,8 @@
             scene.add(directionalLight.target); // Target for directional light
 
             // --- HDRI Environment Map ---
-            // Using a common HDRI from Three.js examples (adjust path/name if you have your own)
             const hdrPath = 'https://threejs.org/examples/textures/equirectangular/';
-            const hdrName = 'venice_sunset_1k.hdr'; // Or 'royal_esplanade_1k.hdr', 'memorial_park_1k.hdr'
+            const hdrName = 'venice_sunset_1k.hdr'; 
 
             new RGBELoader(loadingManager) // Use loadingManager
                 .setPath(hdrPath)
@@ -565,20 +522,16 @@
                     if (node.isMesh) {
                         node.castShadow = true;
                         node.receiveShadow = true;
-                        // For PBR materials like in Ferrari model, environment map is key
-                        // Materials are generally MeshPhysicalMaterial
                     }
                 });
                 scene.add(carModel);
 
-                // --- Enemy Car Setup (Clone Player Car) ---
                 enemyCar = carModel.clone();
                 enemyCar.traverse((node) => {
                     if (node.isMesh) {
-                        // Create a distinct material for the enemy car (e.g., metallic blue)
                         const originalMaterial = node.material;
                         const enemyMaterial = originalMaterial.clone();
-                        enemyMaterial.color.setHex(0x0000ff); // Set to blue
+                        enemyMaterial.color.setHex(0x0000ff); 
                         enemyMaterial.metalness = 0.9;
                         enemyMaterial.roughness = 0.2;
                         node.material = enemyMaterial;
@@ -587,17 +540,14 @@
                     }
                 });
                 const initialEnemyX = (Math.random() < 0.5 ? -1 : 1) * roadWidth / 4;
-                enemyCar.position.set(initialEnemyX, carBaseY, roadLength * 0.7); // Spawn further down the road
-                enemyCar.rotation.y = Math.PI; // Face forward initially, will be reversed for oncoming
+                enemyCar.position.set(initialEnemyX, carBaseY, roadLength * 0.7); 
+                enemyCar.rotation.y = Math.PI; 
                 scene.add(enemyCar);
                 console.log("Enemy car added and colored blue");
-
-                // Set initial Camera position AFTER carModel is loaded and carBaseY is known
                 camera.position.set(0, carBaseY + 3, -7);
                 camera.lookAt(carModel.position.x, carBaseY + 1, carModel.position.z + 5);
 
             }, undefined, (error) => {
-                // Fallback for car model loading failure
                 console.error('An error happened loading the car model:', error);
                 const fallbackGeo = new THREE.BoxGeometry(2, 1, 4);
                 const fallbackMat = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5, metalness: 0.5 });
@@ -627,13 +577,11 @@
 
             // --- Resize Listener ---
             window.addEventListener('resize', onWindowResize, false);
-            // --- Initial Score Display ---
             updateScoreDisplay();
         }
 
         // --- Function to Set Up Controls (Keyboard & Touch) ---
         function setupControls() {
-            // Keyboard Listeners
             window.addEventListener('keydown', (event) => {
                 if (isGameOver) return;
                 if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') { moveLeft = true; }
@@ -649,8 +597,6 @@
             const rightButton = document.getElementById('right-button');
 
             if (leftButton) {
-                // Using 'pointerdown' and 'pointerup' for broader compatibility (mouse, touch, pen)
-                // and to correctly handle multiple touches/gestures if needed, though 'touchstart'/'touchend' are fine for simple cases.
                 leftButton.addEventListener('pointerdown', (e) => { if (!isGameOver) { e.preventDefault(); moveRight = true; } }, { passive: false });
                 leftButton.addEventListener('pointerup', (e) => { e.preventDefault(); moveRight = false; });
                 leftButton.addEventListener('pointerleave', (e) => { // If finger slides off button while pressed
@@ -688,11 +634,11 @@
         }
 
         function animate() {
-            requestAnimationFrame(animate); // IMPORTANT: This creates the continuous game loop
+            requestAnimationFrame(animate); // creates the continuous game loop
 
             if (isGameOver) {
                 renderer.render(scene, camera);
-                return; // Stop game logic updates if game over
+                return; 
             }
 
             const deltaZ = driveSpeed;
@@ -728,7 +674,7 @@
                 if (light.position.z < -sceneryRecycleDistance) {
                     const sideSign = Math.sign(light.position.x);
                     const xPos = roadWidth / 2 + kerbWidth + 0.5;
-                    light.position.set(sideSign * xPos, 0, roadLength * 1.5 / 2 + Math.random() * roadLength * 0.5); // Spawn further out
+                    light.position.set(sideSign * xPos, 0, roadLength * 1.5 / 2 + Math.random() * roadLength * 0.5); 
                 }
             });
 
@@ -742,9 +688,9 @@
 
             // --- Move and Recycle Points ---
             points.forEach(point => {
-                if (!point.visible) return; // Only move visible points
+                if (!point.visible) return; 
                 point.position.z -= deltaZ;
-                point.rotation.y += 0.05; // Coin rotation
+                point.rotation.y += 0.05; 
                 if (point.position.z < -sceneryRecycleDistance) {
                     resetPointPosition(point);
                 }
@@ -752,12 +698,10 @@
 
             // --- Move Enemy Car ---
             if (enemyCar && carModel) { // Ensure both are loaded
-                // Enemy car moves forward relative to world, while road scrolls towards player.
-                // This creates the illusion of the enemy coming towards the player.
-                enemyCar.position.z -= (enemyCarSpeed + driveSpeed); // Sum of own speed and road scroll speed
+                enemyCar.position.z -= (enemyCarSpeed + driveSpeed); 
 
-                if (enemyCar.position.z < -sceneryRecycleDistance) { // Recycle when it passes player
-                    enemyCar.position.z = roadLength * 0.7 + Math.random() * roadLength * 0.5; // Spawn well ahead
+                if (enemyCar.position.z < -sceneryRecycleDistance) { 
+                    enemyCar.position.z = roadLength * 0.7 + Math.random() * roadLength * 0.5; 
                     enemyCar.position.x = (Math.random() < 0.5 ? -1 : 1) * (roadWidth / 2 - kerbWidth - 1); // Random lane
                     enemyCar.rotation.y = Math.PI; // Ensure it's facing forward
                 }
@@ -765,27 +709,26 @@
 
 
             // --- Handle Player Car Controls & Update Bounding Box ---
-            if (carModel && carBaseY > 0) { // Ensure car model is loaded and positioned
-                let maxBounds = roadWidth / 2 - kerbWidth - 0.1; // Default fallback bounds
-                let carHalfWidth = 1; // Default fallback for car width
+            if (carModel && carBaseY > 0) { 
+                let maxBounds = roadWidth / 2 - kerbWidth - 0.1; 
+                let carHalfWidth = 1; 
                 try {
                     const box = new THREE.Box3().setFromObject(carModel);
                     carHalfWidth = (box.max.x - box.min.x) / 2;
                     maxBounds = (roadWidth / 2) - kerbWidth - carHalfWidth - 0.1;
                 } catch (e) {
-                    // console.warn("Could not get car bounding box size, using default bounds.");
                 }
 
                 if (moveLeft && carModel.position.x > -maxBounds) { carModel.position.x -= carMoveSpeed; }
                 if (moveRight && carModel.position.x < maxBounds) { carModel.position.x += carMoveSpeed; }
                 carModel.position.x = Math.max(-maxBounds, Math.min(maxBounds, carModel.position.x));
 
-                playerBox.setFromObject(carModel); // Always update player's bounding box
+                playerBox.setFromObject(carModel); 
             }
 
             // --- Update Camera (smooth follow) ---
             if (carModel) {
-                const targetCameraX = carModel.position.x * 0.5; // Camera follows less drastically than car
+                const targetCameraX = carModel.position.x * 0.5; 
                 camera.position.x += (targetCameraX - camera.position.x) * 0.1;
                 camera.lookAt(carModel.position.x, carBaseY + 1, carModel.position.z + 5);
             }
@@ -793,31 +736,28 @@
 
             // --- Collision Detection ---
             if (carModel) {
-                // Point Collision
                 points.forEach(point => {
                     if (!point.visible) return;
                     pointBox.setFromObject(point);
                     if (playerBox.intersectsBox(pointBox)) {
                         score += pointValue;
                         updateScoreDisplay();
-                        point.visible = false; // Make point disappear
+                        point.visible = false; 
                     }
                 });
 
                 // Enemy Collision
-                if (enemyCar && enemyCar.parent) { // Ensure enemyCar is in scene
+                if (enemyCar && enemyCar.parent) { 
                     enemyBox.setFromObject(enemyCar);
-                    // Use a slightly larger collision box for player for easier hits or vice versa
-                    const expandedPlayerBox = playerBox.clone().expandByScalar(0.5); // Increase player car's collision area slightly
+                    const expandedPlayerBox = playerBox.clone().expandByScalar(0.5); 
                     if (expandedPlayerBox.intersectsBox(enemyBox)) {
                         console.log("Collision with enemy!");
                         isGameOver = true;
-                        gameOverElement.style.display = 'flex'; // Show game over screen
+                        gameOverElement.style.display = 'flex'; 
                     }
                 }
             }
 
-            // --- Render ---
             renderer.render(scene, camera);
         }
 
@@ -841,12 +781,9 @@
 
             // Reset points
             points.forEach(point => resetPointPosition(point, true));
-
-            // Reset scenery positions (optional, they will naturally loop back)
-            // Re-initializing positions for a "fresh" start visual.
             roadLines.forEach((line, i) => { line.position.z = (roadLength * 1.5 / 2) - (line.geometry.parameters.height / 2) - i * (line.geometry.parameters.height + 4); });
             buildings.forEach((building, i) => {
-                const zPos = (roadLength * 1.5 / 2) - (buildingSpacing / 2) - (i % (numBuildings / 2)) * buildingSpacing; // Recalculate based on original distribution
+                const zPos = (roadLength * 1.5 / 2) - (buildingSpacing / 2) - (i % (numBuildings / 2)) * buildingSpacing; 
                 const sideSign = (i % 2 === 0) ? -1 : 1;
                 const xOffset = roadWidth / 2 + kerbWidth + 1 + Math.random() * 5 + building.geometry.parameters.width / 2;
                 building.position.set(sideSign * xOffset, building.geometry.parameters.height / 2, zPos);
@@ -858,15 +795,11 @@
                 light.position.set(sideSign * xPos, 0, zPos);
             });
             trafficLights.forEach((light, i) => {
-                const zPos = roadLength * 0.4; // Fixed traffic light
+                const zPos = roadLength * 0.4; 
                 const sideSign = (i % 2 === 0) ? -1 : 1;
                 const xPos = roadWidth / 2 + kerbWidth + 0.5;
                 light.position.set(sideSign * xPos, 0, zPos);
             });
-
-
-            // The animate loop is continuously running, so no need to call it again.
-            // Just setting isGameOver to false will resume game logic.
         }
 
     </script>
