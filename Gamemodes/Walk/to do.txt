@@ -1,0 +1,1 @@
+make the screen smaller make it have functions for mobile and change the character
