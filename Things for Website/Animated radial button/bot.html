@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 400px; 
+      height: 600px; 
+      background: rgba(255, 255, 255, 0.1); 
+      backdrop-filter: blur(15px); 
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* TOP BAR */
+    .chat-header {
+      height: 55px;
+      background: rgba(0, 0, 0, 0.3); 
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-image {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .header-right i {
+      font-size: 22px;
+      margin-left: 15px;
+      cursor: pointer;
+    }
+
+    /* CHAT AREA */
+    .chat-body {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.1); 
+      backdrop-filter: blur(10px);
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    /* INPUT BAR */
+    .chat-input {
+      height: 55px;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 10px;
+      backdrop-filter: blur(10px);
+    }
+
+    .chat-input i {
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .chat-input input {
+      flex: 1;
+      height: 36px;
+      border-radius: 18px;
+      border: none;
+      padding: 0 15px;
+      outline: none;
+      font-size: 14px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+
+    .chat-input input::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+
+  <!-- HEADER -->
+  <div class="chat-header">
+    <div class="header-left">
+      <img src="chatbot-pic.png" alt="Profile" class="profile-image">
+      <span>Name</span>
+    </div>
+
+    <div class="header-right">
+      <i class='bx bx-search'></i>
+      <i class='bx bx-dots-vertical-rounded'></i>
+    </div>
+  </div>
+
+  <!-- CHAT BODY -->
+  <div class="chat-body"></div>
+
+  <!-- INPUT -->
+  <div class="chat-input">
+    <i class='bx bx-smile'></i>
+    <input type="text" placeholder="Type a message">
+    <i class='bx bx-microphone'></i>
+  </div>
+
+</div>
+
+</body>
+</html>

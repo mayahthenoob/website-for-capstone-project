@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Custom Emoji Picker</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+<style>
+  body {
+    background: #2d2d40;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .emoji-picker {
+    background: #3c3c55;
+    border-radius: 10px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  }
+
+  .emoji-item {
+    position: relative;
+    color: #e0e0e0;
+    font-size: 40px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  /* Name above emoji */
+  .emoji-item .tooltip-text {
+    position: absolute;
+    bottom: 100%;
+    background: #222;
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  /* Show name on hover */
+  .emoji-item:hover .tooltip-text {
+    opacity: 1;
+    transform: translateY(-20px);
+  }
+</style>
+</head>
+<body>
+
+<div class="emoji-picker">
+  <div class="emoji-item">
+    <span class="tooltip-text">cool</span>
+    <i class='bx bx-cool'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">angry</span>
+    <i class='bx bx-angry'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">happy</span>
+    <i class='bx bx-happy-beaming'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">shocked</span>
+    <i class='bx bx-shocked'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">dead</span>
+    <i class='bx bx-dizzy'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">speechless</span>
+    <i class='bx bx-meh-blank'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">sleepy</span>
+    <i class='bx bx-sleepy'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">celebrate</span>
+    <i class='bx bx-party'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">ghost</span>
+    <i class='bx bx-ghost'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">error</span>
+    <i class='bx bx-error-alt'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">bell</span>
+    <i class='bx bx-bell'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">pause</span>
+    <i class='bx bx-pause-circle'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">glasses</span>
+    <i class='bx bx-glasses-alt'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">baseball</span>
+    <i class='bx bx-baseball'></i>
+  </div>
+  <div class="emoji-item">
+    <span class="tooltip-text">closet</span>
+    <i class='bx bx-closet'></i>
+  </div>
+</div>
+
+</body>
+</html>
