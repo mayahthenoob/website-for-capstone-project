@@ -11,14 +11,17 @@ to start editing
 
 text effects
 
-for bolding
+to bold selected text
 <i class='bx bx-bold'></i>
 
-for underline
+to underline selected
 <i class='bx bx-underline'></i>
 
-for italic
+to italic selected text
 <i class='bx bx-italic'></i>
+
+to make a strikethrought words
+<i class='bx bx-strikethrough'></i>
 
 for renaming file
 <i class='bx bx-rename'></i>
@@ -41,7 +44,7 @@ for aligning text to the left
 for aligning text to the middle
 <i class='bx bx-align-middle'></i>
 
-for aligning tex tto the right
+for aligning tex to the right
 <i class='bx bx-align-right' ></i>
 
 for justifing text
@@ -64,3 +67,45 @@ to undo what just been inserted to return by one
 
 to put back what was there and deleted
 <i class='bx bx-redo' ></i>
+
+for choosing font
+<i class='bx bx-font'></i>
+
+for choosing heading style
+<i class='bx bx-heading'></i>
+
+for choosing font size
+<i class='bx bx-font-size'></i>
+
+to decrease selected text size by one
+<i class='bx bx-minus'></i>
+
+to increase selected text size by one
+<i class='bx bx-plus' ></i>
+
+for choosing line spacing (got from boxicons.com)
+<i class="bx bx-line-spacing" />
+
+for copying file
+<i class='bx bx-copy' ></i>
+
+for pasting selected text
+<i class='bx bx-paste'></i>
+
+to export file as pdf
+<i class='bx bxs-file-pdf'></i>
+
+to export as plain text
+<i class='bx bxs-file-txt' ></i>
+
+to open file
+<i class='bx bx-folder-open'></i>
+
+to find word in file
+<i class='bx bx-search-alt-2' ></i>
+
+to increase zoom
+<i class='bx bx-zoom-in'></i>
+
+to decrease zoom
+<i class='bx bx-zoom-out' ></i>

@@ -1,4 +1,5 @@
-make the car go in the direction of the correct key and change mobile play and add sound effects
+make the car go in the direction of the correct key for computer
+change mobile play and add sound effects
 
 to press to drive forward for
 <i class='bx bxs-chevrons-up' ></i>
@@ -11,3 +12,5 @@ to press to go left
 
 to press to go right
 <i class='bx bxs-chevrons-right'></i>
+
+allow enemy car to drive in the middle too
