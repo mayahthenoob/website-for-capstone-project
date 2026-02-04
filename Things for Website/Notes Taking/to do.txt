@@ -59,3 +59,8 @@ to view all files
 insert image
 <i class='bx bx-image-add'></i>
 
+to undo what just been inserted to return by one
+<i class='bx bx-undo'></i>
+
+to put back what was there and deleted
+<i class='bx bx-redo' ></i>
