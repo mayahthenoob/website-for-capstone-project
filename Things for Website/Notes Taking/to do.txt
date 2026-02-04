@@ -1,0 +1,61 @@
+making the text editor
+
+to minimize the tab not close it keep active
+<i class='bx bx-minus'></i>
+
+for extending the tab making it take full space on page
+<i class='bx bx-square'></i>
+
+to start editing
+<i class='bx bx-edit'></i>
+
+text effects
+
+for bolding
+<i class='bx bx-bold'></i>
+
+for underline
+<i class='bx bx-underline'></i>
+
+for italic
+<i class='bx bx-italic'></i>
+
+for renaming file
+<i class='bx bx-rename'></i>
+
+for font color
+<i class='bx bx-font-color'></i>
+
+for bulleted list
+<i class='bx bx-list-ul'></i>
+
+for numbered list
+<i class='bx bx-list-ol'></i>
+
+for highlighting
+<i class='bx bx-highlight'></i>
+
+for aligning text to the left
+<i class='bx bx-align-left'></i>
+
+for aligning text to the middle
+<i class='bx bx-align-middle'></i>
+
+for aligning tex tto the right
+<i class='bx bx-align-right' ></i>
+
+for justifing text
+<i class='bx bx-align-justify'></i>
+
+for adding link
+<i class='bx bx-link' ></i>
+
+for removing link
+<i class='bx bx-unlink' ></i>
+
+to view all files
+<i class='bx bx-library'></i>
+
+insert image
+<i class='bx bx-image-add'></i>
+

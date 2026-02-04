@@ -1,4 +1,5 @@
 Footer
+design the footer still
 give credit to inspirations
 put link to it 
 add copyright 
@@ -26,3 +27,8 @@ add a share button so users can share website to others use link and put qr code
 or qr code with link bellow
 
 make a readme file for the section it is on for more insight or make it fo the whole thing
+
+for the percentage with the techstack add the percentage from github
+
+code icon to say to get code make it go to github
+<i class='bx bx-code'></i>

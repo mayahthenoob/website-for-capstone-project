@@ -1,1 +1,13 @@
 make the car go in the direction of the correct key and change mobile play and add sound effects
+
+to press to drive forward for
+<i class='bx bxs-chevrons-up' ></i>
+
+to press to drive backwards
+<i class='bx bxs-chevrons-down'></i>
+
+to press to go left
+<i class='bx bxs-chevrons-left' ></i>
+
+to press to go right
+<i class='bx bxs-chevrons-right'></i>

@@ -1,0 +1,7 @@
+changes for b5
+
+make the chat bubble maybe at timestamp make the setting dropdwn list show over message make it brighter
+change the format in which the time and date shows
+make it show like day of the week the date and year
+eg (date) Thursday 5th, 2026
+eg (time) 8:53 am or pm
