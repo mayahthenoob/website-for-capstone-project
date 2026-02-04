@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Word Search</title>
+
+<style>
+  body {
+    font-family: "Comic Sans MS", Arial, sans-serif;
+    background: #f2f7ff;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 15px;
+  }
+
+  .game {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(10, 38px);
+    gap: 6px;
+  }
+
+  .cell {
+    width: 38px;
+    height: 38px;
+    background: #f0f4ff;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 38px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    color: #333;
+    transition: transform 0.15s;
+  }
+
+  .cell.selected {
+    background: #ffd166;
+  }
+
+  .cell.found {
+    background: #6bcf9b;
+    color: white;
+  }
+
+  /* 🎉 CELL POP ANIMATION */
+  @keyframes pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+
+  .cell.found.animate {
+    animation: pop 0.45s ease;
+  }
+
+  /* Words BELOW the puzzle */
+  .words {
+    margin-top: 10px;
+  }
+
+  .words h3 {
+    margin-bottom: 8px;
+  }
+
+  .words ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    columns: 3;
+    max-width: 400px;
+  }
+
+  .words li {
+    padding: 4px 0;
+    font-weight: bold;
+  }
+
+  .words li.found {
+    text-decoration: line-through;
+    color: #6bcf9b;
+  }
+
+  /* ✨ WORD LIST GLOW */
+  @keyframes glow {
+    0%   { text-shadow: 0 0 0 rgba(107,207,155,0); }
+    50%  { text-shadow: 0 0 10px rgba(107,207,155,0.9); }
+    100% { text-shadow: 0 0 0 rgba(107,207,155,0); }
+  }
+
+  .words li.animate {
+    animation: glow 0.8s ease;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>WORD SEARCH</h1>
+
+  <div class="game">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="words">
+    <h3>WORDS TO FIND</h3>
+    <ul id="wordList"></ul>
+  </div>
+</div>
+
+<script>
+const gridData = [
+  "ANGRYSEVYN",
+  "XRPETKYALS",
+  "RNVAPAMIGH",
+  "FNVEAHDOLA",
+  "FMRCAUDSAP",
+  "AWATCMDAPY",
+  "ROLLAKEADP",
+  "GIAEMOHOLS",
+  "LEUANDMBIL",
+  "SADHAPPYXX"
+];
+
+const words = [
+  "ANGRY", "HAPPY", "SCARED", "WORRIED",
+  "SURPRISED", "NERVOUS", "CALM", "TIRED",
+  "SAD", "EXCITED"
+];
+
+const grid = document.getElementById("grid");
+const wordList = document.getElementById("wordList");
+
+let isSelecting = false;
+let selected = [];
+
+function buildGrid() {
+  gridData.forEach((row, r) => {
+    row.split("").forEach((letter, c) => {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.textContent = letter;
+
+      cell.addEventListener("mousedown", () => start(cell));
+      cell.addEventListener("mouseenter", () => drag(cell));
+      cell.addEventListener("touchstart", () => start(cell));
+      cell.addEventListener("touchmove", e => {
+        const touch = e.touches[0];
+        const el = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (el && el.classList.contains("cell")) drag(el);
+      });
+
+      grid.appendChild(cell);
+    });
+  });
+
+  document.addEventListener("mouseup", end);
+  document.addEventListener("touchend", end);
+}
+
+function buildWords() {
+  words.forEach(word => {
+    const li = document.createElement("li");
+    li.textContent = word;
+    li.id = word;
+    wordList.appendChild(li);
+  });
+}
+
+function start(cell) {
+  clearSelection();
+  isSelecting = true;
+  select(cell);
+}
+
+function drag(cell) {
+  if (!isSelecting) return;
+  if (!selected.includes(cell)) select(cell);
+}
+
+function end() {
+  if (!isSelecting) return;
+  isSelecting = false;
+  checkWord();
+}
+
+function select(cell) {
+  cell.classList.add("selected");
+  selected.push(cell);
+}
+
+function clearSelection() {
+  selected.forEach(c => c.classList.remove("selected"));
+  selected = [];
+}
+
+function checkWord() {
+  const word = selected.map(c => c.textContent).join("");
+  const reversed = word.split("").reverse().join("");
+
+  const match = words.find(w => w === word || w === reversed);
+
+  if (match) {
+    selected.forEach(c => {
+      c.classList.remove("selected");
+      c.classList.add("found", "animate");
+      c.addEventListener("animationend", () => c.classList.remove("animate"), { once: true });
+    });
+
+    const li = document.getElementById(match);
+    li.classList.add("found", "animate");
+    li.addEventListener("animationend", () => li.classList.remove("animate"), { once: true });
+
+  } else {
+    clearSelection();
+  }
+}
+
+buildGrid();
+buildWords();
+</script>
+
+</body>
+</html>
