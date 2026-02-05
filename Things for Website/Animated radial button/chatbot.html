@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chatbot with Emoji Picker</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chatbot</title>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-
 <style>
   * { box-sizing: border-box; font-family: Arial, sans-serif; }
-  body { margin: 0; background: #111; display: flex; justify-content: center; align-items: center; height: 100vh; }
-
+  body {
+    margin: 0;
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
   /* CHAT CONTAINER */
   .chat-container {
-    width: 400px; 
-    height: 600px; 
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(15px); 
+    width: 400px;
+    height: 600px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -23,24 +28,23 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
-
   /* HEADER */
   .chat-header {
     height: 55px;
-    background: rgba(0, 0, 0, 0.3); 
+    background: rgba(0, 0, 0, 0.3);
     color: white;
     display: flex;
     align-items: center;
     padding: 0 15px;
     backdrop-filter: blur(10px);
+    justify-content: space-between;
+    position: relative;
   }
-
   .header-left {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-
   .profile-image {
     width: 36px;
     height: 36px;
@@ -48,19 +52,64 @@
     object-fit: cover;
   }
 
+  /* 3 DOT MENU ICON */
+  #menuBtn {
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  /* DROPDOWN MENU */
+  .dropdown-menu {
+    position: absolute;
+    top: 55px;
+    right: 15px;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+    padding: 8px 0;
+    width: 160px;
+    display: none;
+    flex-direction: column;
+    z-index: 150;
+  }
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s ease;
+  }
+  .dropdown-item:hover {
+    background: rgba(255,255,255,0.1);
+  }
+  .dropdown-item i {
+    font-size: 18px;
+  }
+
   /* CHAT BODY */
   .chat-body {
     flex: 1;
-    background: rgba(255, 255, 255, 0.1); 
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     padding: 10px;
     overflow-y: auto;
     color: white;
   }
-
-  .message { margin: 8px 0; }
-  .user { text-align: right; color: #fff; }
-  .bot { text-align: left; color: #00ffcc; }
+  .message {
+    margin: 8px 0;
+  }
+  .user {
+    text-align: right;
+    color: #fff;
+  }
+  .bot {
+    text-align: left;
+    color: #00ffcc;
+  }
 
   /* INPUT */
   .chat-input {
@@ -73,13 +122,11 @@
     position: relative;
     backdrop-filter: blur(10px);
   }
-
   .chat-input i {
     color: white;
     font-size: 22px;
     cursor: pointer;
   }
-
   .chat-input input {
     flex: 1;
     height: 36px;
@@ -92,8 +139,9 @@
     color: white;
     backdrop-filter: blur(5px);
   }
-
-  .chat-input input::placeholder { color: rgba(255,255,255,0.7); }
+  .chat-input input::placeholder {
+    color: rgba(255,255,255,0.7);
+  }
 
   /* EMOJI PICKER */
   .emoji-picker {
@@ -113,7 +161,6 @@
     display: none; /* hidden by default */
     z-index: 100;
   }
-
   .emoji-item {
     font-size: 28px;
     cursor: pointer;
@@ -122,7 +169,6 @@
     align-items: center;
     position: relative;
   }
-
   .emoji-item .tooltip-text {
     position: absolute;
     bottom: 100%;
@@ -137,10 +183,26 @@
     pointer-events: none;
     white-space: nowrap;
   }
-
   .emoji-item:hover .tooltip-text {
     opacity: 1;
     transform: translateY(-18px);
+  }
+
+  /* VOICE ANIMATION on mic icon when speaking */
+  @keyframes voicePulse {
+    0%, 100% {
+      transform: scale(1);
+      color: #fff;
+      text-shadow: none;
+    }
+    50% {
+      transform: scale(1.2);
+      color: #00ffcc;
+      text-shadow: 0 0 8px #00ffcc;
+    }
+  }
+  .speaking {
+    animation: voicePulse 1s infinite;
   }
 </style>
 </head>
@@ -151,8 +213,26 @@
   <!-- HEADER -->
   <div class="chat-header">
     <div class="header-left">
-      <img src="chatbot-pic.png" alt="Profile" class="profile-image">
+      <img src="chatbot-pic.png" alt="Profile" class="profile-image" />
       <span>Bot</span>
+    </div>
+    <!-- 3 dot menu icon -->
+    <i class='bx bx-menu-alt-right' id="menuBtn"></i>
+
+    <!-- DROPDOWN MENU -->
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-item" id="clearChat">
+        <i class='bx bx-cloud-snow'></i> Clear Chat
+      </div>
+      <div class="dropdown-item" id="muteChat">
+        <i class='bx bx-volume-mute'></i> Mute Chatbot
+      </div>
+      <div class="dropdown-item" id="learnMore">
+        <i class='bx bx-info-circle'></i> Learn More
+      </div>
+      <div class="dropdown-item" id="settings">
+        <i class='bx bx-cog'></i> Settings
+      </div>
     </div>
   </div>
 
@@ -162,7 +242,7 @@
   <!-- INPUT -->
   <div class="chat-input">
     <i class='bx bx-smile' id="emoji-btn"></i>
-    <input type="text" placeholder="Type a message" id="chat-input">
+    <input type="text" placeholder="Type a message" id="chat-input" />
     <i class='bx bx-microphone' id="micBtn"></i>
 
     <!-- EMOJI PICKER -->
@@ -184,7 +264,6 @@
       <div class="emoji-item" data-emoji="🚪"><span class="tooltip-text">closet</span>🚪</div>
     </div>
   </div>
-
 </div>
 
 <script>
@@ -194,13 +273,22 @@ const chatInput = document.getElementById('chat-input');
 const chatBody = document.getElementById('chatBody');
 const micBtn = document.getElementById('micBtn');
 
-let usedMic = false;
+const menuBtn = document.getElementById('menuBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+const clearChatBtn = document.getElementById('clearChat');
+const muteChatBtn = document.getElementById('muteChat');
+const learnMoreBtn = document.getElementById('learnMore');
+const settingsBtn = document.getElementById('settings');
 
-// EMOJI PICKER
+let usedMic = false;
+let muted = false;
+
+// EMOJI PICKER toggle
 emojiBtn.addEventListener('click', () => {
   emojiPicker.style.display = emojiPicker.style.display === 'grid' ? 'none' : 'grid';
 });
 
+// Add emoji to input
 document.querySelectorAll('.emoji-item').forEach(item => {
   item.addEventListener('click', () => {
     chatInput.value += item.getAttribute('data-emoji');
@@ -209,10 +297,42 @@ document.querySelectorAll('.emoji-item').forEach(item => {
   });
 });
 
+// Close emoji picker if clicking outside
 document.addEventListener('click', (e) => {
   if (!emojiPicker.contains(e.target) && !emojiBtn.contains(e.target)) {
     emojiPicker.style.display = 'none';
   }
+});
+
+// Toggle dropdown menu on 3-dot menu click
+menuBtn.addEventListener('click', e => {
+  e.stopPropagation(); // Prevent closing immediately
+  dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', () => {
+  dropdownMenu.style.display = 'none';
+});
+
+// Dropdown options functionality
+clearChatBtn.addEventListener('click', () => {
+  chatBody.innerHTML = '';
+  dropdownMenu.style.display = 'none';
+});
+muteChatBtn.addEventListener('click', () => {
+  muted = !muted;
+  muteChatBtn.textContent = muted ? "Unmute Chatbot" : "Mute Chatbot";
+  muteChatBtn.prepend(document.createElement('i')).className = muted ? 'bx bx-volume-mute' : 'bx bx-volume-full';
+  dropdownMenu.style.display = 'none';
+});
+learnMoreBtn.addEventListener('click', () => {
+  alert("This is a simple chatbot demo with emoji picker and voice recognition.");
+  dropdownMenu.style.display = 'none';
+});
+settingsBtn.addEventListener('click', () => {
+  alert("Settings feature is not implemented yet.");
+  dropdownMenu.style.display = 'none';
 });
 
 // CHATBOT FUNCTIONS
@@ -237,7 +357,7 @@ function botReply(message) {
   return "Sorry, I don't understand";
 }
 
-// TEXT INPUT
+// TEXT INPUT enter key send
 chatInput.addEventListener('keydown', e => {
   if (e.key === 'Enter' && chatInput.value.trim()) {
     usedMic = false;
@@ -245,12 +365,14 @@ chatInput.addEventListener('keydown', e => {
     addMessage(text, 'user');
     chatInput.value = '';
     setTimeout(() => {
-      addMessage(botReply(text), 'bot');
+      const reply = botReply(text);
+      addMessage(reply, 'bot');
+      if (!muted && !usedMic) speak(reply);
     }, 500);
   }
 });
 
-// SPEECH RECOGNITION
+// SPEECH RECOGNITION & SYNTHESIS
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 if (SpeechRecognition) {
   const recognition = new SpeechRecognition();
@@ -268,17 +390,28 @@ if (SpeechRecognition) {
     setTimeout(() => {
       const reply = botReply(speech);
       addMessage(reply, 'bot');
-      if (usedMic) {
-        const utterance = new SpeechSynthesisUtterance(reply);
-        utterance.lang = "en-US";
-        window.speechSynthesis.speak(utterance);
-      }
+      if (!muted && usedMic) speak(reply);
     }, 500);
   };
 } else {
   micBtn.onclick = () => alert("Speech recognition not supported");
 }
-</script>
 
+// VOICE SYNTHESIS with mic animation
+function speak(text) {
+  if (!window.speechSynthesis) return;
+
+  micBtn.classList.add('speaking');
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+
+  utterance.onend = () => {
+    micBtn.classList.remove('speaking');
+  };
+
+  window.speechSynthesis.speak(utterance);
+}
+</script>
 </body>
 </html>
