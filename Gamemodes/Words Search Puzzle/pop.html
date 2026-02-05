@@ -5,30 +5,53 @@
 <title>Word Search</title>
 
 <style>
+  :root {
+    --curious-blue: #2092e9;
+    --husk: #b7a25e;
+    --san-juan: #35556e;
+    --tiber: #06382f;
+    --cherry-red: #74070e;
+    --mulled-wine: #614d70;
+    --pesto: #6c7d36;
+    --sorbet-orange: #ffa858;
+    --cotton-beige: #faf3eb;
+    --ink-cloud: #4a4a4a;
+    --moss-milk: #b8afa6;
+    --forest-green: #3a4b41;
+    --minimal-beige: #e6cfa7;
+    --lavender-blush: #ffe6ed;
+    --blush: #cf7486;
+    --flax: #eddc82;
+    --gray: #808080;
+    --soft-jade: #abd1c6;
+    --jet: #302f2b;
+    --current-color: #ffd166;
+  }
+
   body {
-    font-family: "Comic Sans MS", Arial, sans-serif;
-    background: #f2f7ff;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 40px;
   }
 
   .container {
     background: white;
-    border-radius: 12px;
+    border-radius: 20px;
     padding: 20px 30px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    text-align: center;
   }
 
   h1 {
-    margin-bottom: 15px;
+    text-align: center;
+    margin-bottom: 20px;
   }
 
   .game {
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    gap: 30px;
+    align-items: flex-start;
   }
 
   .grid {
@@ -37,53 +60,52 @@
     gap: 6px;
   }
 
+  /* UPDATED */
   .cell {
-    width: 38px;
-    height: 38px;
-    background: #f0f4ff;
-    border-radius: 8px;
+    position: relative;
     text-align: center;
     line-height: 38px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     user-select: none;
-    color: #333;
+    border-radius: 6px;
+    z-index: 0;
   }
 
-  .cell.selected {
-    background: #ffd166;
+  /* UPDATED */
+  .cell.selected::before,
+  .cell.found::before {
+    content: "";
+    position: absolute;
+    inset: -3px; /* bleeds into the grid gap */
+    background: var(--current-color);
+    border-radius: 8px;
+    z-index: -1;
   }
 
+  .cell.selected,
   .cell.found {
-    background: #6bcf9b;
     color: white;
   }
 
-  /* Words BELOW the puzzle — no border or box */
-  .words {
-    margin-top: 10px;
-  }
-
   .words h3 {
-    margin-bottom: 8px;
+    margin: 0 0 10px;
+    font-size: 16px;
   }
 
   .words ul {
     list-style: none;
     padding: 0;
-    margin: 0 auto;
-    columns: 3;
-    max-width: 400px;
+    margin: 0;
   }
 
   .words li {
+    font-weight: 600;
     padding: 4px 0;
-    font-weight: bold;
   }
 
   .words li.found {
     text-decoration: line-through;
-    color: #aaa;
   }
 </style>
 </head>
@@ -95,12 +117,11 @@
 
   <div class="game">
     <div class="grid" id="grid"></div>
-  </div>
 
-  <!-- Words moved BELOW the puzzle -->
-  <div class="words">
-    <h3>WORDS TO FIND</h3>
-    <ul id="wordList"></ul>
+    <div class="words">
+      <h3>WORDS TO FIND</h3>
+      <ul id="wordList"></ul>
+    </div>
   </div>
 </div>
 
@@ -124,36 +145,42 @@ const words = [
   "SAD", "EXCITED"
 ];
 
+const colors = [
+  "var(--curious-blue)",
+  "var(--husk)",
+  "var(--san-juan)",
+  "var(--tiber)",
+  "var(--cherry-red)",
+  "var(--mulled-wine)",
+  "var(--pesto)",
+  "var(--sorbet-orange)",
+  "var(--forest-green)",
+  "var(--soft-jade)"
+];
+
+let colorIndex = 0;
+let isSelecting = false;
+let selected = [];
+let currentColor = colors[0];
+const wordColors = {};
+
 const grid = document.getElementById("grid");
 const wordList = document.getElementById("wordList");
 
-let isSelecting = false;
-let selected = [];
-
 function buildGrid() {
-  gridData.forEach((row, r) => {
-    row.split("").forEach((letter, c) => {
+  gridData.forEach(row => {
+    row.split("").forEach(letter => {
       const cell = document.createElement("div");
       cell.className = "cell";
       cell.textContent = letter;
-      cell.dataset.row = r;
-      cell.dataset.col = c;
 
       cell.addEventListener("mousedown", () => start(cell));
       cell.addEventListener("mouseenter", () => drag(cell));
-      cell.addEventListener("touchstart", () => start(cell));
-      cell.addEventListener("touchmove", e => {
-        const touch = e.touches[0];
-        const el = document.elementFromPoint(touch.clientX, touch.clientY);
-        if (el && el.classList.contains("cell")) drag(el);
-      });
+      document.addEventListener("mouseup", end);
 
       grid.appendChild(cell);
     });
   });
-
-  document.addEventListener("mouseup", end);
-  document.addEventListener("touchend", end);
 }
 
 function buildWords() {
@@ -168,12 +195,16 @@ function buildWords() {
 function start(cell) {
   clearSelection();
   isSelecting = true;
+
+  currentColor = colors[colorIndex % colors.length];
+  document.documentElement.style.setProperty("--current-color", currentColor);
+
   select(cell);
 }
 
 function drag(cell) {
-  if (!isSelecting) return;
-  if (!selected.includes(cell)) select(cell);
+  if (!isSelecting || selected.includes(cell)) return;
+  select(cell);
 }
 
 function end() {
@@ -188,7 +219,11 @@ function select(cell) {
 }
 
 function clearSelection() {
-  selected.forEach(c => c.classList.remove("selected"));
+  selected.forEach(c => {
+    if (!c.classList.contains("found")) {
+      c.classList.remove("selected");
+    }
+  });
   selected = [];
 }
 
@@ -197,12 +232,21 @@ function checkWord() {
   const reversed = word.split("").reverse().join("");
 
   const match = words.find(w => w === word || w === reversed);
-  if (match) {
+
+  if (match && !wordColors[match]) {
+    wordColors[match] = currentColor;
+
     selected.forEach(c => {
       c.classList.remove("selected");
       c.classList.add("found");
+      c.style.setProperty("--current-color", currentColor);
     });
-    document.getElementById(match).classList.add("found");
+
+    const li = document.getElementById(match);
+    li.classList.add("found");
+    li.style.color = currentColor;
+
+    colorIndex++;
   } else {
     clearSelection();
   }
