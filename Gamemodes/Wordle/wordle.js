@@ -17,7 +17,7 @@ const MAX_NUMBER_OF_ATTEMPTS = 6;
 
 const history = [];
 let currentWord = '';
-let gameOver = false; // 🔒 NEW
+let gameOver = false;
 
 const init = () => {
   const KEYBOARD_KEYS = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
@@ -33,6 +33,13 @@ const init = () => {
     e.target.setAttribute('data-animation', 'idle')
   );
   keyboard.addEventListener('click', onKeyboardButtonClick);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      resetGame();
+      showMessage('Board cleared! 🎯');
+    }
+  });
 };
 
 const showMessage = (message) => {
@@ -65,8 +72,7 @@ const checkGuess = (guess, word) => {
   guessLetters.forEach((letter, i) => {
     if (letter === wordLetters[i]) {
       currentRow.children[i].setAttribute('data-status', 'valid');
-      document.querySelector(`[data-key='${letter}']`)
-        .setAttribute('data-status', 'valid');
+      document.querySelector(`[data-key='${letter}']`)?.setAttribute('data-status', 'valid');
       letterCount[letter]--;
       guessLetters[i] = null;
     }
@@ -81,13 +87,13 @@ const checkGuess = (guess, word) => {
 
     if (letterCount[letter] > 0) {
       cell.setAttribute('data-status', 'invalid');
-      if (key.getAttribute('data-status') !== 'valid') {
+      if (key?.getAttribute('data-status') !== 'valid') {
         key.setAttribute('data-status', 'invalid');
       }
       letterCount[letter]--;
     } else {
       cell.setAttribute('data-status', 'none');
-      if (!key.getAttribute('data-status')) {
+      if (key && !key.getAttribute('data-status')) {
         key.setAttribute('data-status', 'none');
       }
     }
@@ -96,14 +102,12 @@ const checkGuess = (guess, word) => {
   history.push(guess);
   currentWord = '';
 
-  // 🏁 WIN
   if (guess === word) {
     showMessage('🎉 Genius!');
     gameOver = true;
     return;
   }
 
-  // 💀 LOSS
   if (history.length === MAX_NUMBER_OF_ATTEMPTS) {
     showMessage(`The word was ${word}`);
     gameOver = true;
@@ -111,30 +115,35 @@ const checkGuess = (guess, word) => {
 };
 
 const onKeyboardButtonClick = (e) => {
-  if (gameOver) return; // 🔒 LOCK INPUT
+  if (gameOver) return;
   if (e.target.nodeName === 'LI') {
     onKeyDown(e.target.getAttribute('data-key'));
   }
 };
 
 const onKeyDown = (key) => {
-  if (gameOver) return; // 🔒 LOCK INPUT
+  if (gameOver) return;
 
   const currentRow = document.querySelector(
     `#board ul[data-row='${history.length}']`
   );
 
-  let targetColumn = currentRow.querySelector('[data-status="empty"]');
+  if (!currentRow) return;
 
+  // 🔹 BACKSPACE
   if (key === BACKSPACE_KEY) {
-    targetColumn ??= currentRow.lastChild;
-    targetColumn = targetColumn.previousElementSibling ?? targetColumn;
-    targetColumn.textContent = '';
-    targetColumn.setAttribute('data-status', 'empty');
+    const cells = Array.from(currentRow.children);
+    const lastFilled = [...cells].reverse().find(cell => cell.getAttribute('data-status') === 'filled');
+
+    if (!lastFilled) return;
+
+    lastFilled.textContent = '';
+    lastFilled.setAttribute('data-status', 'empty');
     currentWord = currentWord.slice(0, -1);
     return;
   }
 
+  // 🔹 ENTER
   if (key === ENTER_KEY) {
     if (currentWord.length !== 5) {
       showMessage('Not enough letters');
@@ -144,14 +153,18 @@ const onKeyDown = (key) => {
     return;
   }
 
+  // 🔹 LETTER INPUT
   if (currentWord.length >= 5) return;
 
   const letter = key.toUpperCase();
   if (/^[A-Z]$/.test(letter)) {
+    const emptyCell = Array.from(currentRow.children).find(cell => cell.getAttribute('data-status') === 'empty');
+    if (!emptyCell) return;
+
+    emptyCell.textContent = letter;
+    emptyCell.setAttribute('data-status', 'filled');
+    emptyCell.setAttribute('data-animation', 'pop');
     currentWord += letter;
-    targetColumn.textContent = letter;
-    targetColumn.setAttribute('data-status', 'filled');
-    targetColumn.setAttribute('data-animation', 'pop');
   }
 };
 
@@ -194,4 +207,20 @@ document.addEventListener('DOMContentLoaded', init);
 
 function getRandomIndex(max) {
   return Math.floor(Math.random() * max);
+}
+
+function resetGame() {
+  document.querySelectorAll('#board li').forEach(cell => {
+    cell.textContent = '';
+    cell.setAttribute('data-status', 'empty');
+    cell.setAttribute('data-animation', 'idle');
+  });
+
+  document.querySelectorAll('#keyboard li[data-key]').forEach(key => {
+    key.setAttribute('data-status', '');
+  });
+
+  history.length = 0;
+  currentWord = '';
+  gameOver = false;
 }

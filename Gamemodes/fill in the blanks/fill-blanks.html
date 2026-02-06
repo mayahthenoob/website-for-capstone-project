@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Drop Game</title>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            background-color: #f9f9f9; 
+            padding: 20px; 
+        }
+        .container { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+            max-width: 600px; 
+        }
+        h1, h3 { 
+            text-align: center; 
+            color: #555; 
+        }
+        
+        /* Sentences and Blanks */
+        .sentence { 
+            margin-bottom: 20px; 
+            font-size: 1.1rem; 
+            line-height: 2; 
+        }
+        .drop-zone {
+            display: inline-block;
+            min-width: 120px;
+            height: 25px;
+            border-bottom: 2px solid #333;
+            vertical-align: bottom;
+            margin: 0 5px;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .drop-zone.hovered { 
+            background-color: #e0f7fa; 
+            border-bottom-style: dashed; 
+        }
+        .drop-zone.filled { 
+            border-bottom: none; 
+            background: #eee; 
+            border-radius: 4px; 
+            line-height: 25px; 
+        }
+
+        /* Draggable Words */
+        .word-bank {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            background: #eee;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .word {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: grab;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+            user-select: none;
+        }
+        .word:active { cursor: grabbing; }
+        .word.hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Word Drop Game</h1>
+        <h3>Drag the words into the blanks</h3>
+
+        <div id="sentences-container">
+            <div class="sentence">1. Frank decided to <div class="drop-zone" data-answer="draw"></div> a picture.</div>
+            <div class="sentence">2. Kelley refused to <div class="drop-zone" data-answer="eat"></div> a cookie.</div>
+            <div class="sentence">3. George could not get to <div class="drop-zone" data-answer="sleep"></div> last night.</div>
+            <div class="sentence">4. Jim asked Helen to <div class="drop-zone" data-answer="write"></div> him a letter.</div>
+            <div class="sentence">5. The teacher asked me to <div class="drop-zone" data-answer="raise"></div> my hand.</div>
+            <div class="sentence">6. My mother asked me to <div class="drop-zone" data-answer="run"></div> to the store.</div>
+            <div class="sentence">7. We could not get the kids to <div class="drop-zone" data-answer="sit"></div> still.</div>
+            <div class="sentence">8. John said he wanted to <div class="drop-zone" data-answer="speak"></div> to me.</div>
+        </div>
+
+        <div class="word-bank" id="word-bank">
+        </div>
+    </div>
+
+    <script>
+        const words = ["run", "sit", "speak", "raise", "sleep", "write", "draw", "eat"];
+        const wordBank = document.getElementById('word-bank');
+        const dropZones = document.querySelectorAll('.drop-zone');
+
+        // Initialize Word Bank (Shuffle words)
+        words.sort(() => Math.random() - 0.5).forEach(wordText => {
+            const wordEl = document.createElement('div');
+            wordEl.classList.add('word');
+            wordEl.draggable = true;
+            wordEl.textContent = wordText;
+            wordEl.id = `word-${wordText}`;
+            
+            wordEl.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.id);
+            });
+
+            wordBank.appendChild(wordEl);
+        });
+
+        // Setup Drop Zones
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zone.classList.add('hovered');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('hovered');
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('hovered');
+                
+                const wordId = e.dataTransfer.getData('text/plain');
+                const draggedWord = document.getElementById(wordId);
+
+                // If the drop zone already has a word, return it to the bank
+                if (zone.textContent.trim() !== "") {
+                    const existingWord = document.createElement('div');
+                    existingWord.classList.add('word');
+                    existingWord.draggable = true;
+                    existingWord.textContent = zone.textContent;
+                    existingWord.id = `word-${zone.textContent}`;
+                    existingWord.addEventListener('dragstart', (e) => {
+                        e.dataTransfer.setData('text/plain', e.target.id);
+                    });
+                    wordBank.appendChild(existingWord);
+                }
+
+                // Fill the zone with the new word
+                zone.textContent = draggedWord.textContent;
+                zone.classList.add('filled');
+
+                // Remove dragged word from the bank
+                draggedWord.remove();
+            });
+        });
+    </script>
+</body>
+</html>
