@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Picture Matching Game</title>
+
+<style>
+:root {
+  --curious-blue: #2092e9;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f6ff;
+}
+
+h2 {
+  text-align: center;
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  position: relative;
+  gap: 220px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 32px;
+}
+
+.word {
+  width: 100px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.selected {
+  border-color: var(--curious-blue);
+  background: #e6f0ff;
+}
+
+.locked {
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.connected {
+  color: white;
+}
+
+svg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Completion Screen */
+#completeScreen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.complete-box {
+  background: white;
+  padding: 40px 60px;
+  border-radius: 20px;
+  font-size: 26px;
+  text-align: center;
+  animation: pop 0.5s ease;
+}
+
+.complete-box button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<h2>Match the Picture to the Word</h2>
+
+<div class="game-container">
+  <div class="column" id="pictures">
+    <div class="item" data-value="cat">🐱</div>
+    <div class="item" data-value="bus">🚌</div>
+    <div class="item" data-value="sun">☀️</div>
+    <div class="item" data-value="ear">👂</div>
+    <div class="item" data-value="lips">👄</div>
+  </div>
+
+  <svg id="lines"></svg>
+
+  <div class="column" id="words">
+    <div class="item word" data-value="sun">Sun</div>
+    <div class="item word" data-value="cat">Cat</div>
+    <div class="item word" data-value="ear">Ear</div>
+    <div class="item word" data-value="bus">Bus</div>
+    <div class="item word" data-value="lips">Lips</div>
+  </div>
+</div>
+
+<div id="completeScreen">
+  <div class="complete-box">
+    🎉 Well Done! 🎉<br>
+    All matches completed!
+    <br><br>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+</div>
+
+<script>
+let startItem = null;
+let tempLine = null;
+let matchedCount = 0;
+
+const svg = document.getElementById("lines");
+const completeScreen = document.getElementById("completeScreen");
+
+const colors = [
+  "#2092e9", "#35556e", "#06382f", "#74070e",
+  "#614d70", "#6c7d36", "#ffa858", "#4a4a4a"
+];
+
+let colorIndex = 0;
+
+/* Arrowhead definition */
+svg.innerHTML = `
+<defs>
+  <marker id="arrowhead" markerWidth="10" markerHeight="7"
+    refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="currentColor"/>
+  </marker>
+</defs>
+`;
+
+/* Start arrow from picture */
+document.querySelectorAll("#pictures .item").forEach(pic => {
+  pic.addEventListener("pointerdown", () => {
+    if (pic.classList.contains("locked")) return;
+
+    startItem = pic;
+    pic.classList.add("selected");
+
+    const rect = pic.getBoundingClientRect();
+    const svgRect = svg.getBoundingClientRect();
+
+    const x = rect.right - svgRect.left;
+    const y = rect.top + rect.height / 2 - svgRect.top;
+
+    const color = colors[colorIndex % colors.length];
+
+    tempLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    tempLine.setAttribute("x1", x);
+    tempLine.setAttribute("y1", y);
+    tempLine.setAttribute("x2", x);
+    tempLine.setAttribute("y2", y);
+    tempLine.setAttribute("stroke", color);
+    tempLine.setAttribute("stroke-width", "4");
+    tempLine.setAttribute("marker-end", "url(#arrowhead)");
+    tempLine.style.color = color;
+
+    svg.appendChild(tempLine);
+  });
+});
+
+/* Drag arrow */
+document.addEventListener("pointermove", e => {
+  if (!tempLine) return;
+  const svgRect = svg.getBoundingClientRect();
+  tempLine.setAttribute("x2", e.clientX - svgRect.left);
+  tempLine.setAttribute("y2", e.clientY - svgRect.top);
+});
+
+/* Drop on word */
+document.querySelectorAll("#words .item").forEach(word => {
+  word.addEventListener("pointerup", () => {
+    if (!startItem || !tempLine) return;
+    if (word.classList.contains("locked")) cancelLine();
+
+    const rect = word.getBoundingClientRect();
+    const svgRect = svg.getBoundingClientRect();
+
+    const x2 = rect.left - svgRect.left;
+    const y2 = rect.top + rect.height / 2 - svgRect.top;
+
+    const color = colors[colorIndex % colors.length];
+
+    tempLine.setAttribute("x2", x2);
+    tempLine.setAttribute("y2", y2);
+
+    startItem.classList.add("locked");
+    startItem.style.background = color;
+    startItem.style.borderColor = color;
+    startItem.style.color = "white";
+
+    word.classList.add("locked", "connected");
+    word.style.background = color;
+    word.style.borderColor = color;
+
+    matchedCount++;
+    colorIndex++;
+
+    startItem.classList.remove("selected");
+    startItem = null;
+    tempLine = null;
+
+    if (matchedCount === 5) {
+      setTimeout(() => {
+        completeScreen.style.display = "flex";
+      }, 400);
+    }
+  });
+});
+
+/* Cancel drag */
+document.addEventListener("pointerup", () => {
+  if (tempLine) cancelLine();
+});
+
+function cancelLine() {
+  svg.removeChild(tempLine);
+  startItem.classList.remove("selected");
+  startItem = null;
+  tempLine = null;
+}
+</script>
+
+</body>
+</html>
