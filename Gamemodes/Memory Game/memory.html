@@ -2,15 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Game</title>
+    <title>Document</title>
     <link rel="stylesheet" href="memory.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <div id="card_bx"></div>
+    <div class="game_container">
+        <div class="title">Memory Game</div>
+        <div class="game_grid">
+
+        </div>
+        <div class="game_info">
+            <p>Moves: <span id="move_counter">0</span></p>
+            <p>Time: <span id="timer">00:00</span></p>
+        </div>
+        <button id="restart_btn">Restart Game</button>
+    </div>
 
     <script src="memory.js"></script>
 </body>
