@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Drag & Drop – Glass Quiz</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #2b1055, #7597de);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+  }
+
+  .game {
+    width: 650px;
+    padding: 35px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+
+  .sentence {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  .blank {
+    display: inline-block;
+    min-width: 280px;
+    padding: 10px;
+    border: 2px dashed rgba(255,255,255,0.8);
+    border-radius: 10px;
+    margin: 0 8px;
+  }
+
+  .blank.over {
+    background: rgba(255,255,255,0.25);
+  }
+
+  .words {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+
+  .word {
+    background: rgba(0,0,0,0.35);
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.2s;
+  }
+
+  .word:hover {
+    transform: scale(1.05);
+  }
+
+  .word.dragging {
+    opacity: 0.5;
+  }
+
+  .feedback {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+
+  button {
+    margin-top: 25px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #ff79c6;
+    color: black;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="game">
+  <div class="sentence" id="sentence"></div>
+
+  <div class="words" id="words"></div>
+
+  <div class="feedback" id="feedback"></div>
+  <button onclick="nextQuestion()">Next Question</button>
+</div>
+
+<script>
+const questions = [
+  {
+    text: "Plants require <span class='blank' id='blank'></span> for photosynthesis.",
+    words: ["sunlight", "water", "carbon dioxide"],
+    answer: "sunlight water carbon dioxide"
+  },
+  {
+    text: "The Earth revolves around the <span class='blank' id='blank'></span>.",
+    words: ["Sun", "Moon", "Mars"],
+    answer: "Sun"
+  },
+  {
+    text: "Water freezes at <span class='blank' id='blank'></span> degrees Celsius.",
+    words: ["0", "50", "100"],
+    answer: "0"
+  }
+];
+
+let current = 0;
+let droppedWords = [];
+
+const sentenceEl = document.getElementById("sentence");
+const wordsEl = document.getElementById("words");
+const feedback = document.getElementById("feedback");
+
+function loadQuestion() {
+  droppedWords = [];
+  feedback.textContent = "";
+  sentenceEl.innerHTML = questions[current].text;
+  wordsEl.innerHTML = "";
+
+  questions[current].words.forEach(word => {
+    const div = document.createElement("div");
+    div.className = "word";
+    div.textContent = word;
+    div.draggable = true;
+
+    div.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("text", word);
+      div.classList.add("dragging");
+    });
+
+    div.addEventListener("dragend", () => {
+      div.classList.remove("dragging");
+    });
+
+    wordsEl.appendChild(div);
+  });
+
+  const blank = document.getElementById("blank");
+
+  blank.addEventListener("dragover", e => {
+    e.preventDefault();
+    blank.classList.add("over");
+  });
+
+  blank.addEventListener("dragleave", () => {
+    blank.classList.remove("over");
+  });
+
+  blank.addEventListener("drop", e => {
+    e.preventDefault();
+    blank.classList.remove("over");
+
+    const word = e.dataTransfer.getData("text");
+    if (!droppedWords.includes(word)) {
+      droppedWords.push(word);
+      blank.textContent = droppedWords.join(" ");
+    }
+
+    checkAnswer();
+  });
+}
+
+function checkAnswer() {
+  const answer = droppedWords.join(" ");
+  if (answer === questions[current].answer) {
+    feedback.textContent = "✅ Correct!";
+    feedback.style.color = "#50fa7b";
+  } else {
+    feedback.textContent = "❌ Try again.";
+    feedback.style.color = "#ff5555";
+  }
+}
+
+function nextQuestion() {
+  current = (current + 1) % questions.length;
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
