@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Drag & Drop – Glass Quiz</title>
+
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f0f0; /* Lighter background to contrast the white cards */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #555;
+  }
+
+  .container {
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Main Question Card */
+  .question-card {
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 60px 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .q-number {
+    font-size: 80px;
+    color: #444;
+    margin-right: 40px;
+    font-weight: 400;
+  }
+
+  .sentence {
+    font-size: 38px;
+    color: #555;
+    line-height: 1.2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  /* The Blank Line */
+  .blank {
+    display: inline-block;
+    min-width: 150px;
+    border-bottom: 4px solid #666;
+    text-align: center;
+    color: #222;
+    height: 45px;
+    vertical-align: bottom;
+  }
+
+  .blank.over {
+    background: #f9f9f9;
+    border-bottom-color: #ff79c6;
+  }
+
+  /* Answer Buttons Layout */
+  .words-section {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  /* Answer Pill Styles */
+  .word {
+    background: white;
+    color: #333;
+    padding: 12px 40px;
+    border-radius: 12px;
+    cursor: grab;
+    user-select: none;
+    font-size: 18px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+  }
+
+  .word:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+
+  .word.dragging {
+    opacity: 0.3;
+  }
+
+  button#next-btn {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    background: #444;
+    color: white;
+    font-weight: bold;
+    align-self: flex-end;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="question-card">
+    <div class="q-number" id="q-num">1</div>
+    <div class="sentence" id="sentence-container">
+      </div>
+  </div>
+
+  <div class="words-section" id="words">
+    </div>
+
+  <button id="next-btn" onclick="nextQuestion()">Next Question &rarr;</button>
+</div>
+
+<script>
+const questions = [
+  {
+    text: "Plants require _______ for photosynthesis",
+    answer: "sunlight",
+    options: ["sunlight", "carbon dioxide", "oxygen", "gluten", "water"]
+  },
+  {
+    text: "The Earth revolves around the _______",
+    answer: "Sun",
+    options: ["Sun", "Moon", "Mars", "Jupiter", "Saturn"]
+  }
+];
+
+let current = 0;
+
+function loadQuestion() {
+  const q = questions[current];
+  document.getElementById("q-num").textContent = current + 1;
+  
+  const sentenceContainer = document.getElementById("sentence-container");
+  const wordsEl = document.getElementById("words");
+  
+  // Clear previous
+  sentenceContainer.innerHTML = "";
+  wordsEl.innerHTML = "";
+
+  // Split text to find where the blank goes
+  const parts = q.text.split("_______");
+  
+  sentenceContainer.appendChild(document.createTextNode(parts[0]));
+  
+  const blank = document.createElement("span");
+  blank.className = "blank";
+  blank.id = "drop-zone";
+  
+  blank.addEventListener("dragover", e => {
+    e.preventDefault();
+    blank.classList.add("over");
+  });
+
+  blank.addEventListener("dragleave", () => {
+    blank.classList.remove("over");
+  });
+
+  blank.addEventListener("drop", e => {
+    e.preventDefault();
+    blank.classList.remove("over");
+    const word = e.dataTransfer.getData("text");
+    blank.textContent = word;
+    blank.style.borderBottom = "none"; // Hide line when filled
+  });
+
+  sentenceContainer.appendChild(blank);
+  sentenceContainer.appendChild(document.createTextNode(parts[1]));
+
+  // Create word pills
+  q.options.forEach(word => {
+    const div = document.createElement("div");
+    div.className = "word";
+    div.textContent = word;
+    div.draggable = true;
+
+    div.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("text", word);
+      div.classList.add("dragging");
+    });
+
+    div.addEventListener("dragend", () => {
+      div.classList.remove("dragging");
+    });
+
+    wordsEl.appendChild(div);
+  });
+}
+
+function nextQuestion() {
+  current = (current + 1) % questions.length;
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
