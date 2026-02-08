@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Reset and Global Styles */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+footer .container {
+    background-color: #444444; /* Dark grey to match screenshot */
+    padding-bottom: 20px;
+}
+
+/* --- NEW HEADER SECTION --- */
+.footer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 100px 15px 100px;
+}
+
+.footer-logo h2 {
+    color: white;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+/* Social Icon Circles */
+.social-links {
+    display: flex;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    margin-left: 15px;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: white;
+    color: #444444;
+}
+
+/* --- DIVIDER LINE --- */
+.header-line {
+    margin: 0 100px;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    opacity: 1;
+}
+
+/* --- FOOTER COLUMNS SECTION --- */
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 100px;
+}
+
+.footer-col {
+    flex-basis: 25%;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col h4 {
+    color: white;
+    margin-bottom: 25px;
+    font-size: 22px;
+    position: relative;
+}
+
+/* The pink underline effect from your original code */
+.footer-col h4::before {
+    content: '';
+    width: 70px;
+    height: 2px;
+    position: absolute;
+    background-color: #e91e64;
+    bottom: -10px;
+}
+
+.footer-col ul li {
+    padding: 10px 0;
+}
+
+.footer-col ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    opacity: 0.7;
+    transition: 0.5s;
+}
+
+.footer-col ul li a:hover {
+    opacity: 1;
+    padding-left: 5px; /* Subtle movement on hover */
+}
+
+/* --- BOTTOM BAR --- */
+.bottom-bar {
+    padding: 0 100px 20px 100px;
+    margin-top: -10px;
+}
+
+.col p {
+    color: white;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 800px) {
+    .footer-header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 30px 20px 10px 20px;
+        text-align: center;
+    }
+
+    .header-line, .row, .bottom-bar {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .footer-col {
+        margin-bottom: 30px;
+    }
+
+    .social-links a {
+        margin: 0 7px;
+    }
+}
