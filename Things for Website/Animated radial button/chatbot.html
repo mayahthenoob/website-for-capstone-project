@@ -346,7 +346,7 @@ function addMessage(text, sender) {
 
 function botReply(message) {
   const msg = message.toLowerCase();
-  if (msg.includes("hi") || msg.includes("hello")) return "Hello, I am bot";
+  if (msg.includes("hi") || msg.includes("hello")) return "Hello";
   if (msg.includes("are you well") || msg.includes("doing well")) return "Yes, I am. Thanks for asking";
   if (msg.includes("how are you")) return "I am fine";
   if (msg.includes("your name")) return "My name is bot";
@@ -354,6 +354,7 @@ function botReply(message) {
   if (msg.includes("date")) return "Today is " + new Date().toLocaleDateString();
   if (msg.includes("joke")) return "Why don't programmers like nature? Because there are too many bugs";
   if (msg.includes("bye")) return "Bye, have a good day";
+  if (msg.includes("what is this project about") || msg.includes("What is this project about?")) return "This project is about implementing lessons we students learnt from TAMCC to make apps and websites";
   return "Sorry, I don't understand";
 }
 
