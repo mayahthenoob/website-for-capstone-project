@@ -1,0 +1,3 @@
+when a picture is placed on top another make it go back to the pic box
+add a function that shows what the original pic looks like when it is put together properly
+and one for when its just put together

@@ -14,3 +14,6 @@ to press to go right
 <i class='bx bxs-chevrons-right'></i>
 
 allow enemy car to drive in the middle too
+
+add corners and stuff
+put a horn and lights

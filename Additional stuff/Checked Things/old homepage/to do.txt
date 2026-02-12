@@ -1,0 +1,2 @@
+add this to homepage to showcase the quiz game modes
+make the text that is not hidden from view when not hovered view able

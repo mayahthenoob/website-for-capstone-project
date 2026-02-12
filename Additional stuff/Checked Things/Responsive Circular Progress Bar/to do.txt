@@ -1,0 +1,4 @@
+remove the part that makes the circular bars increase or zoom in over hover
+add the review button and statistics button on the page 
+review to see questions and what you chose or put and the write answer
+statistics to see time, streak and  

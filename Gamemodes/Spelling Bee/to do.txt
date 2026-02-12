@@ -1,0 +1,4 @@
+change the looks of this replace the logo for it make a favicon for all game modes 
+change the voice of the speaker
+when you enter the quiz let the speaker say the first word to spell and then next instead of generate
+remove the announcement that keeps telling you what word you were supposed to spell and if you spelt it correctly
