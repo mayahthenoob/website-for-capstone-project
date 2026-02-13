@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
     padding: 0;
@@ -8,13 +8,61 @@
 }
 
 footer .container {
-    background-color: black;
+    background-color: black; 
+    padding-bottom: 20px;
+}
+
+.footer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 100px 15px 100px;
+}
+
+.footer-logo h2 {
+    color: white;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.social-links {
+    display: flex;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: 2px solid white;
+    margin-left: 15px;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: white;
+    color: #444444;
+}
+
+.header-line {
+    border-top: 3px solid #fff;
+    margin: 0 100px;
 }
 
 .row {
     display: flex;
     justify-content: space-between;
     padding: 40px 100px;
+}
+
+.footer-col {
+    flex-basis: 25%;
 }
 
 .footer-col ul {
@@ -51,24 +99,47 @@ footer .container {
 
 .footer-col ul li a:hover {
     opacity: 1;
+    padding-left: 5px; 
+}
+
+.bottom-bar {
+    padding: 20px 100px 20px 100px;
+    border-top: 5px solid #fff;
+    text-align: center; 
+    margin-top: 0; 
 }
 
 .col p {
     color: white;
+    font-size: 16px;
+    margin: 0;
 }
 
-.row hr {
-    opacity: 0.7;
-}
-
-@media (max-width: 600px) {
-    footer .row {
+/* Responsive adjustments */
+@media (max-width: 800px) {
+    .footer-header {
         flex-direction: column;
-        padding: 20px 30px;
+        gap: 20px;
+        padding: 30px 20px 10px 20px;
+        text-align: center;
     }
 
-    footer .footer-col ul {
+    .header-line, .row, .bottom-bar {
         margin-left: 20px;
-        margin-bottom: 20px;
+        margin-right: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .footer-col {
+        margin-bottom: 30px;
+    }
+
+    .social-links a {
+        margin: 0 7px;
     }
 }
