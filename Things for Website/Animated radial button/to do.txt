@@ -5,3 +5,4 @@ change the format in which the time and date shows
 make it show like day of the week the date and year
 eg (date) Thursday 5th, 2026
 eg (time) 8:53 am or pm
+

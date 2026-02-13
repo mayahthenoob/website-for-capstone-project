@@ -15,7 +15,6 @@
     align-items: center;
     height: 100vh;
   }
-  /* CHAT CONTAINER */
   .chat-container {
     width: 400px;
     height: 600px;
@@ -28,7 +27,6 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  /* HEADER */
   .chat-header {
     height: 55px;
     background: rgba(0, 0, 0, 0.3);
@@ -51,14 +49,10 @@
     border-radius: 50%;
     object-fit: cover;
   }
-
-  /* 3 DOT MENU ICON */
   #menuBtn {
     font-size: 28px;
     cursor: pointer;
   }
-
-  /* DROPDOWN MENU */
   .dropdown-menu {
     position: absolute;
     top: 55px;
@@ -83,14 +77,8 @@
     font-size: 14px;
     transition: background 0.2s ease;
   }
-  .dropdown-item:hover {
-    background: rgba(255,255,255,0.1);
-  }
-  .dropdown-item i {
-    font-size: 18px;
-  }
-
-  /* CHAT BODY */
+  .dropdown-item:hover { background: rgba(255,255,255,0.1); }
+  .dropdown-item i { font-size: 18px; }
   .chat-body {
     flex: 1;
     background: rgba(255, 255, 255, 0.1);
@@ -98,20 +86,57 @@
     padding: 10px;
     overflow-y: auto;
     color: white;
-  }
-  .message {
-    margin: 8px 0;
-  }
-  .user {
-    text-align: right;
-    color: #fff;
-  }
-  .bot {
-    text-align: left;
-    color: #00ffcc;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* INPUT */
+  /* Chat bubbles */
+  .message {
+    margin: 8px 0;
+    max-width: 75%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    word-wrap: break-word;
+    display: inline-block;
+    position: relative;
+  }
+  /* User bubble */
+  .user {
+    background: #1e90ff;
+    color: white;
+    align-self: flex-end;
+    text-align: right;
+    border-bottom-right-radius: 0;
+  }
+  .user::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid #1e90ff;
+    border-left: 8px solid transparent;
+  }
+  /* Bot bubble */
+  .bot {
+    background: #00ffcc;
+    color: #111;
+    align-self: flex-start;
+    text-align: left;
+    border-bottom-left-radius: 0;
+  }
+  .bot::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid #00ffcc;
+    border-right: 8px solid transparent;
+  }
+
   .chat-input {
     height: 55px;
     background: rgba(0, 0, 0, 0.3);
@@ -122,11 +147,7 @@
     position: relative;
     backdrop-filter: blur(10px);
   }
-  .chat-input i {
-    color: white;
-    font-size: 22px;
-    cursor: pointer;
-  }
+  .chat-input i { color: white; font-size: 22px; cursor: pointer; }
   .chat-input input {
     flex: 1;
     height: 36px;
@@ -139,11 +160,7 @@
     color: white;
     backdrop-filter: blur(5px);
   }
-  .chat-input input::placeholder {
-    color: rgba(255,255,255,0.7);
-  }
-
-  /* EMOJI PICKER */
+  .chat-input input::placeholder { color: rgba(255,255,255,0.7); }
   .emoji-picker {
     position: absolute;
     bottom: 60px;
@@ -158,17 +175,10 @@
     gap: 10px;
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
     overflow-y: auto;
-    display: none; /* hidden by default */
+    display: none;
     z-index: 100;
   }
-  .emoji-item {
-    font-size: 28px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
+  .emoji-item { font-size: 28px; cursor: pointer; display: flex; justify-content: center; align-items: center; position: relative; }
   .emoji-item .tooltip-text {
     position: absolute;
     bottom: 100%;
@@ -183,40 +193,23 @@
     pointer-events: none;
     white-space: nowrap;
   }
-  .emoji-item:hover .tooltip-text {
-    opacity: 1;
-    transform: translateY(-18px);
-  }
-
-  /* VOICE ANIMATION on mic icon when speaking */
+  .emoji-item:hover .tooltip-text { opacity: 1; transform: translateY(-18px); }
   @keyframes voicePulse {
-    0%, 100% {
-      transform: scale(1);
-      color: #fff;
-      text-shadow: none;
-    }
-    50% {
-      transform: scale(1.2);
-      color: #00ffcc;
-      text-shadow: 0 0 8px #00ffcc;
-    }
+    0%, 100% { transform: scale(1); color: #fff; text-shadow: none; }
+    50% { transform: scale(1.2); color: #00ffcc; text-shadow: 0 0 8px #00ffcc; }
   }
-  .speaking {
-    animation: voicePulse 1s infinite;
-  }
+  .speaking { animation: voicePulse 1s infinite; }
 </style>
 </head>
 <body>
 
 <div class="chat-container">
-
   <!-- HEADER -->
   <div class="chat-header">
     <div class="header-left">
       <img src="chatbot-pic.png" alt="Profile" class="profile-image" />
       <span>Bot</span>
     </div>
-    <!-- 3 dot menu icon -->
     <i class='bx bx-dots-vertical-rounded' id="menuBtn"></i>
 
     <!-- DROPDOWN MENU -->
@@ -267,6 +260,7 @@
 </div>
 
 <script>
+// ===== ELEMENTS =====
 const emojiBtn = document.getElementById('emoji-btn');
 const emojiPicker = document.getElementById('emoji-picker');
 const chatInput = document.getElementById('chat-input');
@@ -283,137 +277,121 @@ const settingsBtn = document.getElementById('settings');
 let usedMic = false;
 let muted = false;
 
-// EMOJI PICKER toggle
-emojiBtn.addEventListener('click', () => {
-  emojiPicker.style.display = emojiPicker.style.display === 'grid' ? 'none' : 'grid';
-});
+// ===== TIME & DATE =====
+function formatTime() {
+  const now = new Date();
+  let hours = now.getHours();
+  const minutes = now.getMinutes().toString().padStart(2,'0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+  return `${hours}:${minutes} ${ampm}`;
+}
+function getOrdinal(n) {
+  if(n>3 && n<21) return 'th';
+  switch(n%10){ case 1: return 'st'; case 2: return 'nd'; case 3: return 'rd'; default: return 'th'; }
+}
+function formatDate() {
+  const now = new Date();
+  const dayName = now.toLocaleString('en-US',{weekday:'long'});
+  const day = now.getDate();
+  const month = now.toLocaleString('en-US',{month:'long'});
+  const year = now.getFullYear();
+  return `${dayName} ${day}${getOrdinal(day)}, ${month} ${year}`;
+}
 
-// Add emoji to input
-document.querySelectorAll('.emoji-item').forEach(item => {
-  item.addEventListener('click', () => {
-    chatInput.value += item.getAttribute('data-emoji');
-    emojiPicker.style.display = 'none';
+// ===== EMOJI PICKER =====
+emojiBtn.addEventListener('click',()=>{emojiPicker.style.display=emojiPicker.style.display==='grid'?'none':'grid';});
+document.querySelectorAll('.emoji-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    chatInput.value+=item.getAttribute('data-emoji');
+    emojiPicker.style.display='none';
     chatInput.focus();
   });
 });
-
-// Close emoji picker if clicking outside
-document.addEventListener('click', (e) => {
-  if (!emojiPicker.contains(e.target) && !emojiBtn.contains(e.target)) {
-    emojiPicker.style.display = 'none';
-  }
+document.addEventListener('click',e=>{
+  if(!emojiPicker.contains(e.target)&&!emojiBtn.contains(e.target)) emojiPicker.style.display='none';
 });
 
-// Toggle dropdown menu on 3-dot menu click
-menuBtn.addEventListener('click', e => {
-  e.stopPropagation(); // Prevent closing immediately
-  dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
+// ===== DROPDOWN MENU =====
+menuBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  dropdownMenu.style.display=dropdownMenu.style.display==='flex'?'none':'flex';
 });
+document.addEventListener('click',()=>{dropdownMenu.style.display='none';});
+clearChatBtn.addEventListener('click',()=>{chatBody.innerHTML='';dropdownMenu.style.display='none';});
+muteChatBtn.addEventListener('click',()=>{
+  muted=!muted;
+  muteChatBtn.textContent=muted?"Unmute Chatbot":"Mute Chatbot";
+  muteChatBtn.prepend(document.createElement('i')).className=muted?'bx bx-volume-mute':'bx bx-volume-full';
+  dropdownMenu.style.display='none';
+});
+learnMoreBtn.addEventListener('click',()=>{alert("This is a simple chatbot demo with emoji picker and voice recognition.");dropdownMenu.style.display='none';});
+settingsBtn.addEventListener('click',()=>{alert("Settings feature is not implemented yet.");dropdownMenu.style.display='none';});
 
-// Close dropdown when clicking outside
-document.addEventListener('click', () => {
-  dropdownMenu.style.display = 'none';
-});
-
-// Dropdown options functionality
-clearChatBtn.addEventListener('click', () => {
-  chatBody.innerHTML = '';
-  dropdownMenu.style.display = 'none';
-});
-muteChatBtn.addEventListener('click', () => {
-  muted = !muted;
-  muteChatBtn.textContent = muted ? "Unmute Chatbot" : "Mute Chatbot";
-  muteChatBtn.prepend(document.createElement('i')).className = muted ? 'bx bx-volume-mute' : 'bx bx-volume-full';
-  dropdownMenu.style.display = 'none';
-});
-learnMoreBtn.addEventListener('click', () => {
-  alert("This is a simple chatbot demo with emoji picker and voice recognition.");
-  dropdownMenu.style.display = 'none';
-});
-settingsBtn.addEventListener('click', () => {
-  alert("Settings feature is not implemented yet.");
-  dropdownMenu.style.display = 'none';
-});
-
-// CHATBOT FUNCTIONS
-function addMessage(text, sender) {
-  const msg = document.createElement('div');
-  msg.classList.add('message', sender);
-  msg.textContent = text;
+// ===== CHAT FUNCTIONS =====
+function addMessage(text,sender){
+  const msg=document.createElement('div');
+  msg.classList.add('message',sender);
+  msg.textContent=text;
   chatBody.appendChild(msg);
-  chatBody.scrollTop = chatBody.scrollHeight;
+  chatBody.scrollTop=chatBody.scrollHeight;
 }
-
-function botReply(message) {
-  const msg = message.toLowerCase();
-  if (msg.includes("hi") || msg.includes("hello")) return "Hello";
-  if (msg.includes("are you well") || msg.includes("doing well")) return "Yes, I am. Thanks for asking";
-  if (msg.includes("how are you")) return "I am fine";
-  if (msg.includes("your name")) return "My name is bot";
-  if (msg.includes("time")) return "The time is " + new Date().toLocaleTimeString();
-  if (msg.includes("date")) return "Today is " + new Date().toLocaleDateString();
-  if (msg.includes("joke")) return "Why don't programmers like nature? Because there are too many bugs";
-  if (msg.includes("bye")) return "Bye, have a good day";
-  if (msg.includes("project about") || msg.includes("about project?")) return "This project is about implementing lessons we students learnt from TAMCC to make apps and websites";
-  if (msg.includes("programming languages used")) return "The programming languages used in this website are HTML, CSS, JS and PHP";
-  if (msg.includes("what is the full name of the programming languages?")) return "HTML (Hypertext Markup Language), CSS (Cascading Style Sheet), JS (JavaScript) and PHP (Hypertext Preprocessor)";
-  if (msg.includes("is this a group project")) return "Yes, this is a group project";
+function botReply(message){
+  const msg=message.toLowerCase();
+  if(msg.includes("hi")||msg.includes("hello")) return "Hello";
+  if(msg.includes("are you well")||msg.includes("doing well")) return "Yes, I am. Thanks for asking";
+  if(msg.includes("how are you")) return "I am fine";
+  if(msg.includes("your name")) return "My name is bot";
+  if(msg.includes("time")) return "The time is "+formatTime();
+  if(msg.includes("date")) return "Today is "+formatDate();
+  if(msg.includes("joke")) return "Why don't programmers like nature? Because there are too many bugs";
+  if(msg.includes("bye")) return "Bye, have a good day";
+  if(msg.includes("project about")||msg.includes("about project?")) return "This project is about implementing lessons we students learnt from TAMCC to make apps and websites";
+  if(msg.includes("programming languages used")) return "The programming languages used in this website are HTML, CSS, JS and PHP";
+  if(msg.includes("what is the full name of the programming languages?")) return "HTML (Hypertext Markup Language), CSS (Cascading Style Sheet), JS (JavaScript) and PHP (Hypertext Preprocessor)";
+  if(msg.includes("is this a group project")) return "Yes, this is a group project";
   return "Sorry, I don't understand";
 }
 
-// TEXT INPUT enter key send
-chatInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && chatInput.value.trim()) {
-    usedMic = false;
-    const text = chatInput.value;
-    addMessage(text, 'user');
-    chatInput.value = '';
-    setTimeout(() => {
-      const reply = botReply(text);
-      addMessage(reply, 'bot');
-      if (!muted && !usedMic) speak(reply);
-    }, 500);
+// ===== INPUT =====
+chatInput.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&chatInput.value.trim()){
+    usedMic=false;
+    const text=chatInput.value;
+    addMessage(text,'user');
+    chatInput.value='';
+    setTimeout(()=>{
+      const reply=botReply(text);
+      addMessage(reply,'bot');
+      if(!muted&&!usedMic) speak(reply);
+    },500);
   }
 });
 
-// SPEECH RECOGNITION & SYNTHESIS
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-if (SpeechRecognition) {
-  const recognition = new SpeechRecognition();
-  recognition.lang = "en-US";
-
-  micBtn.onclick = () => {
-    usedMic = true;
-    recognition.start();
+// ===== SPEECH RECOGNITION & SYNTHESIS =====
+const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(SpeechRecognition){
+  const recognition=new SpeechRecognition();
+  recognition.lang="en-US";
+  micBtn.onclick=()=>{usedMic=true;recognition.start();};
+  recognition.onresult=e=>{
+    const speech=e.results[0][0].transcript;
+    addMessage(speech,'user');
+    setTimeout(()=>{
+      const reply=botReply(speech);
+      addMessage(reply,'bot');
+      if(!muted&&usedMic) speak(reply);
+    },500);
   };
+}else{micBtn.onclick=()=>alert("Speech recognition not supported");}
 
-  recognition.onresult = e => {
-    const speech = e.results[0][0].transcript;
-    addMessage(speech, 'user');
-
-    setTimeout(() => {
-      const reply = botReply(speech);
-      addMessage(reply, 'bot');
-      if (!muted && usedMic) speak(reply);
-    }, 500);
-  };
-} else {
-  micBtn.onclick = () => alert("Speech recognition not supported");
-}
-
-// VOICE SYNTHESIS with mic animation
-function speak(text) {
-  if (!window.speechSynthesis) return;
-
+// ===== VOICE SYNTHESIS =====
+function speak(text){
+  if(!window.speechSynthesis) return;
   micBtn.classList.add('speaking');
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "en-US";
-
-  utterance.onend = () => {
-    micBtn.classList.remove('speaking');
-  };
-
+  const utterance=new SpeechSynthesisUtterance(text);
+  utterance.lang="en-US";
+  utterance.onend=()=>{micBtn.classList.remove('speaking');};
   window.speechSynthesis.speak(utterance);
 }
 </script>
