@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chatbot</title>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -10,9 +10,6 @@
   body {
     margin: 0;
     background: #111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
   }
   .chat-container {
@@ -26,6 +23,10 @@
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    position: absolute; /* draggable */
+    top: 50px;
+    left: 50px;
+    z-index: 100;
   }
   .chat-header {
     height: 55px;
@@ -37,6 +38,7 @@
     backdrop-filter: blur(10px);
     justify-content: space-between;
     position: relative;
+    cursor: move; /* draggable cursor */
   }
   .header-left {
     display: flex;
@@ -53,10 +55,10 @@
     font-size: 28px;
     cursor: pointer;
   }
+
+  /* DROPDOWN MENU */
   .dropdown-menu {
-    position: absolute;
-    top: 55px;
-    right: 15px;
+    position: fixed; /* changed from absolute */
     background: rgba(0,0,0,0.8);
     backdrop-filter: blur(10px);
     border-radius: 10px;
@@ -65,7 +67,7 @@
     width: 160px;
     display: none;
     flex-direction: column;
-    z-index: 150;
+    z-index: 9999; /* high z-index to appear in front */
   }
   .dropdown-item {
     display: flex;
@@ -79,6 +81,7 @@
   }
   .dropdown-item:hover { background: rgba(255,255,255,0.1); }
   .dropdown-item i { font-size: 18px; }
+
   .chat-body {
     flex: 1;
     background: rgba(255, 255, 255, 0.1);
@@ -100,7 +103,6 @@
     display: inline-block;
     position: relative;
   }
-  /* User bubble */
   .user {
     background: #1e90ff;
     color: white;
@@ -118,7 +120,6 @@
     border-top: 8px solid #1e90ff;
     border-left: 8px solid transparent;
   }
-  /* Bot bubble */
   .bot {
     background: #00ffcc;
     color: #111;
@@ -161,6 +162,7 @@
     backdrop-filter: blur(5px);
   }
   .chat-input input::placeholder { color: rgba(255,255,255,0.7); }
+
   .emoji-picker {
     position: absolute;
     bottom: 60px;
@@ -203,7 +205,7 @@
 </head>
 <body>
 
-<div class="chat-container">
+<div class="chat-container" id="chatContainer">
   <!-- HEADER -->
   <div class="chat-header">
     <div class="header-left">
@@ -211,22 +213,6 @@
       <span>Bot</span>
     </div>
     <i class='bx bx-dots-vertical-rounded' id="menuBtn"></i>
-
-    <!-- DROPDOWN MENU -->
-    <div class="dropdown-menu" id="dropdownMenu">
-      <div class="dropdown-item" id="clearChat">
-        <i class='bx bx-cloud-snow'></i> Clear Chat
-      </div>
-      <div class="dropdown-item" id="muteChat">
-        <i class='bx bx-volume-mute'></i> Mute Chatbot
-      </div>
-      <div class="dropdown-item" id="learnMore">
-        <i class='bx bx-info-circle'></i> Learn More
-      </div>
-      <div class="dropdown-item" id="settings">
-        <i class='bx bx-cog'></i> Settings
-      </div>
-    </div>
   </div>
 
   <!-- CHAT BODY -->
@@ -256,6 +242,22 @@
       <div class="emoji-item" data-emoji="⚾"><span class="tooltip-text">baseball</span>⚾</div>
       <div class="emoji-item" data-emoji="🚪"><span class="tooltip-text">closet</span>🚪</div>
     </div>
+  </div>
+</div>
+
+<!-- DROPDOWN MENU MOVED OUTSIDE -->
+<div class="dropdown-menu" id="dropdownMenu">
+  <div class="dropdown-item" id="clearChat">
+    <i class='bx bx-cloud-snow'></i> Clear Chat
+  </div>
+  <div class="dropdown-item" id="muteChat">
+    <i class='bx bx-volume-mute'></i> Mute Chatbot
+  </div>
+  <div class="dropdown-item" id="learnMore">
+    <i class='bx bx-info-circle'></i> Learn More
+  </div>
+  <div class="dropdown-item" id="settings">
+    <i class='bx bx-cog'></i> Settings
   </div>
 </div>
 
@@ -313,9 +315,12 @@ document.addEventListener('click',e=>{
 });
 
 // ===== DROPDOWN MENU =====
-menuBtn.addEventListener('click',e=>{
+menuBtn.addEventListener('click', e => {
   e.stopPropagation();
-  dropdownMenu.style.display=dropdownMenu.style.display==='flex'?'none':'flex';
+  const rect = menuBtn.getBoundingClientRect();
+  dropdownMenu.style.top = rect.bottom + 'px';
+  dropdownMenu.style.left = rect.right - dropdownMenu.offsetWidth + 'px';
+  dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
 });
 document.addEventListener('click',()=>{dropdownMenu.style.display='none';});
 clearChatBtn.addEventListener('click',()=>{chatBody.innerHTML='';dropdownMenu.style.display='none';});
@@ -348,7 +353,7 @@ function botReply(message){
   if(msg.includes("bye")) return "Bye, have a good day";
   if(msg.includes("project about")||msg.includes("about project?")) return "This project is about implementing lessons we students learnt from TAMCC to make apps and websites";
   if(msg.includes("programming languages used")) return "The programming languages used in this website are HTML, CSS, JS and PHP";
-  if(msg.includes("what is the full name of the programming languages?")) return "HTML (Hypertext Markup Language), CSS (Cascading Style Sheet), JS (JavaScript) and PHP (Hypertext Preprocessor)";
+  if(msg.includes("what is the full name of the programming languages")) return "HTML (Hypertext Markup Language), CSS (Cascading Style Sheet), JS (JavaScript) and PHP (Hypertext Preprocessor)";
   if(msg.includes("is this a group project")) return "Yes, this is a group project";
   return "Sorry, I don't understand";
 }
@@ -394,6 +399,28 @@ function speak(text){
   utterance.onend=()=>{micBtn.classList.remove('speaking');};
   window.speechSynthesis.speak(utterance);
 }
+
+// ===== DRAGGABLE CHAT CONTAINER =====
+const chatContainer = document.getElementById('chatContainer');
+const header = document.querySelector('.chat-header');
+
+let offsetX = 0, offsetY = 0, isDragging = false;
+
+header.addEventListener('mousedown', e => {
+  isDragging = true;
+  const rect = chatContainer.getBoundingClientRect();
+  offsetX = e.clientX - rect.left;
+  offsetY = e.clientY - rect.top;
+  chatContainer.style.zIndex = 200;
+});
+
+document.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  chatContainer.style.left = (e.clientX - offsetX) + 'px';
+  chatContainer.style.top = (e.clientY - offsetY) + 'px';
+});
+
+document.addEventListener('mouseup', () => { isDragging = false; });
 </script>
 </body>
 </html>
