@@ -39,12 +39,12 @@ body {
 .sidebar .menu-toggle {
   font-size: 26px;
   color: #fff;
-  padding: 0 20px 40px 20px; /* Increased bottom padding to push items down */
+  padding: 0 20px 40px 20px; 
   cursor: pointer;
 }
 
 .nav-container {
-  margin-top: 20px; /* Moves the list items further down */
+  margin-top: 20px; 
 }
 
 .nav-item {
@@ -108,7 +108,6 @@ body {
   align-items: center;
 }
 
-/* Profile Dropdown Container */
 .profile-container {
   position: relative;
 }
@@ -139,7 +138,6 @@ body {
   color: #333;
 }
 
-/* The actual Dropdown Menu */
 .dropdown-menu {
   position: absolute;
   top: 110%;
@@ -149,7 +147,7 @@ body {
   border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   border: 1px solid #eee;
-  display: none; /* Hidden by default */
+  display: none; 
   flex-direction: column;
   padding: 10px 0;
   z-index: 1000;
@@ -269,7 +267,6 @@ function toggleDropdown() {
   document.getElementById("profileDropdown").classList.toggle("show");
 }
 
-// Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.closest('.profile-container')) {
     var dropdowns = document.getElementsByClassName("dropdown-menu");
