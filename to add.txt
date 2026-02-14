@@ -1,0 +1,6 @@
+<i class='bx bx-volume-full'></i> make this show together with unmute
+
+add these to settings
+icon					display name
+<i class='bx bx-microphone-off'></i> turn off mic
+<i class='bx bx-user-voice'></i> change bot voice voice
