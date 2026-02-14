@@ -1,80 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="dashboard.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  background: #f4f6f9;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 220px;
+  background: #1e2a3a;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  color: #9aa5b1;
+  transition: width 0.3s;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar .menu-toggle {
+  font-size: 26px;
+  color: #fff;
+  padding: 0 20px 40px 20px; /* Increased bottom padding to push items down */
+  cursor: pointer;
+}
+
+.nav-container {
+  margin-top: 20px; /* Moves the list items further down */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-item i {
+  font-size: 20px;
+}
+
+.nav-item:hover, .nav-item.active {
+  background: #2d3b4f;
+  color: #fff;
+}
+
+.sidebar.collapsed .nav-item span {
+  display: none;
+}
+
+/* Main Content Area */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 80px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  border-bottom: 1px solid #e6e9ef;
+  position: relative;
+}
+
+.header-left img {
+  height: 55px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.msg-icon {
+  font-size: 24px;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* Profile Dropdown Container */
+.profile-container {
+  position: relative;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.profile:hover {
+  background: #f0f2f5;
+}
+
+.profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile span {
+  font-weight: 500;
+  color: #333;
+}
+
+/* The actual Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  width: 200px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border: 1px solid #eee;
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.dropdown-menu.show {
+  display: flex;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #444;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.dropdown-item i {
+  font-size: 18px;
+  color: #777;
+}
+
+.dropdown-item:hover {
+  background: #f8f9fa;
+  color: #007bff;
+}
+
+.dropdown-item:hover i {
+  color: #007bff;
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+}
+</style>
 </head>
 <body>
 
-    <aside class="sidebar expanded" aria-label="Sidebar navigation">
-        <header class="sidebar-header">
-            <div class="brand-group">
-                <i class="bx bx-world"></i>
-                <span class="brand-name">Quiz Carnival</span>
-            </div>
-            <i class="bx bx-chevron-left toggle-btn" id="menu-toggle"></i>
-        </header>
+<div class="sidebar" id="sidebar">
+  <div class="menu-toggle" onclick="toggleSidebar()">
+    <i class='bx bx-menu-alt-left'></i>
+  </div>
 
-        <nav class="nav-icons">
-            <ul>
-                <li>
-                    <a href="create.html" class="nav-item">
-                        <i class='bx bx-plus'></i>
-                        <span>Create</span>
-                    </a>
-                </li>
+  <div class="nav-container">
+    <a href="create.html" class="nav-item active">
+      <i class='bx bx-plus'></i>
+      <span>Create</span>
+    </a>
 
-                <li>
-                    <a href="homepage.html" class="nav-item">
-                        <i class='bx bx-home'></i>
-                        <span>Home</span>
-                    </a>
-                </li>
+    <a href="index.html" class="nav-item">
+      <i class='bx bx-home'></i>
+      <span>Homepage</span>
+    </a>
 
-                <li>
-                    <a href="dashboard.html" class="nav-item active">
-                        <i class='bx bxs-dashboard'></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
+    <a href="dashboard.html" class="nav-item">
+      <i class='bx bxs-dashboard'></i>
+      <span>Dashboard</span>
+    </a>
 
-                <li>
-                    <a href="myclasses.html" class="nav-item">
-                        <i class='bx bx-book'></i>
-                        <span>My Classes</span>
-                    </a>
-                </li>
+    <a href="myclasses.html" class="nav-item">
+      <i class='bx bx-book'></i>
+      <span>My Classes</span>
+    </a>
 
-                <li>
-                    <a href="classes.html" class="nav-item">
-                        <i class='bx bx-library'></i>
-                        <span>Classes</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </aside>
+    <a href="classes.html" class="nav-item">
+      <i class='bx bx-library'></i>
+      <span>Classes</span>
+    </a>
+  </div>
+</div>
 
-    <main class="main-container">
-        <header class="top-bar">
-            <h1 class="top-bar-title">Greenwell Care</h1>
-            <nav class="header-actions">
-                <i class="bx bx-search"></i>
-                <i class="bx bx-bell"></i>
-                <figure class="profile-pic">
-                    <img src="R.jpg" alt="User profile">
-                </figure>
-            </nav>
-        </header>
+<div class="main">
+  <div class="header">
+    <div class="header-left">
+      <img src="logo.png" alt="QC Logo">
+    </div>
 
-        <section class="content-area">
-            <!-- Page content here -->
-        </section>
-    </main>
+    <div class="header-right">
+      <div class="msg-icon">
+        <i class='bx bx-message'></i>
+      </div>
 
-    <script src="dashboard.js"></script>
+      <div class="profile-container">
+        <div class="profile" onclick="toggleDropdown()">
+          <img src="R.jpg" alt="Profile">
+          <span>Allan Matthew</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+
+        <div class="dropdown-menu" id="profileDropdown">
+          <a href="#" class="dropdown-item"><i class='bx bxs-user-circle'></i> Profile</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-line-chart'></i> Grades</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-calendar'></i> Calendar</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-message'></i> Messages</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-share-alt'></i> Share</a>
+          <hr style="border: 0; border-top: 1px solid #eee; margin: 5px 0;">
+          <a href="#" class="dropdown-item"><i class='bx bx-log-in'></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    </div>
+</div>
+
+<script>
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("collapsed");
+}
+
+function toggleDropdown() {
+  document.getElementById("profileDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.closest('.profile-container')) {
+    var dropdowns = document.getElementsByClassName("dropdown-menu");
+    for (var i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+
 </body>
 </html>
