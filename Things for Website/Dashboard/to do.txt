@@ -1,0 +1,9 @@
+things to add in the create page 
+
+quiz modes all and select (select all and select)
+
+make a different dialog box for all quiz modes
+no of questions
+design word search
+words to spell
+sentences
