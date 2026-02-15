@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circular Website Type Selector</title>
+    <style>
+        :root {
+            --bg-yellow: #fcd36a;
+            --active-yellow: #fbc02d;
+            --text-purple: #2d1b33;
+            --white: #ffffff;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .main-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* The circular wrapper */
+        .circle-menu {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: white;
+        }
+
+        /* Individual segments */
+        .segment {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-yellow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            clip-path: polygon(50% 50%, 100% 0, 100% 100%); /* Base wedge shape */
+        }
+
+        /* Positioning segments in a circle */
+        .segment:nth-child(1) { transform: rotate(-90deg); } /* Top */
+        .segment:nth-child(2) { transform: rotate(-30deg); }
+        .segment:nth-child(3) { transform: rotate(30deg); }
+        .segment:nth-child(4) { transform: rotate(90deg); } /* Bottom */
+        .segment:nth-child(5) { transform: rotate(150deg); }
+        .segment:nth-child(6) { transform: rotate(210deg); }
+
+        .segment:hover {
+            background-color: var(--active-yellow);
+            filter: brightness(0.95);
+        }
+
+        .segment.selected {
+            background-color: var(--active-yellow);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Inner text for segments */
+        .segment-text {
+            position: absolute;
+            width: 120px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-purple);
+            transform: rotate(90deg); /* Counter-rotate to keep text readable */
+            pointer-events: none;
+            left: 65%; /* Push text toward outer edge */
+        }
+
+        /* White Hexagon Center */
+        .center-hex {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            background-color: #f5f5f5;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 10;
+            pointer-events: none;
+            border: 4px solid white;
+        }
+
+        .center-hex h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--text-purple);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        #current-selection {
+            font-size: 0.7rem;
+            margin-top: 10px;
+            color: #666;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Thin lines between segments */
+        .divider {
+            position: absolute;
+            width: 400px;
+            height: 2px;
+            background: white;
+            z-index: 5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <div class="circle-menu" id="menu">
+        <div class="segment" data-value="E-commerce Websites">
+            <span class="segment-text">E-commerce websites</span>
+        </div>
+        <div class="segment" data-value="Landing Pages">
+            <span class="segment-text">Landing Pages</span>
+        </div>
+        <div class="segment" data-value="Social Media Websites">
+            <span class="segment-text">Social Media Websites</span>
+        </div>
+        <div class="segment" data-value="Contact Pages">
+            <span class="segment-text">Contact Pages</span>
+        </div>
+        <div class="segment" data-value="News or Magazine Websites">
+            <span class="segment-text">News or Magazine Websites</span>
+        </div>
+        <div class="segment" data-value="Artwork or Showcase Websites">
+            <span class="segment-text">Artwork or Showcase Websites</span>
+        </div>
+    </div>
+
+    <div class="center-hex">
+        <h2>Types of<br>Websites</h2>
+        <div id="current-selection">Select an option</div>
+    </div>
+</div>
+
+<script>
+    const segments = document.querySelectorAll('.segment');
+    const statusText = document.getElementById('current-selection');
+
+    segments.forEach(seg => {
+        seg.addEventListener('click', () => {
+            // Remove previous selection
+            segments.forEach(s => s.classList.remove('selected'));
+            
+            // Add new selection
+            seg.classList.add('selected');
+            
+            // Update center text
+            const value = seg.getAttribute('data-value');
+            statusText.textContent = value;
+            statusText.style.color = "#d32f2f"; // Highlight selection
+        });
+    });
+</script>
+
+</body>
+</html>

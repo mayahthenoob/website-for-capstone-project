@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Calendar UI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-body: #f8f9fa;
+            --bg-card: #ffffff;
+            --bg-header-box: #f5f5f5;
+            --text-main: #1a1a1a;
+            --text-muted: #9e9e9e;
+            --accent-blue: #ebf3ff;
+            --border-color: #f0f0f0;
+            --transition: all 0.2s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .calendar-card {
+            width: 100%;
+            max-width: 650px;
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        /* HEADER */
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .selected-date-box {
+            background: var(--bg-header-box);
+            padding: 16px 22px;
+            border-radius: 14px;
+            min-width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .box-day-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .box-day-num {
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .header-info h2 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .header-info p {
+            margin: 6px 0 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border-color);
+            margin: 0 0 28px 0;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .nav-arrows i {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            background: transparent;
+            transition: var(--transition);
+            outline: none;
+            border: none;
+            user-select: none;
+        }
+
+        .nav-arrows i:hover {
+            background: var(--accent-blue);
+        }
+
+        select {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+            background-color: white;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 30px;
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        select:focus, select:active {
+            outline: none;
+            box-shadow: none;
+            border-color: #d0d0d0;
+        }
+
+        .btn-today {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            cursor: pointer;
+            background: white;
+            outline: none;
+        }
+
+        .btn-today:hover {
+            background: var(--accent-blue);
+        }
+
+        /* GRID */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .weekday-label {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            padding-bottom: 12px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .day-cell:hover {
+            background: #f2f2f2;
+        }
+
+        .day-cell.muted {
+            color: var(--text-muted);
+        }
+
+        .day-cell.selected {
+            border: 2px solid #d0d0d0;
+        }
+
+        .day-cell.today {
+            background: var(--accent-blue);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="calendar-card">
+
+    <div class="header-top">
+        <div class="selected-date-box">
+            <span class="box-day-name" id="box-day-name"></span>
+            <span class="box-day-num" id="box-day-num"></span>
+        </div>
+        <div class="header-info">
+            <h2 id="display-month-year"></h2>
+            <p id="extra-info"></p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="controls">
+        <div class="nav-arrows">
+            <i class='bx bx-chevrons-left' id="prev-month"></i>
+            <i class='bx bx-chevrons-right' id="next-month"></i>
+        </div>
+
+        <div>
+            <select id="year-select"></select>
+            <select id="month-select"></select>
+            <select id="day-select"></select>
+        </div>
+
+        <button class="btn-today" id="today-btn">Today</button>
+    </div>
+
+    <div class="calendar-grid" id="calendar-grid"></div>
+
+</div>
+
+<script>
+    const grid = document.getElementById('calendar-grid');
+    const monthSelect = document.getElementById('month-select');
+    const yearSelect = document.getElementById('year-select');
+    const daySelect = document.getElementById('day-select');
+
+    let today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+    let selectedDate = new Date();
+
+    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+    /* YEAR DROPDOWN — GENERATING ALL YEARS 1 TO 9999 */
+    const fragment = document.createDocumentFragment();
+    for (let y = 1; y <= 9999; y++) {
+        let opt = document.createElement('option');
+        opt.value = y;
+        opt.text = y;
+        fragment.appendChild(opt);
+    }
+    yearSelect.appendChild(fragment);
+
+    /* MONTH DROPDOWN */
+    for(let i=0;i<12;i++){
+        let opt=document.createElement('option');
+        opt.value=i;
+        opt.text=monthNames[i];
+        monthSelect.appendChild(opt);
+    }
+
+    function populateDays() {
+        daySelect.innerHTML = "";
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        for (let d = 1; d <= daysInMonth; d++) {
+            let opt = document.createElement("option");
+            opt.value = d;
+            opt.text = d;
+            daySelect.appendChild(opt);
+        }
+        daySelect.value = selectedDate.getDate();
+    }
+
+    function renderCalendar(){
+        grid.innerHTML="";
+        populateDays();
+
+        const firstDay = new Date(currentYear,currentMonth,1);
+        const lastDate = new Date(currentYear,currentMonth+1,0).getDate();
+
+        document.getElementById("display-month-year").innerText =
+            monthNames[currentMonth] + " " + currentYear;
+
+        monthSelect.value=currentMonth;
+        yearSelect.value=currentYear;
+
+        for(let i=0;i<7;i++){
+            let label=document.createElement('div');
+            label.className="weekday-label";
+            label.innerText=dayNames[i];
+            grid.appendChild(label);
+        }
+
+        let offset = firstDay.getDay();
+
+        for(let i=0;i<offset;i++){
+            let empty=document.createElement('div');
+            empty.className="day-cell muted";
+            grid.appendChild(empty);
+        }
+
+        for(let d=1; d<=lastDate; d++){
+            let cell=document.createElement('div');
+            cell.className="day-cell";
+            cell.innerText=d;
+
+            let cellDate=new Date(currentYear,currentMonth,d);
+
+            if(cellDate.toDateString()===today.toDateString()){
+                cell.classList.add("today");
+            }
+
+            if(cellDate.toDateString()===selectedDate.toDateString()){
+                cell.classList.add("selected");
+            }
+
+            cell.onclick=()=>{
+                selectedDate=cellDate;
+                renderCalendar();
+            }
+
+            grid.appendChild(cell);
+        }
+
+        updateHeader();
+    }
+
+    function updateHeader(){
+        document.getElementById("box-day-name").innerText =
+            dayNames[selectedDate.getDay()] + ".";
+        document.getElementById("box-day-num").innerText =
+            selectedDate.getDate();
+
+        // Calculate days difference
+        const d1 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+        let diff = Math.floor((d1 - d2) / (1000*60*60*24));
+        
+        document.getElementById("extra-info").innerText =
+            diff === 0 ? "Today" :
+            diff > 0 ? diff + " days ago" :
+            Math.abs(diff) + " days from now";
+    }
+
+    /* Events */
+    monthSelect.onchange=()=>{
+        currentMonth=parseInt(monthSelect.value);
+        renderCalendar();
+    };
+
+    yearSelect.onchange=()=>{
+        currentYear=parseInt(yearSelect.value);
+        renderCalendar();
+    };
+
+    daySelect.onchange=()=>{
+        selectedDate=new Date(currentYear,currentMonth,parseInt(daySelect.value));
+        renderCalendar();
+    };
+
+    document.getElementById("prev-month").onclick=()=>{
+        currentMonth--;
+        if(currentMonth<0){ currentMonth=11; currentYear--; }
+        renderCalendar();
+    };
+
+    document.getElementById("next-month").onclick=()=>{
+        currentMonth++;
+        if(currentMonth>11){ currentMonth=0; currentYear++; }
+        renderCalendar();
+    };
+
+    document.getElementById("today-btn").onclick=()=>{
+        today = new Date();
+        currentMonth=today.getMonth();
+        currentYear=today.getFullYear();
+        selectedDate=new Date();
+        renderCalendar();
+    };
+
+    renderCalendar();
+</script>
+
+</body>
+</html>
