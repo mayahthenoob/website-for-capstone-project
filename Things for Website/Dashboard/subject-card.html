@@ -1,138 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern UI Card</title>
-    <style>
-        /* Modern Font Import */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Card</title>
 
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #f0eaff 0%, #e0e7ff 100%);
-            font-family: 'Inter', sans-serif;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-        /* The Outer Glow/Shadow Container */
-        .card-container {
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 60px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
-        }
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f0eaff 0%, #e0e7ff 100%);
+    font-family: 'Inter', sans-serif;
+}
 
-        /* The Main White Card */
-        .card {
-            background: #ffffff;
-            width: 550px;
-            padding: 45px;
-            border-radius: 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
-            position: relative;
-        }
+.card-container {
+    width: 360px;     
+    height: 200px;    
+    border-radius: 20px;
+    overflow: hidden;   /* ✅ fixed */
+    position: relative;
+    background: url('R.jpg') center/cover no-repeat;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: flex-end;
+}
 
-        .content {
-            max-width: 60%;
-        }
+/* Dark overlay */
+.card-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.1));
+}
 
-        .badge {
-            color: #d1b3ff;
-            text-transform: uppercase;
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
+/* Content */
+.content {
+    position: relative;
+    padding: 20px;
+    color: white;
+}
 
-        h1 {
-            color: #1e293b;
-            font-size: 32px;
-            margin: 0 0 12px 0;
-            font-weight: 700;
-        }
+h1 {
+    font-size: 18px;
+    margin: 0 0 8px 0;
+    font-weight: 700;
+}
 
-        p {
-            color: #64748b;
-            font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 30px;
-        }
+p {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
 
-        /* Button Section */
-        .actions {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
+.btn-primary {
+    display: inline-block;
+    background: #9f7aea;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: 0 4px 10px rgba(159, 122, 234, 0.4);
+    transition: 0.2s;
+}
 
-        .btn-primary {
-            background: #9f7aea;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 15px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(159, 122, 234, 0.4);
-            transition: transform 0.2s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            color: #1e293b;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        /* Circular Image Styling */
-        .image-wrapper {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            background: linear-gradient(to bottom, #7f7fd5, #86a8e7, #91eae4);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-        }
-
-        .image-wrapper img {
-            width: 90%;
-            height: auto;
-        }
-    </style>
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+</style>
 </head>
+
 <body>
 
-    <div class="card-container">
-        <div class="card">
-            <div class="content">
-                <div class="badge">BEST UI design</div>
-                <h1>How to design card</h1>
-                <p>This will help you to design card quickly and without hassle.</p>
-                
-                <div class="actions">
-                    <a href="#" class="btn-primary">Find out</a>
-                    <a href="#" class="btn-secondary">Follow us</a>
-                </div>
-            </div>
-
-            <div class="image-wrapper">
-                <img src="R.jpg" alt="Profile">
-            </div>
-        </div>
+<div class="card-container">
+    <div class="content">
+        <h1>How to design card</h1>
+        <p>This will help you to design card quickly and without hassle.</p>
+        <a href="#" class="btn-primary">Find out</a>
     </div>
+</div>
 
 </body>
 </html>

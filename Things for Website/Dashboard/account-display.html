@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile Cards</title>
+    <title>User Profile Card</title>
+
+    <!-- Boxicons CDN -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
@@ -13,14 +17,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 40px;
-            background-color: #051a44; /* Dark blue background from image */
+            background-color: #051a44; 
             font-family: 'Inter', sans-serif;
-            flex-wrap: wrap;
             padding: 20px;
         }
 
-        /* Base Card Styling */
         .user-card {
             width: 280px;
             border-radius: 24px;
@@ -29,18 +30,8 @@
             flex-direction: column;
             align-items: center;
             transition: transform 0.3s ease;
-        }
-
-        /* Light Theme Variables */
-        .light-card {
             background-color: #ffffff;
             color: #1e293b;
-        }
-
-        /* Dark Theme Variables */
-        .dark-card {
-            background-color: #2c52a0;
-            color: #ffffff;
         }
 
         /* Header Icons */
@@ -48,52 +39,46 @@
             width: 100%;
             display: flex;
             justify-content: flex-end;
-            padding: 15px 15px 0 0;
-            gap: 8px;
+            padding: 20px 20px 0 0;
+            gap: 12px;
         }
 
         .icon-circle {
-            width: 24px;
-            height: 24px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 1px solid currentColor;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 12px;
-            opacity: 0.8;
+            font-size: 20px;
+            opacity: 0.9;
         }
 
-        /* Profile Avatar Section */
+        .icon-circle i {
+            font-size: 20px;
+        }
+
+        /* Avatar Section */
         .avatar-section {
-            margin-top: 10px;
-            width: 110px;
-            height: 110px;
+            margin-top: 15px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-        }
-
-        .light-card .avatar-section {
             background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-            border: 1px solid #f1f5f9;
+            border: 2px solid #f1f5f9;
         }
 
-        .dark-card .avatar-section {
-            background: radial-gradient(circle, #3b82f6 0%, #2563eb 100%);
+        .avatar-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .profile-icon {
-            width: 60px;
-            height: 60px;
-            border: 2px solid currentColor;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        /* Main Info */
         .user-info {
             text-align: center;
             padding: 20px 0;
@@ -114,16 +99,11 @@
             opacity: 0.7;
         }
 
-        /* Stats Section */
         .stats-container {
             width: 100%;
             display: flex;
             border-top: 1px solid rgba(0,0,0,0.05);
             padding: 20px 0;
-        }
-
-        .dark-card .stats-container {
-            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .stat-item {
@@ -146,42 +126,25 @@
 </head>
 <body>
 
-    <div class="user-card light-card">
+    <div class="user-card">
         <div class="card-header">
-            <div class="icon-circle">💬</div>
-            <div class="icon-circle">👤</div>
-        </div>
-        <div class="avatar-section">
-            <div class="profile-icon"></div>
-        </div>
-        <div class="user-info">
-            <h2 class="user-name">Tommy Cooper</h2>
-            <span class="user-location">USA</span>
-        </div>
-        <div class="stats-container">
-            <div class="stat-item">
-                <span class="stat-label">Following</span>
-                <span class="stat-value">1,255</span>
+            <div class="icon-circle">
+                <i class='bx bx-message-rounded'></i>
             </div>
-            <div class="stat-item">
-                <span class="stat-label">Followers</span>
-                <span class="stat-value">758</span>
+            <div class="icon-circle">
+                <i class='bx bx-user'></i>
             </div>
         </div>
-    </div>
 
-    <div class="user-card dark-card">
-        <div class="card-header">
-            <div class="icon-circle">💬</div>
-            <div class="icon-circle">👤</div>
-        </div>
         <div class="avatar-section">
-            <div class="profile-icon"></div>
+            <img src="R.jpg" alt="Profile">
         </div>
+
         <div class="user-info">
             <h2 class="user-name">Tommy Cooper</h2>
             <span class="user-location">USA</span>
         </div>
+
         <div class="stats-container">
             <div class="stat-item">
                 <span class="stat-label">Following</span>
