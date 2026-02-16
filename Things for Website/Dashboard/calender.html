@@ -40,7 +40,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* HEADER */
         .header-top {
             display: flex;
             align-items: center;
@@ -145,7 +144,6 @@
             background: var(--accent-blue);
         }
 
-        /* GRID */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -239,7 +237,6 @@
     const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     const dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
-    /* YEAR DROPDOWN — GENERATING ALL YEARS 1 TO 9999 */
     const fragment = document.createDocumentFragment();
     for (let y = 1; y <= 9999; y++) {
         let opt = document.createElement('option');
@@ -249,7 +246,6 @@
     }
     yearSelect.appendChild(fragment);
 
-    /* MONTH DROPDOWN */
     for(let i=0;i<12;i++){
         let opt=document.createElement('option');
         opt.value=i;
@@ -329,7 +325,6 @@
         document.getElementById("box-day-num").innerText =
             selectedDate.getDate();
 
-        // Calculate days difference
         const d1 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         const d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
         let diff = Math.floor((d1 - d2) / (1000*60*60*24));
@@ -340,7 +335,6 @@
             Math.abs(diff) + " days from now";
     }
 
-    /* Events */
     monthSelect.onchange=()=>{
         currentMonth=parseInt(monthSelect.value);
         renderCalendar();
