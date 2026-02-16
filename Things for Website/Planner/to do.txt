@@ -1,4 +1,0 @@
-remove the slider put no slider
-style the dialog boxes for time, date
-make it open back the same dialog box for editing
-for the delete make a new card that asks if you sure you want to delete the item selected with the title showing
