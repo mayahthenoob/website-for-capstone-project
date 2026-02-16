@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro Word Search</title>
+
+<style>
+  :root {
+    --curious-blue: #2092e9;
+    --blush: #cf7486;
+    --san-juan: #35556e;
+    --tiber: #06382f;
+    --cherry-red: #74070e;
+    --mulled-wine: #614d70;
+    --pesto: #6c7d36;
+    --sorbet-orange: #ffa858;
+    --forest-green: #3a4b41;
+    --soft-jade: #abd1c6;
+    --current-color: #ffd166;
+    --flax: #eddc82;
+
+  }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #fdfdfd;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+    user-select: none;
+  }
+
+  .container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #222;
+  }
+
+  .game {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(10, 42px);
+    grid-template-rows: repeat(10, 42px);
+    gap: 0; 
+    cursor: crosshair;
+    position: relative;
+  }
+
+  .cell {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    z-index: 2;
+    color: #333;
+    font-size: 18px;
+  }
+
+  .pill-highlight,
+  #temp-pill {
+    position: absolute;
+    height: 34px;
+    margin-top: -17px; 
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: 1;
+    transform-origin: 17px center; 
+  }
+
+  .pill-highlight {
+    border: 2px solid var(--pill-color);
+    background: rgba(0,0,0,0.02);
+  }
+
+  #temp-pill {
+    border: 2px solid var(--current-color);
+    display: none;
+  }
+
+  .words h3 {
+    margin: 0 0 15px;
+    font-size: 14px;
+    color: #666;
+    letter-spacing: 0.5px;
+  }
+
+  .words ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .words li {
+    font-weight: 700;
+    padding: 4px 0;
+    font-size: 15px;
+    color: #222;
+    transition: all 0.2s;
+  }
+
+  .words li.found {
+    opacity: 0.3;
+    text-decoration: line-through;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>WORD SEARCH</h1>
+  <div class="game">
+    <div class="grid" id="grid">
+        <div id="temp-pill"></div>
+    </div>
+    <div class="words">
+      <h3>WORDS TO FIND</h3>
+      <ul id="wordList"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const gridData = [
+  "ANGRYSAVYN",
+  "XRPETKYDLS",
+  "RDETICXEGU",
+  "FSVEAHDOLR",
+  "FMCCAUDSAP",
+  "AWAACMDAPR",
+  "RWORRIEDPI",
+  "GIMEMEHOLS",
+  "LEUANDDBIE",
+  "SADHAPPYXD"
+];
+
+const words = ["ANGRY", "HAPPY", "SCARED", "WORRIED", "SURPRISED", "NERVOUS", "CALM", "TIRED", "SAD", "EXCITED", "TED"];
+const colors = ["var(--curious-blue)", "var(--blush)", "var(--san-juan)", "var(--tiber)", "var(--cherry-red)", "var(--mulled-wine)", "var(--pesto)", "var(--sorbet-orange)", "var(--forest-green)", "var(--soft-jade)", "var(--flax)"];
+
+let colorIndex = 0;
+let isSelecting = false;
+let startCell = null;
+let currentSelection = { cells: [], angle: 0, width: 0, left: 0, top: 0 };
+const wordColors = {};
+const cellsArray = [];
+
+const grid = document.getElementById("grid");
+const wordList = document.getElementById("wordList");
+const tempPill = document.getElementById("temp-pill");
+
+function buildGrid() {
+  gridData.forEach((row, r) => {
+    row.split("").forEach((letter, c) => {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.textContent = letter;
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+
+      cell.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        handleStart(cell);
+      });
+      cell.addEventListener("mouseenter", () => handleDrag(cell));
+
+      grid.appendChild(cell);
+      cellsArray.push(cell);
+    });
+  });
+}
+
+function buildWords() {
+  words.forEach(word => {
+    const li = document.createElement("li");
+    li.textContent = word;
+    li.id = word;
+    wordList.appendChild(li);
+  });
+}
+
+function handleStart(cell) {
+  isSelecting = true;
+  startCell = cell;
+
+  const color = colors[colorIndex % colors.length];
+  document.documentElement.style.setProperty("--current-color", color);
+
+  tempPill.style.display = "block";
+  updateSelection(cell);
+}
+
+function handleDrag(cell) {
+  if (!isSelecting) return;
+  updateSelection(cell);
+}
+
+document.addEventListener("mouseup", () => {
+  if (!isSelecting) return;
+
+  isSelecting = false;
+  checkSelection();
+  tempPill.style.display = "none";
+});
+
+function updateSelection(endCell) {
+  const r1 = parseInt(startCell.dataset.row);
+  const c1 = parseInt(startCell.dataset.col);
+  const r2 = parseInt(endCell.dataset.row);
+  const c2 = parseInt(endCell.dataset.col);
+
+  const dr = r2 - r1;
+  const dc = c2 - c1;
+  const absDr = Math.abs(dr);
+  const absDc = Math.abs(dc);
+
+  if (!(dr === 0 || dc === 0 || absDr === absDc)) return;
+
+  const cellSize = 42;
+  const steps = Math.max(absDr, absDc);
+  
+  const actualDist = Math.sqrt(dr * dr + dc * dc) * cellSize;
+  const pillWidth = actualDist + 34; 
+
+  const angle = Math.atan2(dr, dc) * (180 / Math.PI);
+
+  const startX = c1 * cellSize + (cellSize / 2);
+  const startY = r1 * cellSize + (cellSize / 2);
+
+  tempPill.style.width = `${pillWidth}px`;
+  tempPill.style.left = `${startX - 17}px`; 
+  tempPill.style.top = `${startY}px`;
+  tempPill.style.transform = `rotate(${angle}deg)`;
+
+  currentSelection.width = pillWidth;
+  currentSelection.angle = angle;
+  currentSelection.left = tempPill.style.left;
+  currentSelection.top = tempPill.style.top;
+
+  currentSelection.cells = [];
+  const rStep = dr === 0 ? 0 : dr / absDr;
+  const cStep = dc === 0 ? 0 : dc / absDc;
+
+  for (let i = 0; i <= steps; i++) {
+    const r = r1 + i * rStep;
+    const c = c1 + i * cStep;
+    currentSelection.cells.push(cellsArray[r * 10 + c]);
+  }
+}
+
+function checkSelection() {
+  const word = currentSelection.cells.map(c => c.textContent).join("");
+  const reversed = word.split("").reverse().join("");
+
+  const match = words.find(w => (w === word || w === reversed) && !wordColors[w]);
+
+  if (match) {
+    const color = colors[colorIndex % colors.length];
+    wordColors[match] = color;
+
+    const pill = document.createElement("div");
+    pill.className = "pill-highlight";
+    pill.style.setProperty("--pill-color", color);
+    pill.style.width = `${currentSelection.width}px`;
+    pill.style.left = currentSelection.left;
+    pill.style.top = currentSelection.top;
+    pill.style.transform = `rotate(${currentSelection.angle}deg)`;
+
+    grid.appendChild(pill);
+
+    const li = document.getElementById(match);
+    li.classList.add("found");
+    li.style.color = color;
+
+    colorIndex++;
+  }
+}
+
+buildGrid();
+buildWords();
+</script>
+</body>
+</html>
