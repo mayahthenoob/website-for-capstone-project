@@ -1,6 +1,0 @@
-add a better background add opacity to background
-add sound effects
-change score looks 
-change how the character look make the radio-guy look better on page and remove background
-change how the platforms look ask partner to make a platform (design it)
-make map bigger and space out platforms some more
