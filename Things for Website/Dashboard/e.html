@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .modal {
+            background: white;
+            width: 750px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            position: relative;
+            border: 1px solid #e0e0e0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .modal-content {
+            display: flex;
+            gap: 40px;
+        }
+
+        /* Sidebar Section */
+        .sidebar {
+            width: 200px;
+            text-align: center;
+        }
+
+        .profile-pic-container {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px auto;
+            background: #eee;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .name {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .subject {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Main Info Section */
+        .main-info {
+            flex: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .edit-link {
+            color: #2b7eb3;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin: 20px 0;
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #888;
+            position: relative;
+        }
+
+        .tab.active {
+            color: #2b7eb3;
+            font-weight: 600;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #2b7eb3;
+        }
+
+        /* Data List */
+        .details {
+            margin-bottom: 30px;
+        }
+
+        .detail-item {
+            margin-bottom: 18px;
+        }
+
+        .label {
+            display: block;
+            font-weight: 700;
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .value {
+            display: block;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .hint {
+            color: #888;
+            font-weight: normal;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel {
+            background: white;
+            border: 1px solid #2b7eb3;
+            color: #2b7eb3;
+        }
+
+        .btn-save {
+            background: #2b7eb3;
+            border: 1px solid #2b7eb3;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #236a96;
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal">
+    <span class="close-btn">&times;</span>
+    
+    <div class="modal-content">
+        <div class="sidebar">
+            <div class="profile-pic-container">
+                <img src="R.jpg" alt="Kemayah" class="profile-pic">
+            </div>
+            <h2 class="name">Kemayah</h2>
+            <p class="subject">Student (IT1A)</p>
+        </div>
+
+        <div class="main-info">
+            <div class="section-header">
+                <h3>User details</h3>
+                <a href="#" class="edit-link">Edit profile</a>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active">General</button>
+                <button class="tab">Contact Details</button>
+            </div>
+
+            <div class="details">
+                <div class="detail-item">
+                    <span class="label">Email address</span>
+                    <span class="value">KemayahNS941@TAMCC.EDU.GD <span class="hint">(Visible to other course participants)</span></span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Country</span>
+                    <span class="value">Grenada</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Timezone</span>
+                    <span class="value">America/Grenada</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Group</span>
+                    <span class="value">IT1A</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn-cancel">Cancel</button>
+                <button class="btn-save">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

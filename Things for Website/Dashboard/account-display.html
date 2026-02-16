@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile Card</title>
-
-    <!-- Boxicons CDN -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
@@ -22,20 +19,18 @@
             padding: 20px;
         }
 
-        .user-card {
+        .profile-card {
             width: 280px;
             border-radius: 24px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.3s ease;
             background-color: #ffffff;
             color: #1e293b;
         }
 
-        /* Header Icons */
-        .card-header {
+        .profile-card__header {
             width: 100%;
             display: flex;
             justify-content: flex-end;
@@ -43,7 +38,7 @@
             gap: 12px;
         }
 
-        .icon-circle {
+        .profile-card__icon {
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -55,12 +50,7 @@
             opacity: 0.9;
         }
 
-        .icon-circle i {
-            font-size: 20px;
-        }
-
-        /* Avatar Section */
-        .avatar-section {
+        .profile-card__avatar-wrapper {
             margin-top: 15px;
             width: 130px;
             height: 130px;
@@ -73,89 +63,89 @@
             border: 2px solid #f1f5f9;
         }
 
-        .avatar-section img {
+        .profile-card__avatar {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .user-info {
+        .profile-card__info {
             text-align: center;
             padding: 20px 0;
         }
 
-        .user-name {
+        .profile-card__name {
             font-size: 18px;
             font-weight: 800;
             margin: 0;
             letter-spacing: -0.5px;
         }
 
-        .user-location {
-            font-size: 11px;
+        .profile-card__subject {
+            font-size: 15px; 
             font-weight: 600;
-            text-transform: uppercase;
             margin-top: 4px;
             opacity: 0.7;
         }
 
-        .stats-container {
+        .profile-card__stats {
             width: 100%;
             display: flex;
-            border-top: 1px solid rgba(0,0,0,0.05);
             padding: 20px 0;
         }
 
-        .stat-item {
+        .profile-card__stat {
             flex: 1;
             text-align: center;
         }
 
-        .stat-label {
-            font-size: 12px;
+        .profile-card__stat-label {
+            font-size: 16px; 
             display: block;
             margin-bottom: 4px;
             font-weight: 500;
+            opacity: 0.7;
         }
 
-        .stat-value {
-            font-size: 16px;
+        .profile-card__stat-value {
+            font-size: 12px; 
             font-weight: 700;
         }
     </style>
 </head>
 <body>
 
-    <div class="user-card">
-        <div class="card-header">
-            <div class="icon-circle">
+    <div class="profile-card">
+        <div class="profile-card__header">
+            <div class="profile-card__icon">
                 <i class='bx bx-message-rounded'></i>
             </div>
-            <div class="icon-circle">
+            <div class="profile-card__icon">
                 <i class='bx bx-user'></i>
             </div>
         </div>
 
-        <div class="avatar-section">
-            <img src="R.jpg" alt="Profile">
+        <div class="profile-card__avatar-wrapper">
+            <img src="R.jpg" alt="Profile" class="profile-card__avatar">
         </div>
 
-        <div class="user-info">
-            <h2 class="user-name">Tommy Cooper</h2>
-            <span class="user-location">USA</span>
+        <div class="profile-card__info">
+            <h2 class="profile-card__name">Liam Thomas</h2>
+            <span class="profile-card__subject">Information Technology</span>
         </div>
 
-        <div class="stats-container">
-            <div class="stat-item">
-                <span class="stat-label">Following</span>
-                <span class="stat-value">1,255</span>
+        <div class="profile-card__stats">
+            <div class="profile-card__stat">
+                <span class="profile-card__stat-label">Role</span>
+                <span class="profile-card__stat-value">Student</span>
             </div>
-            <div class="stat-item">
-                <span class="stat-label">Followers</span>
-                <span class="stat-value">758</span>
+            <div class="profile-card__stat">
+                <span class="profile-card__stat-label">Last Active</span>
+                <span class="profile-card__stat-value">11 hours 10 min</span>
             </div>
         </div>
     </div>
 
 </body>
 </html>
+
