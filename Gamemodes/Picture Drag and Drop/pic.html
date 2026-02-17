@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Picture Puzzle</title>
+    <link rel="stylesheet" href="picture.css">
+</head>
+<body>
+
+<div class="drag" id="drag">
+    <!-- 9 puzzle pieces -->
+    <div class="piece" draggable="true" id="p1" ondragstart="drag(event)"></div>
+    <div class="piece" draggable="true" id="p2" ondragstart="drag(event)"></div>
+    <div class="piece" draggable="true" id="p3" ondragstart="drag(event)"></div>
+    <div class="piece" draggable="true" id="p4" ondragstart="drag(event)"></div>
+    <div class="piece" draggable="true" id="p5" ondragstart="drag(event)"></div>
+    <div class="piece" draggable="true" id="p6" ondragstart="drag(event)"></div>
+    <div class="piece" draggable="true" id="p7" ondragstart="drag(event)"></div>
+    <div class="piece" draggable="true" id="p8" ondragstart="drag(event)"></div>
+    <div class="piece" draggable="true" id="p9" ondragstart="drag(event)"></div>
+</div>
+
+<div class="board">
+    <div class="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+</div>
+
+<button class="reset" onclick="location.reload()">Reset</button>
+
+<script>
+function drag(e) {
+    e.dataTransfer.setData("id", e.target.id);
+}
+
+function allowDrop(e) {
+    e.preventDefault();
+}
+
+function drop(e) {
+    e.preventDefault();
+
+    const id = e.dataTransfer.getData("id");
+    const draggedPiece = document.getElementById(id);
+    const startArea = document.getElementById("drag");
+
+    // Make sure we are dropping on a drop zone (not on a piece)
+    const dropZone = e.target.classList.contains("drop") 
+        ? e.target 
+        : e.target.parentElement;
+
+    // If drop zone already has a piece → send it back to start
+    if (dropZone.children.length > 0) {
+        const existingPiece = dropZone.children[0];
+        startArea.appendChild(existingPiece);
+    }
+
+    // Place dragged piece into drop zone
+    dropZone.appendChild(draggedPiece);
+}
+
+window.onload = () => {
+    const parent = document.getElementById("drag");
+    [...parent.children]
+        .sort(() => Math.random() - 0.5)
+        .forEach(el => parent.appendChild(el));
+};
+</script>
+
+
+</body>
+</html>
+
