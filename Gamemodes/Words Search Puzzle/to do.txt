@@ -1,0 +1,4 @@
+make the words more spaced out so what happens in word-search does not happen
+make it so that it can take more words more space like the wordfind-answers.webp 
+get more colors
+positions the words to find below the box that containers the letters for the words to find like add word search.webp
