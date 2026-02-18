@@ -1,0 +1,48 @@
+mute 
+<i class='bx bx-volume-mute'></i>
+
+min
+<i class='bx bx-volume-low'></i>
+
+max
+<i class='bx bx-volume-full'></i>
+
+change voice <!--for spelling bee and chatbot-->
+<i class='bx bx-user-voice'></i>
+
+folder
+<i class='bx bx-folder'></i>
+
+pdf
+<i class='bx bxs-file-pdf'></i>
+
+txt
+<i class='bx bxs-file-txt'></i>
+
+upload
+<i class='bx bx-cloud-upload'></i>
+
+duplicate
+<i class='bx bx-duplicate'></i>
+
+download
+<i class='bx bxs-download'></i>
+
+delete
+<i class='bx bxs-trash-alt'></i>
+
+sync
+<i class='bx bx-sync'></i>
+
+
+
+for technology in footer
+
+chrome
+<i class='bx bxl-chrome'></i>
+
+google
+<i class='bx bxl-google' ></i>
+
+up arrow to go to top of page
+<i class='bx bx-chevron-up'></i>

@@ -58,7 +58,7 @@
 
   /* DROPDOWN MENU */
   .dropdown-menu {
-    position: fixed; /* changed from absolute */
+    position: fixed;
     background: rgba(0,0,0,0.8);
     backdrop-filter: blur(10px);
     border-radius: 10px;
@@ -67,7 +67,7 @@
     width: 160px;
     display: none;
     flex-direction: column;
-    z-index: 9999; /* high z-index to appear in front */
+    z-index: 9999; 
   }
   .dropdown-item {
     display: flex;
@@ -93,7 +93,6 @@
     flex-direction: column;
   }
 
-  /* Chat bubbles */
   .message {
     margin: 8px 0;
     max-width: 75%;
@@ -206,7 +205,6 @@
 <body>
 
 <div class="chat-container" id="chatContainer">
-  <!-- HEADER -->
   <div class="chat-header">
     <div class="header-left">
       <img src="chatbot-pic.png" alt="Profile" class="profile-image" />
@@ -215,16 +213,13 @@
     <i class='bx bx-dots-vertical-rounded' id="menuBtn"></i>
   </div>
 
-  <!-- CHAT BODY -->
   <div class="chat-body" id="chatBody"></div>
 
-  <!-- INPUT -->
   <div class="chat-input">
     <i class='bx bx-smile' id="emoji-btn"></i>
     <input type="text" placeholder="Type a message" id="chat-input" />
     <i class='bx bx-microphone' id="micBtn"></i>
 
-    <!-- EMOJI PICKER -->
     <div class="emoji-picker" id="emoji-picker">
       <div class="emoji-item" data-emoji="😎"><span class="tooltip-text">cool</span>😎</div>
       <div class="emoji-item" data-emoji="😡"><span class="tooltip-text">angry</span>😡</div>
@@ -245,8 +240,7 @@
   </div>
 </div>
 
-<!-- DROPDOWN MENU MOVED OUTSIDE -->
-<div class="dropdown-menu" id="dropdownMenu">
+<div class="dropdown-menu" id="dropdownMenu"> <!--make this open insode of chatbot box-->
   <div class="dropdown-item" id="clearChat">
     <i class='bx bx-cloud-snow'></i> Clear Chat
   </div>
@@ -262,7 +256,6 @@
 </div>
 
 <script>
-// ===== ELEMENTS =====
 const emojiBtn = document.getElementById('emoji-btn');
 const emojiPicker = document.getElementById('emoji-picker');
 const chatInput = document.getElementById('chat-input');
@@ -279,7 +272,6 @@ const settingsBtn = document.getElementById('settings');
 let usedMic = false;
 let muted = false;
 
-// ===== TIME & DATE =====
 function formatTime() {
   const now = new Date();
   let hours = now.getHours();
@@ -301,7 +293,6 @@ function formatDate() {
   return `${dayName} ${day}${getOrdinal(day)}, ${month} ${year}`;
 }
 
-// ===== EMOJI PICKER =====
 emojiBtn.addEventListener('click',()=>{emojiPicker.style.display=emojiPicker.style.display==='grid'?'none':'grid';});
 document.querySelectorAll('.emoji-item').forEach(item=>{
   item.addEventListener('click',()=>{
@@ -314,7 +305,6 @@ document.addEventListener('click',e=>{
   if(!emojiPicker.contains(e.target)&&!emojiBtn.contains(e.target)) emojiPicker.style.display='none';
 });
 
-// ===== DROPDOWN MENU =====
 menuBtn.addEventListener('click', e => {
   e.stopPropagation();
   const rect = menuBtn.getBoundingClientRect();
@@ -333,7 +323,6 @@ muteChatBtn.addEventListener('click',()=>{
 learnMoreBtn.addEventListener('click',()=>{alert("This is a simple chatbot demo with emoji picker and voice recognition.");dropdownMenu.style.display='none';});
 settingsBtn.addEventListener('click',()=>{alert("Settings feature is not implemented yet.");dropdownMenu.style.display='none';});
 
-// ===== CHAT FUNCTIONS =====
 function addMessage(text,sender){
   const msg=document.createElement('div');
   msg.classList.add('message',sender);
@@ -351,14 +340,13 @@ function botReply(message){
   if(msg.includes("date")) return "Today is "+formatDate();
   if(msg.includes("joke")) return "Why don't programmers like nature? Because there are too many bugs";
   if(msg.includes("bye")) return "Bye, have a good day";
-  if(msg.includes("project about")||msg.includes("about project?")) return "This project is about implementing lessons we students learnt from TAMCC to make apps and websites";
+  // if(msg.includes("project about")||msg.includes("about project?")) return "This project is about implementing lessons we students learnt from TAMCC to make apps and websites";
   if(msg.includes("programming languages used")) return "The programming languages used in this website are HTML, CSS, JS and PHP";
   if(msg.includes("what is the full name of the programming languages")) return "HTML (Hypertext Markup Language), CSS (Cascading Style Sheet), JS (JavaScript) and PHP (Hypertext Preprocessor)";
-  if(msg.includes("is this a group project")) return "Yes, this is a group project";
+  // if(msg.includes("is this a group project")) return "Yes, this is a group project"; 
   return "Sorry, I don't understand";
 }
 
-// ===== INPUT =====
 chatInput.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&chatInput.value.trim()){
     usedMic=false;
@@ -373,7 +361,6 @@ chatInput.addEventListener('keydown',e=>{
   }
 });
 
-// ===== SPEECH RECOGNITION & SYNTHESIS =====
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(SpeechRecognition){
   const recognition=new SpeechRecognition();
@@ -390,7 +377,6 @@ if(SpeechRecognition){
   };
 }else{micBtn.onclick=()=>alert("Speech recognition not supported");}
 
-// ===== VOICE SYNTHESIS =====
 function speak(text){
   if(!window.speechSynthesis) return;
   micBtn.classList.add('speaking');
@@ -400,7 +386,6 @@ function speak(text){
   window.speechSynthesis.speak(utterance);
 }
 
-// ===== DRAGGABLE CHAT CONTAINER =====
 const chatContainer = document.getElementById('chatContainer');
 const header = document.querySelector('.chat-header');
 
