@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Card</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #051a44; 
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+        }
+
+        .profile-card {
+            width: 280px;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffffff;
+            color: #1e293b;
+        }
+
+        .profile-card__header {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px 20px 0 0;
+            gap: 12px;
+        }
+
+        .profile-card__icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid currentColor;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        .profile-card__avatar-wrapper {
+            margin-top: 15px;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid #f1f5f9;
+        }
+
+        .profile-card__avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-card__info {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .profile-card__name {
+            font-size: 18px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .profile-card__subject {
+            font-size: 15px; 
+            font-weight: 600;
+            margin-top: 4px;
+            opacity: 0.7;
+        }
+
+        .profile-card__stats {
+            width: 100%;
+            display: flex;
+            padding: 20px 0;
+        }
+
+        .profile-card__stat {
+            flex: 1;
+            text-align: center;
+        }
+
+        .profile-card__stat-label {
+            font-size: 16px; 
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 800;
+        }
+
+        .profile-card__stat-value {
+            font-size: 15px; 
+            font-weight: 600;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-card">
+        <div class="profile-card__header">
+            <div class="profile-card__icon">
+                <i class='bx bx-message-rounded'></i>
+            </div>
+            <div class="profile-card__icon">
+                <i class='bx bx-user'></i>
+            </div>
+        </div>
+
+        <div class="profile-card__avatar-wrapper">
+            <img src="R.jpg" alt="Profile" class="profile-card__avatar">
+        </div>
+
+        <div class="profile-card__info">
+            <h2 class="profile-card__name">Alan Walker</h2>
+            <span class="profile-card__subject">Information Technology</span>
+        </div>
+
+        <div class="profile-card__stats">
+            <div class="profile-card__stat">
+                <span class="profile-card__stat-label">Role</span>
+                <span class="profile-card__stat-value">Student</span>
+            </div>
+            <div class="profile-card__stat">
+                <span class="profile-card__stat-label">Last Active</span>
+                <span class="profile-card__stat-value">11 hours 10 min</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

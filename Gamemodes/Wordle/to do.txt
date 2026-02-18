@@ -2,3 +2,12 @@ remove the keyboard and add the animation pubg has when you et a cool item or ra
 
 make it automatically continue to the next word
 make it word you get increase in size and do a pulse animation before going to the next word
+
+use wordle-without for removing the on screen keyboard
+change the color scheme
+add seletion of max words when making it for teachers
+
+eg
+Max words
+12 words
+

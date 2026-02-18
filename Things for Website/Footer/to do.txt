@@ -1,0 +1,6 @@
+footer
+center the copyright text
+sources
+replace the quiz carnival text in footer with logo
+change the data in the footer
+add images sources in folder and link it google drive where users go and see and download them from folder in google drive or put them in a docx or readme.md file

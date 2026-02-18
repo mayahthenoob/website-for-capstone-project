@@ -1,1 +1,2 @@
 give sticky notes title and body make it be placed anywhere and can go on all pages 
+make the new sticky notes design that look s like sticky notes and make them into a floatable thing like the calculator chatbox and other things in radial button

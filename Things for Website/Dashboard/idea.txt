@@ -1,2 +1,18 @@
+calender changes
 Convert the year dropdown into a searchable input
 Add time + timezone support
+change color of calender 
+current date 
+selected date
+assignment/ quiz to do dates
+
+add a background pic for calender for all seasons/ months or make it a custom calender
+
+homepage changes
+use the homepageasp as aspiration to make homepage 
+do homepage today
+use th website nox player as aspiration too make it really similar to it in the design sense a little of the working sense
+
+
+see if you can get github pages to host website (if success change the link direction)
+
