@@ -9,3 +9,5 @@ add colors to the border for the create puzzle words
 add timer option 
 make button that allows 
 Previous Preview Create
+add a thing that checks and warns you of a word to find is not visable in the puzzle creation
+add options for spaced out grid columns or default to create puzzle
