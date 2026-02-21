@@ -87,6 +87,10 @@
             margin-top: 12px;
         }
 
+        .reattempt-group .radio-group {
+            margin-top: 4px;
+        }
+
         .radio-option {
             display: flex;
             align-items: center;
@@ -205,6 +209,24 @@
             <div class="form-group full-width">
                 <label for="design">Puzzle Design</label>
                 <textarea id="design" name="design" placeholder="Describe the layout, theme, or design details here..."></textarea>
+            </div>
+
+            <div class="form-group full-width reattempt-group">
+                <label>Re-attempt</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="reattempt-none" name="reattempt" value="none" checked>
+                        <label for="reattempt-none">None</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="reattempt-two" name="reattempt" value="two">
+                        <label for="reattempt-two">Two</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="reattempt-three" name="reattempt" value="three">
+                        <label for="reattempt-three">Three</label>
+                    </div>
+                </div>
             </div>
 
         </div>
