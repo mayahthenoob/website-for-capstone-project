@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Word Puzzle Form</title>
+    <title>Create Fill In Blanks Form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
@@ -73,7 +73,7 @@
 
         textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 80px;
         }
 
         input:focus, textarea:focus {
@@ -128,30 +128,22 @@
         }
 
         #wordsContainer {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        @media (max-width: 900px) {
-            #wordsContainer {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         @media (max-width: 600px) {
             .form-grid {
                 grid-template-columns: 1fr;
             }
+
             .form-group.full-width {
                 grid-column: span 1;
             }
+
             .form-container {
                 padding: 20px;
-            }
-
-            #wordsContainer {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -160,19 +152,19 @@
 <body>
 
 <div class="form-container">
-    <h2>Word Search Form</h2>
+    <h2>Fill In Blanks Form</h2>
 
     <form>
         <div class="form-grid">
 
             <div class="form-group full-width">
                 <label for="title">Title</label>
-                <input type="text" id="title" name="title" placeholder="Title of Puzzle" required>
+                <input type="text" id="title" name="title" placeholder="Title of Fill In Blanks" required>
             </div>
 
             <div class="form-group full-width">
                 <label for="description">Description</label>
-                <textarea id="description" name="description" placeholder="Description of Puzzle"></textarea>
+                <textarea id="description" name="description" placeholder="Description of Fill In Blanks"></textarea>
 
                 <div class="radio-group">
                     <div class="radio-option">
@@ -196,19 +188,14 @@
                 <input type="number"
                        id="amount"
                        name="amount"
-                       placeholder="Enter Amount of Words to Find"
+                       placeholder="Enter Amount of Sentences"
                        min="1"
                        max="32" required>
             </div>
 
             <div class="form-group full-width">
-                <label>Words to Find</label>
+                <label>Sentences for Fill in Blanks</label>
                 <div id="wordsContainer"></div>
-            </div>
-
-            <div class="form-group full-width">
-                <label for="design">Puzzle Design</label>
-                <textarea id="design" name="design" placeholder="Describe the layout, theme, or design details here..."></textarea>
             </div>
 
             <div class="form-group full-width reattempt-group">
@@ -255,12 +242,37 @@
         wordsContainer.innerHTML = "";
 
         for (let i = 1; i <= amount; i++) {
-            const input = document.createElement("input");
-            input.type = "text";
-            input.name = "word" + i;
-            input.placeholder = "Word " + i;
-            input.required = true;
-            wordsContainer.appendChild(input);
+
+            const textarea = document.createElement("textarea");
+            textarea.name = "sentence" + i;
+            textarea.rows = 3;
+            textarea.required = true;
+
+            const prefix = i + ". ";
+            textarea.value = prefix;
+
+            // Prevent deleting numbering
+            textarea.addEventListener("keydown", function (e) {
+                if (this.selectionStart <= prefix.length &&
+                    (e.key === "Backspace" || e.key === "Delete")) {
+                    e.preventDefault();
+                }
+            });
+
+            textarea.addEventListener("focus", function () {
+                this.setSelectionRange(prefix.length, prefix.length);
+            });
+
+            textarea.addEventListener("input", function () {
+                const cursorPos = this.selectionStart;
+                const newValue = this.value.replace(/\(_\)/g, "_____");
+                if (this.value !== newValue) {
+                    this.value = newValue;
+                    this.setSelectionRange(cursorPos, cursorPos);
+                }
+            });
+
+            wordsContainer.appendChild(textarea);
         }
     });
 </script>
