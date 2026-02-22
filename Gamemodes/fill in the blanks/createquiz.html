@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f04e84 0%, #7c3a91 100%);
+            padding: 20px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        input, textarea {
+            padding: 12px;
+            border: 1px solid #f2f2f2;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            width: 100%;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #4a90e2;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center; 
+            gap: 15px 30px;      
+            margin-top: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;  
+            gap: 6px;            
+            font-size: 14px;
+            color: #333;
+        }
+
+        .radio-option input[type="radio"] {
+            width: auto;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        .submit-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #357abd;
+        }
+
+        .formatted-date {
+            font-size: 14px;
+            color: #555;
+            margin-top: 6px;
+        }
+
+        .total-time {
+            font-size: 14px;
+            color: #555;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="form-container">
+    <h2>Create Quiz Form</h2>
+
+    <form>
+        <div class="form-grid">
+
+            <!-- Subject -->
+            <div class="form-group full-width">
+                <label for="title">Subject</label>
+                <input type="text" id="title" name="title" placeholder="Subject Name" required>
+            </div>
+
+            <!-- Opens -->
+            <div class="form-group">
+                <label for="opens">Opens</label>
+                <input type="datetime-local" id="opens" name="opens" required>
+                <div id="opensFormatted" class="formatted-date"></div>
+            </div>
+
+            <!-- Closes -->
+            <div class="form-group">
+                <label for="closes">Closes</label>
+                <input type="datetime-local" id="closes" name="closes" required>
+                <div id="closesFormatted" class="formatted-date"></div>
+            </div>
+
+            <!-- Time Limit -->
+            <div class="form-group full-width">
+                <label for="timeLimit">Time Limit (Minutes)</label>
+                <input type="number" id="timeLimit" min="0" placeholder="Enter minutes">
+                <div id="totalTime" class="total-time"></div>
+            </div>
+
+            <!-- Re-attempt -->
+            <div class="form-group full-width reattempt-group">
+                <label>Re-attempt</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" name="reattempt" value="none" checked>
+                        <label>None</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="reattempt" value="two">
+                        <label>Two</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="reattempt" value="three">
+                        <label>Three</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group full-width">
+                <label for="description">Description</label>
+                <textarea id="description" placeholder="Description for Quiz"></textarea>
+
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" name="mode" value="default">
+                        <label>Default</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="mode" value="custom">
+                        <label>Custom</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
+</div>
+
+<script>
+    function formatDateTime(value) {
+        if (!value) return "";
+        const date = new Date(value);
+        return date.toLocaleString('en-GB', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
+    }
+
+    const opensInput = document.getElementById("opens");
+    const closesInput = document.getElementById("closes");
+
+    opensInput.addEventListener("change", function () {
+        document.getElementById("opensFormatted").textContent =
+            formatDateTime(this.value);
+    });
+
+    closesInput.addEventListener("change", function () {
+        document.getElementById("closesFormatted").textContent =
+            formatDateTime(this.value);
+    });
+
+    const timeLimitInput = document.getElementById("timeLimit");
+    const totalTimeDisplay = document.getElementById("totalTime");
+
+    timeLimitInput.addEventListener("input", function () {
+        const minutes = parseInt(this.value);
+
+        if (isNaN(minutes) || minutes < 0) {
+            totalTimeDisplay.textContent = "";
+            return;
+        }
+
+        if (minutes < 60) {
+            totalTimeDisplay.textContent = `${minutes} Minute${minutes !== 1 ? 's' : ''}`;
+        } else {
+            const hours = Math.floor(minutes / 60);
+            const remainingMinutes = minutes % 60;
+
+            if (remainingMinutes === 0) {
+                totalTimeDisplay.textContent =
+                    `${hours} Hour${hours !== 1 ? 's' : ''}`;
+            } else {
+                totalTimeDisplay.textContent =
+                    `${hours} Hour${hours !== 1 ? 's' : ''} : ${remainingMinutes} Minute${remainingMinutes !== 1 ? 's' : ''}`;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
