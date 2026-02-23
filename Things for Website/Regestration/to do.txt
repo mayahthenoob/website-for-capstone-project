@@ -1,6 +1,11 @@
 Resgister
+login 
+remove username
+add pic from tamcc website or a pic of the school for background
+add option to choose school from dropdown list
+be able to add id number or (just numbers) didgits to name
+enter id number for display (profile card and full profile)
+add floating input labels
 
-add the logo to the background 
-style the range 
-
-login add logo to background
+results
+make the results display like kahoot

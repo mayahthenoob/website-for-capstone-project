@@ -1,2 +1,0 @@
-<i class='bx bxl-trip-advisor' ></i>
-<i class='bx bx-file-find' ></i>

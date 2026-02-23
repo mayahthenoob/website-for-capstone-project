@@ -16,3 +16,30 @@ use th website nox player as aspiration too make it really similar to it in the 
 
 see if you can get github pages to host website (if success change the link direction)
 
+make the an admin for all schools
+if not 
+change the id to be like school ID 
+put back the last active section cdnter it after all information
+active green
+logging in yellow
+never active red
+active but not any off these 
+put the time and date
+
+make it so when you click the account box it brings you to their full profile
+dont forget to change the sidebar and add the icon notifications to the header
+<i class='bx bx-bell'></i>
+<i class='bx bx-bell-off'></i>
+
+
+add a specific color option for signin up school
+add to sign up school or just manually add it byself
+
+make the inut sectio for the full profile
+
+calender 
+make it so it stays the same size no matter how many days or where the days are in the calender
+
+sidebar for subject/ course notes/ course work
+makeothersidebarright.jpg
+place other sidebar to the left like the image

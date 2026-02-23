@@ -1,2 +1,10 @@
 <i class='bx bxs-florist'></i>
 
+
+make the additional things open up in a small window like from slide 37 from Java Programming
+give it the name of the application on top
+
+the chatbot, sticky notes, notes and etc.
+make the sticky notes and notes for the website (design)
+change the sidebar so it has the 3 menu icons button to collapse and extend the sidebar
+give it rounded corners to look like images 
