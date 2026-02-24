@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Card</title>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
@@ -29,6 +28,13 @@ body {
     display: flex;
     align-items: flex-end;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.4s ease;
+}
+
+.card-container:hover {
+    transform: scale(1.05);
 }
 
 .card-container::before {
@@ -72,7 +78,6 @@ p {
     border: 2px solid white;          
     padding: 8px 16px;
     border-radius: 8px;
-    text-decoration: none;
     font-weight: 600;
     font-size: 13px;
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
@@ -92,9 +97,9 @@ p {
     <div class="content">
         <h1>Information Technology</h1>
         <p>Mr C. Williams</p>
-        <a href="#" class="btn-primary">Visit</a>
+        <span class="btn-primary">Visit</span>
     </div>
-</div>
+</a>
 
 </body>
 </html>

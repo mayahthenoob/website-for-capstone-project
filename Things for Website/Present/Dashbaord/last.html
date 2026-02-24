@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Dashboard - Upgraded</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #4318FF;
+            --bg-body: #f4f7fe;
+            --text-main: #1b2559;
+            --text-muted: #a3aed0;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0,0,0,0.05);
+            --danger: #ee5d50;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1.user-greeting {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        /* Course Section Container */
+        .courses-section {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* Navigation Arrows */
+        .scroll-controls button {
+            background: #f4f7fe;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .scroll-controls button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* The Course Grid */
+        .course-grid {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 5px;
+            scrollbar-width: none;
+        }
+
+        .course-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Card Style */
+        .card-container {
+            min-width: 300px;     
+            height: 200px;    
+            border-radius: 20px;
+            overflow: hidden;   
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: flex-end;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.4s ease;
+            flex-shrink: 0;
+        }
+
+        .card-container:hover {
+            transform: scale(1.02);
+        }
+
+        .card-container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1));
+        }
+
+        .content {
+            position: relative;
+            padding: 20px;
+            color: white;
+            opacity: 0;                    
+            transform: translateY(10px); 
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            width: 100%;
+        }
+
+        .card-container:hover .content {
+            opacity: 1;                  
+            transform: translateY(0);
+        }
+
+        .content h3 {
+            font-size: 18px;
+            margin: 0 0 4px 0;
+            font-weight: 700;
+        }
+
+        .content p {
+            font-size: 13px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            border: 2px solid white;          
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .timeline-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Custom Dropdown Styling */
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+            width: 180px;
+        }
+
+        .custom-dropdown button {
+            width: 100%;
+            background: #f4f7fe;
+            border: 1px solid #e0e5f2;
+            border-radius: 12px;
+            padding: 10px 15px;
+            text-align: left;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        .custom-dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            z-index: 10;
+            margin-top: 5px;
+        }
+
+        .custom-dropdown-content div {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .custom-dropdown-content div:hover { 
+            background: #f4f7fe;
+            color: var(--primary);
+        }
+
+        /* Search Bar Styling */
+        .search-bar input {
+            padding: 12px 20px;
+            width: 300px;
+            border-radius: 30px;
+            border: 1px solid #e0e5f2;
+            background: #f4f7fe;
+        }
+
+        /* Timeline List Styling */
+        .timeline-list { margin-top: 20px; }
+
+        .date-group {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 25px 0 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 16px;
+            border-radius: 16px;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .timeline-item:hover { 
+            background: #fbfcfe; 
+            border-color: #e0e5f2; 
+        }
+
+        .time-label { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: var(--text-muted); 
+            min-width: 50px; 
+        }
+
+        .icon-box {
+            width: 45px; 
+            height: 45px; 
+            background: #f4f7fe;
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center;
+            justify-content: center; 
+            color: var(--primary); 
+            font-size: 20px;
+        }
+
+        .item-details { flex-grow: 1; }
+        .item-title { font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+        .item-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+        .badge-overdue {
+            background: #fff5f5; 
+            color: var(--danger);
+            padding: 2px 8px; 
+            border-radius: 6px; 
+            font-size: 11px; 
+            font-weight: 700;
+        }
+
+        .btn-action {
+            background: var(--white); 
+            border: 1px solid #e0e5f2;
+            padding: 8px 16px; 
+            border-radius: 10px; 
+            font-size: 12px;
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: 0.3s;
+        }
+
+        .btn-action:hover { 
+            background: var(--primary); 
+            color: white; 
+            border-color: var(--primary); 
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <header>
+        <h1 class="user-greeting">Hi, User</h1>
+    </header>
+
+    <!-- Courses Section -->
+    <section class="courses-section">
+        <div class="section-header">
+            <h2>Recently Visited Courses</h2>
+            <div class="scroll-controls">
+                <button onclick="scrollGrid(-320)"><i class='bx bx-chevron-left'></i></button>
+                <button onclick="scrollGrid(320)"><i class='bx bx-chevron-right'></i></button>
+            </div>
+        </div>
+
+        <div class="course-grid" id="courseGrid">
+            <a href="#" class="card-container" style="background-image: url('R.jpg')">
+                <div class="content">
+                    <h3>Networking 1</h3>
+                    <p>Computer Science Dept.</p>
+                    <span class="btn-primary">Visit</span>
+                </div>
+            </a>
+            <a href="#" class="card-container" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400')">
+                <div class="content">
+                    <h3>CIT 248 Intro</h3>
+                    <p>Mr. C. Williams</p>
+                    <span class="btn-primary">Visit</span>
+                </div>
+            </a>
+            <a href="#" class="card-container" style="background-image: url('https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&q=80&w=400')">
+                <div class="content">
+                    <h3>Advance Programming</h3>
+                    <p>Software Engineering</p>
+                    <span class="btn-primary">Visit</span>
+                </div>
+            </a>
+            <a href="#" class="card-container" style="background-image: url('https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&q=80&w=400')">
+                <div class="content">
+                    <h3>Web Design</h3>
+                    <p>Christopher Mign...</p>
+                    <span class="btn-primary">Visit</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section">
+        <h2>Timeline</h2>
+
+        <div class="timeline-controls">
+            <div class="filters" style="display: flex; gap: 10px;">
+                <div class="custom-dropdown" id="statusDropdownCustom">
+                    <button id="dropdownBtn">All</button>
+                    <div class="custom-dropdown-content" id="dropdownContent">
+                        <div class="all">All</div>
+                        <div class="current">Current</div>
+                        <div class="upcoming">Up Coming</div>
+                        <div class="overdue">Overdue</div>
+                        <div class="thisWeek">This Week</div>
+                        <div class="nextWeek">Next Week</div>
+                        <div class="thisMonth">This Month</div>
+                        <div class="nextMonth">Next Month</div>
+                    </div>
+                </div>
+
+                <div class="custom-dropdown" id="sortDropdownCustom">
+                    <button id="sortDropdownBtn">Sort By</button>
+                    <div class="custom-dropdown-content" id="sortDropdownContent">
+                        <div class="dates">Sort By Dates</div>
+                        <div class="class">Sort By Class</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search by activity type or name">
+            </div>
+        </div>
+
+        <!-- Timeline List -->
+        <div class="timeline-list">
+            <div class="date-group">Friday, 20 February 2026</div>
+            <div class="timeline-item">
+                <div class="time-label">04:25</div>
+                <div class="icon-box"><i class='bx bxs-tree-alt'></i></div>
+                <div class="item-details">
+                    <div class="item-title">Graded Prototype Activity <span class="badge-overdue">Overdue</span></div>
+                    <div class="item-subtitle">Capstone Project 2025-2026</div>
+                </div>
+            </div>
+
+            <div class="date-group">Monday, 23 February 2026</div>
+            <div class="timeline-item">
+                <div class="time-label">00:00</div>
+                <div class="icon-box"><i class='bx bxs-binoculars'></i></div>
+                <div class="item-details">
+                    <div class="item-title">Week 6 Lab Grade</div>
+                    <div class="item-subtitle">Networking 2 - 2026</div>
+                </div>
+            </div>
+
+            <div class="date-group">Tuesday, 24 February 2026</div>
+            <div class="timeline-item">
+                <div class="time-label">16:30</div>
+                <div class="icon-box"><i class='bx bx-pointer'></i></div>
+                <div class="item-details">
+                    <div class="item-title">Lab5_Troubleshooting</div>
+                    <div class="item-subtitle">CIT 248 Intro to Computer Repairs</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-label">23:59</div>
+                <div class="icon-box"><i class='bx bx-male'></i></div>
+                <div class="item-details">
+                    <div class="item-title">Business Plan - Phase 2</div>
+                    <div class="item-subtitle">Entrepreneurial Skills: Makeda Gibbon</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Course Grid Scroll
+    const grid = document.getElementById('courseGrid');
+    function scrollGrid(distance) {
+        grid.scrollBy({ left: distance, behavior: 'smooth' });
+    }
+
+    // Dropdown Logic
+    function setupDropdown(btnId, contentId) {
+        const btn = document.getElementById(btnId);
+        const content = document.getElementById(contentId);
+        btn.addEventListener('click', () => {
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        });
+        content.querySelectorAll('div').forEach(item => {
+            item.addEventListener('click', () => {
+                btn.textContent = item.textContent;
+                content.style.display = 'none';
+            });
+        });
+    }
+
+    setupDropdown('dropdownBtn', 'dropdownContent');
+    setupDropdown('sortDropdownBtn', 'sortDropdownContent');
+
+    window.addEventListener('click', (e) => {
+        if (!e.target.matches('button')) {
+            document.querySelectorAll('.custom-dropdown-content').forEach(d => d.style.display = 'none');
+        }
+    });
+</script>
+</body>
+</html>

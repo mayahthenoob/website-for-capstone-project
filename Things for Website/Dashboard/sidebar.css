@@ -1,4 +1,3 @@
-/* Google Font Import - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 * {
@@ -9,7 +8,6 @@
 }
 
 :root {
-    /* Light Mode Colors */
     --body-color: #E4E9F7;
     --sidebar-color: #FFF;
     --primary-color: #695CFE;
@@ -35,8 +33,6 @@ body.dark {
     --text-color: #ccc;
 }
 
-/* ================= Sidebar ================= */
-
 .sidebar {
     position: fixed;
     top: 0;
@@ -53,52 +49,43 @@ body.dark {
     width: 88px;
 }
 
-/* Reusable Components */
-.sidebar li {
-    height: 50px;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.sidebar .icon {
-    min-width: 60px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    color: var(--text-color);
-    transition: var(--tran-03);
-}
-
-.sidebar .text {
-    font-size: 17px;
-    font-weight: 500;
-    color: var(--text-color);
-    transition: var(--tran-03);
-    white-space: nowrap;
-    opacity: 1;
-}
-
-.sidebar.close .text {
-    opacity: 0;
-}
-
 .sidebar header {
     position: relative;
 }
 
+.sidebar header .image-text {
+    display: flex;
+    align-items: center;
+}
+
 .sidebar header .image {
-    min-width: 60px;
-    border-radius: 6px;
-    background-color: var(--primary-color);
-    color: #fff;
-    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 60px;
+    border-radius: 6px;
+}
+
+.sidebar header .image img {
+    width: 40px;
+    border-radius: 6px;
+}
+
+.sidebar header .logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar header .name {
+    margin-top: 2px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.sidebar header .profession {
+    font-size: 13px;
+    margin-top: -2px;
+    display: block;
 }
 
 .sidebar header .toggle {
@@ -123,16 +110,39 @@ body.dark {
     transform: translateY(-50%) rotate(0deg);
 }
 
-.sidebar .menu-bar {
-    height: calc(100% - 55px);
+.sidebar li {
+    height: 50px;
+    list-style: none;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.sidebar .icon {
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--text-color);
+    transition: var(--tran-03);
+}
+
+.sidebar .text {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text-color);
+    white-space: nowrap;
+    opacity: 1;
+    transition: var(--tran-03);
+}
+
+.sidebar.close .text {
+    opacity: 0;
 }
 
 .sidebar li a {
     height: 100%;
-    background-color: transparent;
     display: flex;
     align-items: center;
     width: 100%;
@@ -153,51 +163,44 @@ body.dark {
     color: var(--sidebar-color);
 }
 
-/* ================= Dark Mode Section ================= */
-
 .sidebar .mode {
-    background-color: var(--primary-color-light);
-    border-radius: 6px;
-    position: relative;
-
-    /* Alignment Fix */
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 6px;
+    background-color: var(--primary-color-light);
+    padding: 0 10px;
+    transition: var(--tran-05);
 }
 
-/* Sun & Moon container */
 .sidebar .mode .sun-moon {
-    min-width: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 60px;
+    font-size: 20px;
+    color: var(--text-color);
+    position: relative;
 }
 
-/* Icon styling */
 .mode .sun-moon i {
-    font-size: 20px;
+    position: absolute;
     transition: var(--tran-03);
 }
 
-/* Default (Light Mode) */
 .mode .sun-moon i.sun {
-    display: none;
+    opacity: 0;
 }
 
-/* Dark Mode Icon Switch */
 body.dark .mode .sun-moon i.sun {
-    display: block;
+    opacity: 1;
 }
 
 body.dark .mode .sun-moon i.moon {
-    display: none;
+    opacity: 0;
 }
 
-/* Toggle switch container */
 .sidebar .toggle-switch {
-    position: absolute;
-    right: 0;
     height: 100%;
     min-width: 60px;
     display: flex;
@@ -212,6 +215,7 @@ body.dark .mode .sun-moon i.moon {
     width: 40px;
     border-radius: 25px;
     background-color: var(--toggle-color);
+    transition: var(--tran-05);
 }
 
 .switch::before {
@@ -231,17 +235,33 @@ body.dark .switch::before {
     left: 20px;
 }
 
+.sidebar.close .mode .sun-moon,
+.sidebar.close .mode .mode-text {
+    display: none;
+}
+
+.sidebar.close .mode {
+    justify-content: center;
+}
+
 .home {
-    position: relative;
+    position: absolute;
+    top: 0;
     left: 250px;
+    height: 100vh;
     width: calc(100% - 250px);
-    min-height: 100vh;
-    background: var(--body-color);
+    background-color: var(--body-color);
     transition: var(--tran-05);
-    padding: 20px;
 }
 
 .sidebar.close ~ .home {
     left: 88px;
     width: calc(100% - 88px);
+}
+
+.home .text {
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 12px 60px;
 }

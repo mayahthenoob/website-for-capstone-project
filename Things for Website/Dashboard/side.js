@@ -4,10 +4,12 @@ const body = document.querySelector('body'),
       modeSwitch = body.querySelector(".toggle-switch"),
       modeText = body.querySelector(".mode-text");
 
+// Toggle sidebar open/close
 toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
 });
 
+// Dark mode toggle
 modeSwitch.addEventListener("click", () => {
     body.classList.toggle("dark");
     

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated Dark Mode Toggle</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+:root {
+  --color: #9176FF;
+  --dark-color: #2b2b2b;
+  --dark-icon-color: #fff;
+  --light-color: #f7f7f7;
+  --light-icon-color: #FFDE59;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--light-color);
+  transition: background-color .3s ease;
+}
+
+.btn {
+  background-color: #fff;
+  width: 15em;
+  height: 8em;
+  border-radius: 10em;
+  padding: 0 0.5em;
+  box-shadow: inset 0 8px 60px rgba(0,0,0,.1),
+              inset 0 8px 8px rgba(0,0,0,.1),
+              inset 0 -4px 4px rgba(0,0,0,.1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: box-shadow .3s ease;
+}
+
+.btn__indicator {
+  background-color: #fff;
+  width: 7em;
+  height: 7em;
+  border-radius: 50%;
+  position: absolute;
+  box-shadow: 0 8px 40px rgba(0,0,0,.2);
+  transition: transform .3s ease, background-color .3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn__icon {
+  color: var(--light-icon-color);
+  font-size: 3rem;
+  transition: color .3s ease;
+}
+
+.btn__icon.animated {
+  animation: spin .5s;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* DARK MODE */
+
+body.darkmode {
+  background-color: var(--dark-color);
+}
+
+.darkmode .btn {
+  box-shadow: inset 0 8px 60px rgba(0,0,0,.3),
+              inset 8px 0 8px rgba(0,0,0,.3),
+              inset 0 -4px 4px rgba(0,0,0,.3);
+}
+
+.darkmode .btn__indicator {
+  transform: translateX(7em);
+  background-color: var(--dark-color);
+  box-shadow: 0 8px 40px rgba(0,0,0,.3);
+}
+
+.darkmode .btn__icon {
+  color: var(--dark-icon-color);
+}
+</style>
+</head>
+
+<body>
+
+<div class="btn">
+  <div class="btn__indicator">
+    <i class="btn__icon bx bx-sun"></i>
+  </div>
+</div>
+
+<script>
+const body = document.querySelector("body");
+const btn = document.querySelector(".btn");
+const icon = document.querySelector(".btn__icon");
+
+btn.addEventListener("click", () => {
+  body.classList.toggle("darkmode");
+
+  icon.classList.add("animated");
+
+  if (body.classList.contains("darkmode")) {
+    icon.classList.remove("bx-sun");
+    icon.classList.add("bx-moon");
+  } else {
+    icon.classList.remove("bx-moon");
+    icon.classList.add("bx-sun");
+  }
+
+  setTimeout(() => {
+    icon.classList.remove("animated");
+  }, 500);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Timeline</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #4318FF;
+            --bg-body: #f4f7fe;
+            --text-main: #1b2559;
+            --text-muted: #a3aed0;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0,0,0,0.05);
+            --danger: #ee5d50;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px;
+        }
+
+        h2 { font-size: 20px; margin-bottom: 20px; }
+
+        /* Timeline Section Styles */
+        .timeline-section {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-controls {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 15px; margin: 20px 0;
+        }
+
+        .custom-dropdown { position: relative; width: 160px; }
+        .custom-dropdown button {
+            width: 100%; background: #f4f7fe; border: 1px solid #e0e5f2;
+            border-radius: 12px; padding: 10px 15px; text-align: left;
+            font-weight: 600; cursor: pointer; color: var(--text-main);
+        }
+        .custom-dropdown-content {
+            display: none; position: absolute; background: white;
+            min-width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px; z-index: 10; margin-top: 5px;
+        }
+        .custom-dropdown-content div { padding: 10px 15px; cursor: pointer; font-size: 14px; }
+        .custom-dropdown-content div:hover { background: #f4f7fe; color: var(--primary); }
+
+        .search-bar input {
+            padding: 12px 20px; width: 280px; border-radius: 12px;
+            border: 1px solid #e0e5f2; background: #f4f7fe;
+        }
+
+        .timeline-list { margin-top: 30px; }
+
+        .date-group {
+            font-weight: 700; font-size: 14px; color: var(--text-muted);
+            margin: 25px 0 15px; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .timeline-item {
+            display: flex; align-items: center; gap: 20px;
+            padding: 16px; border-radius: 16px;
+            transition: 0.2s; border: 1px solid transparent;
+        }
+
+        .timeline-item:hover { background: #fbfcfe; border-color: #e0e5f2; }
+
+        .time-label { font-size: 13px; font-weight: 600; color: var(--text-muted); min-width: 50px; }
+
+        .icon-box {
+            width: 45px; height: 45px; background: #f4f7fe;
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; color: var(--primary); font-size: 20px;
+        }
+
+        .item-details { flex-grow: 1; }
+        .item-title { font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+        .item-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+        .badge-overdue {
+            background: #fff5f5; color: var(--danger);
+            padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;
+        }
+
+        .btn-action {
+            background: var(--white); border: 1px solid #e0e5f2;
+            padding: 8px 16px; border-radius: 10px; font-size: 12px;
+            font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+
+        .btn-action:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <section class="timeline-section">
+        <h2>Timeline</h2>
+        
+        <div class="timeline-controls">
+            <div style="display: flex; gap: 10px;">
+                <div class="custom-dropdown">
+                    <button id="dropdownBtn">All</button>
+                    <div class="custom-dropdown-content" id="dropdownContent">
+                        <div>All</div>
+                        <div>Overdue</div>
+                        <div>This Week</div>
+                    </div>
+                </div>
+                <div class="custom-dropdown">
+                    <button id="sortDropdownBtn">Sort By Date</button>
+                    <div class="custom-dropdown-content" id="sortDropdownContent">
+                        <div>Dates</div>
+                        <div>Class</div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search activities...">
+            </div>
+        </div>
+
+        <!-- Timeline list replaced from the second HTML -->
+        <div class="timeline-list">
+            <div class="date-group">Friday, 20 February 2026</div>
+            
+            <div class="timeline-item">
+                <div class="time-label">04:25</div>
+                <div class="icon-box"><i class='bx bxs-tree-alt'></i></div>
+                <div class="item-details">
+                    <div class="item-title">Graded Prototype Activity <span class="badge-overdue">Overdue</span></div>
+                    <div class="item-subtitle">Capstone Project 2025-2026</div>
+                </div>
+            </div>
+
+            <div class="date-group">Monday, 23 February 2026</div>
+            
+            <div class="timeline-item">
+                <div class="time-label">00:00</div>
+                <div class="icon-box"><i class='bx bxs-binoculars'></i></div>
+                <div class="item-details">
+                    <div class="item-title">Week 6 Lab Grade</div>
+                    <div class="item-subtitle">Networking 2 - 2026</div>
+                </div>
+            </div>
+
+            <div class="date-group">Tuesday, 24 February 2026</div>
+            
+            <div class="timeline-item">
+                <div class="time-label">16:30</div>
+                <div class="icon-box"><i class='bx bx-pointer'></i></div>
+                <div class="item-details">
+                    <div class="item-title">Lab5_Troubleshooting</div>
+                    <div class="item-subtitle">CIT 248 Intro to Computer Repairs</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-label">23:59</div>
+                <div class="icon-box"><i class='bx bx-male'></i></div>
+                <div class="item-details">
+                    <div class="item-title">Business Plan - Phase 2</div>
+                    <div class="item-subtitle">Entrepreneurial Skills: Makeda Gibbon</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function setupDropdown(btnId, contentId) {
+            const btn = document.getElementById(btnId);
+            const content = document.getElementById(contentId);
+            btn.addEventListener('click', () => {
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            });
+            content.querySelectorAll('div').forEach(item => {
+                item.addEventListener('click', () => {
+                    btn.textContent = item.textContent;
+                    content.style.display = 'none';
+                });
+            });
+        }
+
+        setupDropdown('dropdownBtn', 'dropdownContent');
+        setupDropdown('sortDropdownBtn', 'sortDropdownContent');
+
+        window.onclick = (e) => {
+            if (!e.target.matches('button')) {
+                document.querySelectorAll('.custom-dropdown-content').forEach(d => d.style.display = 'none');
+            }
+        }
+    </script>
+
+</body>
+</html>
