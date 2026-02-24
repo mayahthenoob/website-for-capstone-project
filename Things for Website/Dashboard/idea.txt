@@ -5,6 +5,13 @@ change color of calender
 current date 
 selected date
 assignment/ quiz to do dates
+add change from slide
+add filter to search bar for Courses 
+make it filter with checkboxes
+<i class='bx bx-chevron-down'></i>
+<i class='bx bx-dots-vertical-rounded'></i>
+make it so it stays the same size no matter how many days or where the days are in the calender
+
 
 add a background pic for calender for all seasons/ months or make it a custom calender
 
@@ -35,10 +42,7 @@ dont forget to change the sidebar and add the icon notifications to the header
 add a specific color option for signin up school
 add to sign up school or just manually add it byself
 
-make the inut sectio for the full profile
-
-calender 
-make it so it stays the same size no matter how many days or where the days are in the calender
+make the input section for the full profile
 
 sidebar for subject/ course notes/ course work
 makeothersidebarright.jpg

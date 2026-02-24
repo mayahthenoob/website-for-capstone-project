@@ -1,0 +1,17 @@
+make the create button one circlar thing with with an + in the middle that has a hover effect of a color and says what it is (Create New Quiz)
+a dashed or something border
+
+since the activites won't show when it does have activites show colors for different things
+
+to do (week after current week)
+#ADFF2F
+
+upcoming (close to current date)
+#008000
+
+past due (time to play quiz past)
+#8B0000
+
+
+add what it means hover effect
+add it to the bottom of the date on the calender when clicked sent you to activity page

@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <title>Create a new kahoot - Clone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <style>
@@ -37,7 +33,6 @@
             align-items: center;
         }
 
-        /* Modal Overlay */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -51,7 +46,6 @@
             z-index: 1000;
         }
 
-        /* Modal Container */
         .modal-content {
             background: white;
             width: 90%;
@@ -71,7 +65,6 @@
             margin-bottom: 35px;
         }
 
-        /* Close "X" */
         .close-top {
             position: absolute;
             top: 20px;
@@ -83,7 +76,6 @@
             cursor: pointer;
         }
 
-        /* Main Card Grid */
         .card-grid {
             display: flex;
             gap: 16px;
@@ -108,7 +100,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        /* Icons */
         .icon-box {
             width: 50px;
             height: 50px;
@@ -131,7 +122,6 @@
             font-size: 26px;
         }
 
-        /* Typography */
         .card h3,
         .mini-card h4 {
             font-family: 'Montserrat', sans-serif;
@@ -147,7 +137,6 @@
             margin: 0;
         }
 
-        /* Bottom Row */
         .bottom-row {
             display: flex;
             gap: 16px;
@@ -186,8 +175,7 @@
             color: var(--text-muted);
         }
 
-        /* Footer Button */
-        .close-btn {
+        .create-btn {
             margin-top: 40px;
             padding: 10px 35px;
             border-radius: 4px;
@@ -201,8 +189,12 @@
             transition: background 0.2s;
         }
 
-        .close-btn:hover {
+        .create-btn:hover {
             background: #d4d4d4;
+        }
+
+        a {
+            text-decoration: none;
         }
     </style>
 </head>
@@ -248,8 +240,8 @@
                     <i class='bx bx-slideshow'></i>
                 </div>
                 <div>
-                    <h4>Import slides</h4>
-                    <p>Upload slides from other quiz or quizzes to make quiz</p>
+                    <h4>Resuse Quiz</h4>
+                    <p>Use old quiz to start new</p>
                 </div>
             </div>
 
@@ -258,14 +250,13 @@
                     <i class='bx bx-layout'></i>
                 </div>
                 <div>
-                    <h4>Templates</h4>
-                    <p>Pre-made quizzes</p>
+                    <h4>Teachers Quizzes</h4>
+                    <p>Pre-made quizzes from other teachers</p>
                 </div>
             </div>
         </div>
 
-        <button class="close-btn">Create</button>
-
+        <button class="create-btn"><a href="create.html">Create</a></button>
     </div>
 </div>
 
