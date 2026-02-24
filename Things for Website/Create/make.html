@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a new kahoot - Clone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        :root {
+            --primary-purple: #46178f;
+            --light-purple: #f2f0f5;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --border-color: #e5e5e5;
+            --bg-overlay: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background: #999;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-overlay);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Modal Container */
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 820px;
+            border-radius: 8px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            color: var(--text-main);
+            margin-top: 0;
+            margin-bottom: 35px;
+        }
+
+        /* Close "X" */
+        .close-top {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        /* Main Card Grid */
+        .card-grid {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            flex: 1;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            border-color: var(--primary-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* Icons */
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-purple);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .icon-box.outline {
+            background: transparent;
+            border: 2px dashed #ccc;
+            color: #ccc;
+        }
+
+        .icon-box i {
+            font-size: 26px;
+        }
+
+        /* Typography */
+        .card h3,
+        .mini-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            margin: 10px 0;
+            font-size: 16px;
+            color: var(--text-main);
+        }
+
+        .card p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Bottom Row */
+        .bottom-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .mini-card {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .mini-card:hover {
+            background-color: #f9f9f9;
+        }
+
+        .mini-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--primary-purple);
+        }
+
+        .mini-card h4 {
+            font-size: 14px;
+            margin: 0 0 4px 0;
+        }
+
+        .mini-card p {
+            font-size: 12px;
+            margin: 0;
+            color: var(--text-muted);
+        }
+
+        /* Footer Button */
+        .close-btn {
+            margin-top: 40px;
+            padding: 10px 35px;
+            border-radius: 4px;
+            border: none;
+            background: #e0e0e0;
+            color: var(--text-main);
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #d4d4d4;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="modal-overlay" id="modal">
+    <div class="modal-content">
+
+        <button class="close-top" onclick="closeModal()">&times;</button>
+
+        <h2>Create New Quiz</h2>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="icon-box">
+                    <i class='bx bxs-file-plus'></i>
+                </div>
+                <h3>Upload From File</h3>
+                <p>Use quiz that was exported to start new Quiz</p>
+            </div>
+
+            <div class="card">
+                <div class="icon-box">
+                    <i class='bx bx-archive'></i>
+                </div>
+                <h3>Use From Library</h3>
+                <p>Use already made quizzes from the website's library</p>
+            </div>
+
+            <div class="card">
+                <div class="icon-box outline">
+                    <i class='bx bx-file-blank'></i>
+                </div>
+                <h3>Blank canvas</h3>
+                <p>Create from scratch</p>
+            </div>
+        </div>
+
+        <div class="bottom-row">
+            <div class="mini-card">
+                <div class="mini-icon">
+                    <i class='bx bx-slideshow'></i>
+                </div>
+                <div>
+                    <h4>Import slides</h4>
+                    <p>Upload slides from other quiz or quizzes to make quiz</p>
+                </div>
+            </div>
+
+            <div class="mini-card">
+                <div class="mini-icon">
+                    <i class='bx bx-layout'></i>
+                </div>
+                <div>
+                    <h4>Templates</h4>
+                    <p>Pre-made quizzes</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="close-btn">Create</button>
+
+    </div>
+</div>
+
+<script>
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

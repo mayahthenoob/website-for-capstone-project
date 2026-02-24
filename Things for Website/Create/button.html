@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kahoot Dashboard Clone</title>
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --bg-body: #f2f2f2;
+            --text-dark: #333;
+            /* Kahoot Colors */
+            --kh-orange: #e44100;
+            --kh-purple: #864cbf;
+            --kh-red: #da3223;
+            --kh-blue: #1368b0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            margin: 0;
+            padding: 40px 20px;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h2 { margin-bottom: 20px; font-size: 1.5rem; }
+
+        /* --- GRID LAYOUT --- */
+        .quick-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        /* --- CARD STYLING --- */
+        .card {
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 160px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .main-icon {
+            font-size: 2.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .card-header p {
+            font-weight: bold;
+            font-size: 1.1rem;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        /* --- FANCY SLANTED BUTTONS --- */
+        .fancy-btn {
+            display: flex;
+            align-items: center;
+            align-self: flex-end; /* Aligns to bottom right */
+            width: 160px;
+            height: 40px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.1s ease;
+            padding: 0;
+        }
+
+        /* The Slanted Effect Layer */
+        .fancy-btn::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(115deg, 
+                rgba(0,0,0,0.15) 38%, 
+                rgba(255,255,255,0.15) 38.5%, 
+                rgba(255,255,255,0.15) 45%, 
+                transparent 45.5%);
+            pointer-events: none;
+        }
+
+        .icon-box {
+            width: 30%;
+            height: 100%;
+            background: rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .btn-text {
+            flex-grow: 1;
+            color: white;
+            font-weight: bold;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        /* Hover States */
+        .fancy-btn:hover {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        /* Colors */
+        .orange { background-color: var(--kh-orange); }
+        .purple { background-color: var(--kh-purple); }
+        .red { background-color: var(--kh-red); }
+        .blue { background-color: var(--kh-blue); }
+
+        /* Specific Button Shades */
+        .btn-orange { background-color: #ff6d00; }
+        .btn-purple { background-color: #6a1b9a; }
+        .btn-red { background-color: #b71c1c; }
+        .btn-blue { background-color: #0d47a1; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Quick tools to get started</h2>
+
+    <div class="quick-tools-grid">
+        
+        <div class="card orange">
+            <div class="card-header">
+                <div class="main-icon">➕</div>
+                <p>Create content from scratch</p>
+            </div>
+            <button class="fancy-btn btn-orange">
+                <div class="icon-box">➕</div>
+                <span class="btn-text">Create new</span>
+            </button>
+        </div>
+
+        <div class="card purple">
+            <div class="card-header">
+                <div class="main-icon">🪄</div>
+                <p>Save time! Create kahoots with AI</p>
+            </div>
+            <button class="fancy-btn btn-purple">
+                <div class="icon-box">🪄</div>
+                <span class="btn-text">Start creating</span>
+            </button>
+        </div>
+
+        <div class="card red">
+            <div class="card-header">
+                <div class="main-icon">PDF</div>
+                <p>Generate a kahoot from your PDF</p>
+            </div>
+            <button class="fancy-btn btn-red">
+                <div class="icon-box">📄</div>
+                <span class="btn-text">Upload PDF</span>
+            </button>
+        </div>
+
+        <div class="card blue">
+            <div class="card-header">
+                <div class="main-icon">🖼️</div>
+                <p>Turn presentations into experiences</p>
+            </div>
+            <button class="fancy-btn btn-blue">
+                <div class="icon-box">↗️</div>
+                <span class="btn-text">Import</span>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

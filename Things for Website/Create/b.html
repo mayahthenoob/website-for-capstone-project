@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Button Replica</title>
+    <style>
+        /* Basic Page Styling to center the button */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* The Main Button Container */
+        .share-btn {
+            display: flex;
+            align-items: center;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            
+            /* Creating the diagonal split using a hard-stop gradient */
+            /* 115deg gives that specific slant from your image */
+            background: linear-gradient(
+                115deg, 
+                #3b5998 0%, 
+                #3b5998 28%, 
+                #5a8ae2 28.5%, 
+                #8cb3f2 100%
+            );
+        }
+
+        /* Left Side: Icon Area */
+        .btn-icon {
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.1); /* Subtle dark overlay for depth */
+        }
+
+        /* Right Side: Text Area */
+        .btn-text {
+            padding: 18px 50px 18px 30px;
+            color: white;
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: capitalize;
+        }
+
+        /* Hover States */
+        .share-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            filter: brightness(1.05);
+        }
+
+        .share-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Styling the SVG Icon */
+        svg {
+            fill: white;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        }
+    </style>
+</head>
+<body>
+
+    <button class="share-btn">
+        <div class="btn-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24">
+                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/>
+            </svg>
+        </div>
+        <div class="btn-text">Share</div>
+    </button>
+
+</body>
+</html>
