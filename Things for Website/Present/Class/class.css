@@ -1,0 +1,142 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #cbd5e0;
+    color: #333;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.tabs-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 2;
+}
+
+.tab-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    color: #7f8c8d;
+    font-size: 1rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+    background-color: white;
+    color: #3498db;
+    font-weight: bold;
+    border-bottom: 2px solid white;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 0 8px 8px 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.card-header h2 {
+    margin: 0 15px;
+    font-size: 1.4rem;
+    flex-grow: 1;
+    color: #2c3e50;
+}
+
+.collapse-text {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.arrow-circle {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #E6E6FA;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.collapsible-wrapper {
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.tab-content {
+    display: none;
+}
+
+.active-content {
+    display: block;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.timestamp {
+    color: #e67e22;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.time {
+    font-size: 1.8rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.objectives-header {
+    background-color: #f1c40f; 
+    color: white;
+    text-align: center;
+    padding: 8px;
+    font-style: italic;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+ol {
+    padding: 20px 40px;
+    line-height: 1.6;
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="class.css">
+</head>
+<body>
+
+    <main class="container">
+        <h1 class="main-title">Mathematics</h1>
+        
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="openTab(event, 'class-tab')">
+                <i class='bx bx-book'></i> Class
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 'participants-tab')">
+                <i class='bx bx-male-female'></i> Participants
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 'grades-tab')">
+                <i class='bx bx-bar-chart-alt-2'></i> Grades
+            </button>
+        </div>
+
+        <section class="card" id="main-card">
+            <div class="card-header">
+                <div class="arrow-circle" id="collapse-arrow" onclick="toggleCollapse()">
+                    <i class='bx bx-chevron-down'></i>
+                </div>
+                <h2>General</h2>
+                <span class="collapse-text" id="toggle-btn" onclick="toggleCollapse()">Collapse all</span>
+            </div>
+
+            <div class="collapsible-wrapper" id="collapsible-wrapper">
+
+                <div id="class-tab" class="tab-content active-content">
+                    <div class="card-body">
+                        <div class="timestamp">
+                            <span id="current-date"></span><br>
+                            <span class="time" id="current-time"></span>
+                        </div>
+
+                        <div class="info-grid">
+                            <div><strong>Class Name:</strong> Mathematics</div>
+                            <div><strong>Teacher Name:</strong> Mr. Darell Mason</div>
+                            <div><strong>Teacher Email:</strong> DarellM@gss.edu.gd</div>
+                        </div>
+
+                        <div class="objectives-container">
+                            <div class="objectives-header">Class Objectives</div>
+                            <ol>
+                                <li>Understanding class work</li>
+                                <li>Getting full grades for quizzes</li>
+                                <li>Make students enthusiastic to learn</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="participants-tab" class="tab-content">
+                    <div class="card-body">
+                        <h3>Class Participants</h3>
+                        <p>List of students enrolled in Mathematics will appear here.</p>
+                    </div>
+                </div>
+
+                <div id="grades-tab" class="tab-content">
+                    <div class="card-body">
+                        <h3>Grades Overview</h3>
+                        <p>Average class performance and individual grades.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Live Clock
+        function updateClock() {
+            const now = new Date();
+            const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+            
+            const dateStr = `${days[now.getDay()]} ${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
+            const timeStr = now.toLocaleTimeString('en-GB', { hour12: false });
+
+            document.getElementById('current-date').textContent = dateStr;
+            document.getElementById('current-time').textContent = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Tabs
+        function openTab(evt, tabName) {
+            const contents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active-content");
+            }
+
+            const buttons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+
+            document.getElementById(tabName).classList.add("active-content");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Smooth Collapse
+        function toggleCollapse() {
+            const wrapper = document.getElementById("collapsible-wrapper");
+            const btn = document.getElementById("toggle-btn");
+            const arrow = document.getElementById("collapse-arrow");
+
+            if (wrapper.style.maxHeight) {
+                wrapper.style.maxHeight = null;
+                btn.textContent = "Collapse all";
+                arrow.style.transform = "rotate(0deg)";
+            } else {
+                wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+                setTimeout(() => {
+                    wrapper.style.maxHeight = "0px";
+                }, 10);
+                btn.textContent = "Expand all";
+                arrow.style.transform = "rotate(-90deg)";
+            }
+        }
+
+        // Initialize height for smooth animation
+        window.onload = function() {
+            const wrapper = document.getElementById("collapsible-wrapper");
+            wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+        };
+    </script>
+
+</body>
+</html>
