@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participants</title>
+    <link rel="stylesheet" href="p.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="header-top">
+                    <h2>All Inbox</h2>
+                    <div class="header-icons">
+                        <button class="icon-btn">▽</button>
+                        <button class="icon-btn">⧉</button>
+                        <button class="icon-btn">...</button>
+                    </div>
+                </div>
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="inboxSearch" placeholder="Search Inbox...">
+                </div>
+            </div>
+            
+            <div class="inbox-list" id="inboxList">
+                </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="task-banner"></div>
+            <section class="task-details">
+                <div class="title-row">
+                    <h1>ABC Dashboard</h1>
+                    <span class="badge urgent">Urgent</span>
+                </div>
+
+                <div class="metadata-grid">
+                    <div class="label">Status</div>
+                    <div class="value">
+                        <input type="radio" checked> <span>On Progress</span>
+                    </div>
+
+                    <div class="label">Due date</div>
+                    <div class="value">Feb 02, 2027</div>
+
+                    <div class="label">Assignee</div>
+                    <div class="value">
+                        <span class="chip blue">Kiara Laras ✕</span>
+                        <span class="chip green">Joe Tesla ✕</span>
+                        <span class="chip orange">Tania ✕</span>
+                        <span class="add-btn">+</span>
+                    </div>
+
+                    <div class="label">Tags</div>
+                    <div class="value">
+                        <select class="tag-select"><option>Dashboard</option></select>
+                    </div>
+
+                    <div class="label">Priority</div>
+                    <div class="value"><span class="badge urgent">Urgent</span></div>
+
+                    <div class="label">Description</div>
+                    <div class="value description-text">Create wireframe for Dashboard page</div>
+                </div>
+
+                <div class="attachments-section">
+                    <h4>🔗 Attachment (2) <span class="download-all">Download All</span></h4>
+                    <div class="attachments-grid">
+                        <div class="attachment-card">
+                            <div class="file-icon pdf">Word</div>
+                            <div class="file-info">
+                                <strong>Design brief.pdf</strong>
+                                <span>1.5 MB · <a href="#">Download file</a></span>
+                            </div>
+                        </div>
+                        <div class="attachment-card">
+                            <div class="file-icon figma">Fig</div>
+                            <div class="file-info">
+                                <strong>ABC Dashboard.fig</strong>
+                                <span>2.5 MB</span>
+                            </div>
+                        </div>
+                        <button class="add-attachment">+</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="p.js"></script>
+</body>
+</html>
