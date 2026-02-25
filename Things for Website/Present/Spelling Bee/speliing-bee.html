@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spelling Bee</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffdd00, #ff9f1c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .game {
+      background: #fff;
+      width: 100%;
+      max-width: 420px;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .game h1 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .game p {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    img {
+      width: 140px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+      outline: none;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input:focus {
+      border-color: #ff9f1c;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .actions button {
+      flex: 1;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      padding: 12px;
+      cursor: pointer;
+      transition: 0.25s ease;
+      font-weight: 600;
+      background: #f1f1f1;
+    }
+
+    .actions button:hover {
+      background: #ddd;
+      transform: translateY(-2px);
+    }
+
+    .footer {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    @media (max-width: 480px) {
+      .game {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game">
+    <img src="bee.png" alt="Bee">
+
+    <h1>Animals</h1>
+    <p>Listen carefully and type the word you hear</p>
+
+    <input type="text" id="inp" placeholder="Spell Word Here">
+
+    <div class="actions">
+      <button id="speak">
+        <i class='bx bx-user-voice'></i> Speak
+      </button>
+      <button id="next">
+        <i class='bx bx-right-arrow-alt'></i> Next
+      </button>
+    </div>
+
+    <div class="footer">
+      Improve your spelling skills!
+    </div>
+  </div>
+
+  <script>
+    let word;
+    let currentIndex = -1;
+
+    const words = [
+    "dog","elephant","giraffe","cat","bird",
+    "bee","ladybug","slug","fly","snake"
+    ];
+
+    function speakWord() {
+        if (!word) return;
+        const voice = new SpeechSynthesisUtterance(word);
+        speechSynthesis.cancel();
+        speechSynthesis.speak(voice);
+    }
+
+    function nextWord() {
+        currentIndex++;
+        if (currentIndex >= words.length) {
+            currentIndex = 0;
+        }
+        word = words[currentIndex];
+        document.getElementById('inp').value = '';
+    }
+
+    document.getElementById('speak').addEventListener('click', () => {
+        if (!word) {
+            nextWord();
+        }
+        speakWord();
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+        nextWord();
+    });
+  </script>
+
+</body>
+</html>

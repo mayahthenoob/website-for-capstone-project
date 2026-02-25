@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Menu</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1f23;
+            --row-bg: #25262b;
+            --text-main: #ffffff;
+            --text-sub: #8a8b91;
+            --accent-green: #00e676;
+            --accent-red: #c62828;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container */
+        .settings-panel {
+            background-color: var(--card-bg);
+            width: 400px;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 0 5px;
+        }
+
+        .header h1 {
+            color: var(--text-main);
+            font-size: 24px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .close-btn {
+            background-color: var(--accent-red);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* List Styling */
+        .settings-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        /* Scrollbar styling to match the image */
+        .settings-list::-webkit-scrollbar { width: 6px; }
+        .settings-list::-webkit-scrollbar-thumb {
+            background: #3a3b40;
+            border-radius: 10px;
+        }
+
+        .setting-item {
+            background-color: var(--row-bg);
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .label-group h3 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .label-group p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        /* The Custom Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #3e3f45;
+            transition: .3s;
+            border-radius: 6px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 4px; bottom: 4px;
+            background-color: #5a5b63;
+            transition: .3s;
+            border-radius: 4px;
+        }
+
+        input:checked + .slider { background-color: #1a3a2a; } 
+        input:checked + .slider:before {
+            transform: translateX(24px);
+            background-color: var(--accent-green);
+        }
+    </style>
+</head>
+<body>
+
+<div class="settings-panel">
+    <div class="header">
+        <h1><span>⚙</span> Settings</h1>
+        <button class="close-btn">✕</button>
+    </div>
+
+    <div class="settings-list">
+        <div class="setting-item">
+            <div class="label-group">
+                <h3>Speaker Voice</h3>
+                <p>Change the voice of the speaker</p>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <div class="label-group">
+                <h3>Volume</h3>
+                <p>Adjust the volume of the speaker</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

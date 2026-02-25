@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spelling Bee</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffdd00, #ff9f1c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* Main Game Card */
+    .game {
+      position: relative;
+      background: #fff;
+      width: 100%;
+      max-width: 420px;
+      padding: 40px 30px;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    .game h1 { margin-bottom: 5px; color: #333; }
+    .game p { font-size: 0.95rem; color: #666; margin-bottom: 25px; }
+    .game img { width: 120px; margin-bottom: 20px; }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2rem;
+      border-radius: 12px;
+      border: 2px solid #eee;
+      outline: none;
+      margin-bottom: 20px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    input:focus { border-color: #ff9f1c; background: #fffdf0; }
+
+    .actions { display: flex; gap: 12px; }
+    .actions button {
+      flex: 1;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      padding: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    #speak { background: #ff9f1c; color: white; }
+    #next { background: #f1f1f1; color: #333; }
+    .actions button:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    /* Settings Icon Trigger */
+    #settings-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 28px;
+      color: #ccc;
+      transition: 0.3s;
+    }
+    #settings-toggle:hover { color: #ff9f1c; transform: rotate(45deg); }
+
+    /* --- MODAL WINDOW STYLES --- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      display: none; /* Hidden by default */
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .settings-window {
+      background: #fff;
+      width: 90%;
+      max-width: 380px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .settings-window h2 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close-settings { cursor: pointer; color: #999; }
+
+    .setting-item {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .setting-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .setting-item select, 
+    .setting-item input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .footer { margin-top: 20px; font-size: 0.8rem; color: #bbb; }
+  </style>
+</head>
+<body>
+
+  <div class="game">
+    <div id="settings-toggle"><i class='bx bx-cog'></i></div>
+    <img src="https://cdn-icons-png.flaticon.com/512/809/809052.png" alt="Bee">
+    <h1>Animals</h1>
+    <p>Listen carefully and type the word</p>
+    <input type="text" id="inp" placeholder="Type here...">
+    <div class="actions">
+      <button id="speak"><i class='bx bx-user-voice'></i> Speak</button>
+      <button id="next"><i class='bx bx-right-arrow-alt'></i> Next</button>
+    </div>
+    <div class="footer">Spelling Bee v1.0</div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="settings-window">
+      <h2>
+        Settings 
+        <i class='bx bx-x close-settings' id="closeSettings"></i>
+      </h2>
+
+      <div class="setting-item">
+        <div class="setting-label"><i class='bx bx-microphone'></i> Voice</div>
+        <select id="voiceSelect"></select>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-label"><i class='bx bx-volume-full'></i> Volume</div>
+        <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-label"><i class='bx bx-tachometer'></i> Speed</div>
+        <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let word = "";
+    let currentIndex = -1;
+    const words = ["dog","elephant","giraffe","cat","bird","bee","ladybug","slug","fly","snake"];
+
+    // State
+    let voices = [];
+    let selectedVoiceIndex = 0;
+
+    // Elements
+    const modal = document.getElementById('modalOverlay');
+    const openBtn = document.getElementById('settings-toggle');
+    const closeBtn = document.getElementById('closeSettings');
+    const voiceSelect = document.getElementById('voiceSelect');
+
+    // Toggle Modal
+    openBtn.onclick = () => modal.classList.add('active');
+    closeBtn.onclick = () => modal.classList.remove('active');
+    window.onclick = (e) => { if(e.target == modal) modal.classList.remove('active'); }
+
+    // Speech Logic
+    function populateVoices() {
+      voices = speechSynthesis.getVoices();
+      voiceSelect.innerHTML = voices
+        .map((v, i) => `<option value="${i}">${v.name} (${v.lang})</option>`)
+        .join('');
+    }
+
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = populateVoices;
+    }
+
+    function speakWord() {
+      if (!word) nextWord();
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.voice = voices[voiceSelect.value];
+      utterance.volume = document.getElementById('volume').value;
+      utterance.rate = document.getElementById('rate').value;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utterance);
+    }
+
+    function nextWord() {
+      currentIndex = (currentIndex + 1) % words.length;
+      word = words[currentIndex];
+      document.getElementById('inp').value = '';
+      document.getElementById('inp').focus();
+    }
+
+    document.getElementById('speak').onclick = speakWord;
+    document.getElementById('next').onclick = nextWord;
+
+    // Init
+    populateVoices();
+  </script>
+</body>
+</html>
