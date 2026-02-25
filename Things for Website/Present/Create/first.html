@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create</title>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<style>
+:root {
+    --bg-color: #f4f7fe;
+    --text-dark: #1b2559;
+    --white: #ffffff;
+}
+
+/* ========================= */
+/* GLOBAL */
+/* ========================= */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    font-size: 22px;
+}
+
+.subtitle {
+    color: #a3aed0;
+    margin-bottom: 25px;
+}
+
+/* ========================= */
+/* GRID */
+/* ========================= */
+
+.quick-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+/* ========================= */
+/* CREATE CARD (UNCHANGED) */
+/* ========================= */
+
+.create-card {
+    background: white;
+    border: 3px dashed #d6d6d6;
+    border-radius: 20px;
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.create-card:hover {
+    border-color: #4318FF;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.plus-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #f4f7fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #4318FF;
+    transition: 0.3s ease;
+}
+
+.create-card:hover .plus-circle {
+    background: #4318FF;
+    color: white;
+    transform: scale(1.1);
+}
+
+a {
+    text-decoration: none;
+}
+
+.card-container {
+    height: 200px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: flex-end;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.4s ease;
+}
+
+.card-container:hover {
+    transform: scale(1.02);
+}
+
+.card-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1));
+}
+
+.content {
+    position: relative;
+    padding: 20px;
+    color: white;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    width: 100%;
+}
+
+.card-container:hover .content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.content h3 {
+    font-size: 18px;
+    margin: 0 0 4px 0;
+    font-weight: 700;
+}
+
+.content p {
+    font-size: 13px;
+    margin-bottom: 15px;
+    opacity: 0.85;
+}
+
+.btn-primary {
+    display: inline-block;
+    border: 2px solid white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+/* ========================= */
+/* TEMPLATE SECTION */
+/* ========================= */
+
+.template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.template-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+.template-card:hover {
+    transform: translateY(-5px);
+}
+
+.img-placeholder {
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.75);
+    color: white;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.template-info {
+    padding: 15px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+<section>
+<h2>Get Started</h2>
+
+<div class="quick-tools-grid">
+
+    <a href="make.html">
+    <div class="create-card">
+        <div class="plus-circle">
+            <i class='bx bx-plus'></i>
+        </div>
+    </div>
+    </a>
+
+    <!-- CARD 1 -->
+    <a href="#" class="card-container" 
+       style="background-image: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=60');">
+        <div class="content">
+            <h3>Create kahoots with AI</h3>
+            <p>Generate interactive quizzes instantly</p>
+            <span class="btn-primary">Start creating</span>
+        </div>
+    </a>
+
+    <!-- CARD 2 -->
+    <a href="#" class="card-container" 
+       style="background-image: url('https://images.unsplash.com/photo-1581090700227-1e8e6d5f6c9b?auto=format&fit=crop&w=800&q=60');">
+        <div class="content">
+            <h3>Generate from PDF</h3>
+            <p>Upload and auto-create kahoot</p>
+            <span class="btn-primary">Upload PDF</span>
+        </div>
+    </a>
+
+    <!-- CARD 3 -->
+    <a href="#" class="card-container" 
+       style="background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=60');">
+        <div class="content">
+            <h3>Import presentation</h3>
+            <p>Turn slides into experiences</p>
+            <span class="btn-primary">Import</span>
+        </div>
+    </a>
+
+</div>
+</section>
+
+<section>
+<h2>Timeline</h2>
+<p class="subtitle">Grab a template and go! Pick a kahoot that fits your needs.</p>
+
+<div class="template-grid">
+    <div class="template-card">
+        <div class="img-placeholder" 
+             style="background-image: url('https://via.placeholder.com/400x200');">
+            <span class="badge">10 Questions</span>
+        </div>
+        <div class="template-info">
+            Icebreaker quiz
+        </div>
+    </div>
+</div>
+
+</section>
+
+</main>
+
+</body>
+</html>
