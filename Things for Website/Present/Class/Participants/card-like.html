@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Participants</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        :root {
+            --border: #f0f0f0;
+            --text-main: #1a1a1a;
+            --text-muted: #888;
+            --bg-light: #fafafa;
+            --urgent: #ff4d4d;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 380px;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .header-top h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px;
+            cursor: pointer;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 10px 10px 10px 35px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-light);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 10px;
+            color: #aaa;
+        }
+
+        .inbox-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .inbox-item {
+            display: flex;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f8f8f8;
+            cursor: pointer;
+        }
+
+        .inbox-item.active {
+            background: #f6f6f6;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #eee;
+            margin-right: 12px;
+        }
+
+        .msg-content {
+            flex: 1;
+            font-size: 13px;
+        }
+
+        .msg-meta {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .indicator.red { background: var(--urgent); }
+        .indicator.yellow { background: #ffcc00; }
+
+        /* --- MAIN CONTENT --- */
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge {
+            font-size: 12px;
+            padding: 4px 10px;
+            background: #eef2ff;
+            color: #4f46e5;
+            border-radius: 20px;
+        }
+
+        /* --- PARTICIPANTS --- */
+
+        .participants-grid {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .participant-card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.2s ease;
+        }
+
+        .participant-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .participant-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .participant-info h3 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .participant-info p {
+            margin: 4px 0;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .status {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+
+        .online {
+            background: #e6fff0;
+            color: #16a34a;
+        }
+
+        .offline {
+            background: #f5f5f5;
+            color: #888;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="header-top">
+                <h2>Participants</h2>
+                <button class="icon-btn">
+                    <i class='bx bx-filter-alt'></i>
+                </button>
+            </div>
+
+            <div class="search-container">
+                <span class="search-icon">
+                    <i class='bx bx-search'></i>
+                </span>
+                <input type="text" id="inboxSearch" placeholder="Search Participants...">
+            </div>
+        </div>
+
+        <div class="inbox-list" id="inboxList"></div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="title-row">
+            <h1>Project Participants</h1>
+            <span class="badge">6 Members</span>
+        </div>
+
+        <div class="participants-grid">
+            <div class="participant-card">
+                <div class="participant-avatar"></div>
+                <div class="participant-info">
+                    <h3>Joe Doe</h3>
+                    <p>Product Designer</p>
+                    <span class="status online">Online</span>
+                </div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-avatar"></div>
+                <div class="participant-info">
+                    <h3>Jhon Els</h3>
+                    <p>UI Designer</p>
+                    <span class="status offline">Offline</span>
+                </div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-avatar"></div>
+                <div class="participant-info">
+                    <h3>Nando Endae</h3>
+                    <p>Frontend Developer</p>
+                    <span class="status online">Online</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+
+<script>
+const inboxData = [
+    { id: 1, name: "Joe Doe", type: "invited you to", target: "Design Proposal - ABC Project", time: "10:00 AM", status: "red" },
+    { id: 2, name: "Jhon Els", type: "invited you to", target: "Graphic Design Brief - 2026", time: "10:00 AM", status: "yellow" },
+    { id: 3, name: "Nando Endae", type: "mentioned you in", target: "ABC Project", time: "10:00 AM", status: "red", active: true },
+    { id: 4, name: "Joe Doe", type: "invited you to", target: "Design Proposal - Lumino Project", time: "Yesterday", status: "yellow" },
+    { id: 5, name: "Alex Dolla", type: "invited you to", target: "Design Proposal - Nila Project", time: "Yesterday", status: null },
+    { id: 6, name: "Alex Dolla", type: "invited you to", target: "Design shot - 2026", time: "Jan 12", status: "red" }
+];
+
+const listEl = document.getElementById('inboxList');
+
+function renderInbox() {
+    listEl.innerHTML = inboxData.map(item => `
+        <div class="inbox-item ${item.active ? 'active' : ''}" onclick="selectItem(${item.id})">
+            <div class="avatar"></div>
+            <div class="msg-content">
+                ${item.name} ${item.type} <b>${item.target}</b>
+            </div>
+            <div class="msg-meta">
+                ${item.time}
+                ${item.status ? `<span class="indicator ${item.status}"></span>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+function selectItem(id) {
+    inboxData.forEach(item => item.active = (item.id === id));
+    renderInbox();
+}
+
+renderInbox();
+</script>
+
+</body>
+</html>

@@ -33,8 +33,9 @@
   .container {
     background: white;
     border-radius: 20px;
-    padding: 40px;
+    padding: 60px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    max-width: 900px; 
   }
 
   h1 {
@@ -47,15 +48,15 @@
 
   .game {
     display: flex;
-    flex-direction: column; /* Stack grid and words vertically */
+    flex-direction: column; 
     align-items: center;
-    gap: 20px; /* space between grid and word list */
+    gap: 40px; 
   }
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(10, 42px);
-    grid-template-rows: repeat(10, 42px);
+    grid-template-columns: repeat(10, 50px); 
+    grid-template-rows: repeat(10, 50px);
     gap: 0; 
     cursor: crosshair;
     position: relative;
@@ -63,26 +64,26 @@
 
   .cell {
     position: relative;
-    width: 42px;
-    height: 42px;
+    width: 50px; 
+    height: 50px; 
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
     z-index: 2;
     color: #333;
-    font-size: 18px;
+    font-size: 20px; 
   }
 
   .pill-highlight,
   #temp-pill {
     position: absolute;
-    height: 34px;
-    margin-top: -17px; 
+    height: 42px; 
+    margin-top: -21px; 
     border-radius: 20px;
     pointer-events: none;
     z-index: 1;
-    transform-origin: 17px center; 
+    transform-origin: 25px center; 
   }
 
   .pill-highlight {
@@ -96,12 +97,12 @@
   }
 
   .words {
-    text-align: center; /* center the words below the grid */
+    text-align: center; 
   }
 
   .words h3 {
     margin: 0 0 15px;
-    font-size: 14px;
+    font-size: 25px;
     color: #666;
     letter-spacing: 0.5px;
   }
@@ -110,7 +111,8 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    display: inline-block; /* keep list compact under heading */
+    column-count: 4; 
+    column-gap: 50px; 
   }
 
   .words li {
@@ -119,6 +121,7 @@
     font-size: 15px;
     color: #222;
     transition: all 0.2s;
+    break-inside: avoid; 
   }
 
   .words li.found {
@@ -237,11 +240,11 @@ function updateSelection(endCell) {
 
   if (!(dr === 0 || dc === 0 || absDr === absDc)) return;
 
-  const cellSize = 42;
+  const cellSize = 50; // updated to match new cell size
   const steps = Math.max(absDr, absDc);
   
   const actualDist = Math.sqrt(dr * dr + dc * dc) * cellSize;
-  const pillWidth = actualDist + 34; 
+  const pillWidth = actualDist + 42; 
 
   const angle = Math.atan2(dr, dc) * (180 / Math.PI);
 
@@ -249,7 +252,7 @@ function updateSelection(endCell) {
   const startY = r1 * cellSize + (cellSize / 2);
 
   tempPill.style.width = `${pillWidth}px`;
-  tempPill.style.left = `${startX - 17}px`; 
+  tempPill.style.left = `${startX - 21}px`; 
   tempPill.style.top = `${startY}px`;
   tempPill.style.transform = `rotate(${angle}deg)`;
 

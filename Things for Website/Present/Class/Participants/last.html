@@ -2,114 +2,273 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participants</title>
-    <link rel="stylesheet" href="last.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        :root {
+            --border: #f0f0f0;
+            --text-main: #1a1a1a;
+            --text-muted: #888;
+            --bg-light: #fafafa;
+            --urgent: #ff4d4d;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            color: var(--text-main);
+            background: #ffffff;
+        }
+
+        .app-container {
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .participants-section {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        /* Header */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .header-top h2 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px;
+            cursor: pointer;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn i {
+            font-size: 18px;
+        }
+
+        .icon-btn:hover {
+            background: #f5f5f5;
+        }
+
+        /* Search */
+        .search-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-light);
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+        }
+
+        .search-icon i {
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        /* List */
+        .participants-list {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .participants-item {
+            display: flex;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            align-items: flex-start;
+            transition: 0.2s ease;
+        }
+
+        .participants-item:last-child {
+            border-bottom: none;
+        }
+
+        .participants-item.active {
+            background: #f6f6f6;
+        }
+
+        .participants-item:hover {
+            background: #fafafa;
+        }
+
+        /* Avatar */
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 14px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .msg-content {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #444;
+        }
+
+        .msg-content b {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .msg-meta {
+            font-size: 12px;
+            color: #aaa;
+            text-align: right;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .indicator.red { background: var(--urgent); }
+        .indicator.yellow { background: #ffcc00; }
+
+        /* Empty state */
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .empty-state i {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="app-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
 
-                <div class="header-top">
-                    <h2>Participants</h2>
+<div class="app-container">
+    <section class="participants-section">
 
-                    <div class="header-icons">
-                        <button class="icon-btn">
-                            <i class='bx bx-filter-alt'></i>
-                        </button>
-                    </div>
-                </div>
+        <div class="header-top">
+            <h2>Participants</h2>
+            <button class="icon-btn">
+                <i class='bx bx-filter-alt'></i>
+            </button>
+        </div>
 
-                <div class="search-container">
-                    <span class="search-icon">
-                        <i class='bx bx-search'></i>
-                    </span>
-                    <input type="text" id="inboxSearch" placeholder="Search Participants...">
-                </div>
+        <div class="search-container">
+            <span class="search-icon">
+                <i class='bx bx-search'></i>
+            </span>
+            <input type="text" id="participantsSearch" placeholder="Search Participants...">
+        </div>
 
+        <div class="participants-list" id="participantsList"></div>
+
+    </section>
+</div>
+
+<script>
+const participantsData = [
+    { id: 1, name: "Joe Doe", avatar: "https://randomuser.me/api/portraits/men/1.jpg", type: "invited you to", target: "Design Proposal - ABC Project", time: "10:00 AM", status: "red" },
+    { id: 2, name: "Jhon Els", avatar: "https://randomuser.me/api/portraits/men/2.jpg", type: "invited you to", target: "Graphic Design Brief - 2026", time: "10:00 AM", status: "yellow" },
+    { id: 3, name: "Nando Endae", avatar: "https://randomuser.me/api/portraits/men/3.jpg", type: "mentioned you in", target: "ABC Project", time: "10:00 AM", status: "red" },
+    { id: 4, name: "Joe Doe", avatar: "https://randomuser.me/api/portraits/men/4.jpg", type: "invited you to", target: "Design Proposal - Lumino Project", time: "Yesterday", status: "yellow" },
+    { id: 5, name: "Alex Dolla", avatar: "https://randomuser.me/api/portraits/women/5.jpg", type: "invited you to", target: "Design Proposal - Nila Project", time: "Yesterday", status: null },
+    { id: 6, name: "Alex Dolla", avatar: "https://randomuser.me/api/portraits/women/6.jpg", type: "invited you to", target: "Design Shot - 2026", time: "Jan 12", status: "red" }
+];
+
+const listEl = document.getElementById('participantsList');
+const searchInput = document.getElementById('participantsSearch');
+
+function renderParticipants(filteredData = participantsData) {
+
+    if (filteredData.length === 0) {
+        listEl.innerHTML = `
+            <div class="empty-state">
+                <i class='bx bx-user-x'></i>
+                No participants found for "<b>${searchInput.value}</b>"
             </div>
+        `;
+        return;
+    }
 
-            <div class="inbox-list" id="inboxList"></div>
-        </aside>
+    listEl.innerHTML = filteredData.map(item => `
+        <div class="participants-item ${item.active ? 'active' : ''}" onclick="selectItem(${item.id})">
+            <div class="avatar">
+                <img src="${item.avatar}" alt="${item.name}">
+            </div>
+            <div class="msg-content">
+                ${item.name} ${item.type} <b>${item.target}</b>
+            </div>
+            <div class="msg-meta">
+                ${item.time}
+                ${item.status ? `<span class="indicator ${item.status}"></span>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
 
-        <main class="main-content">
-            <div class="task-banner"></div>
+function selectItem(id) {
+    participantsData.forEach(item => item.active = (item.id === id));
+    renderParticipants();
+}
 
-            <section class="task-details">
-                <div class="title-row">
-                    <h1>ABC Dashboard</h1>
-                    <span class="badge urgent">Urgent</span>
-                </div>
+searchInput.addEventListener('input', function() {
+    const value = this.value.toLowerCase();
+    const filtered = participantsData.filter(item =>
+        item.name.toLowerCase().includes(value) ||
+        item.target.toLowerCase().includes(value)
+    );
+    renderParticipants(filtered);
+});
 
-                <div class="metadata-grid">
-                    <div class="label">Status</div>
-                    <div class="value">
-                        <input type="radio" checked> <span>On Progress</span>
-                    </div>
+// Initial render
+renderParticipants();
+</script>
 
-                    <div class="label">Due date</div>
-                    <div class="value">Feb 02, 2027</div>
-
-                    <div class="label">Assignee</div>
-                    <div class="value">
-                        <span class="chip blue">Kiara Laras ✕</span>
-                        <span class="chip green">Joe Tesla ✕</span>
-                        <span class="chip orange">Tania ✕</span>
-                        <span class="add-btn">+</span>
-                    </div>
-
-                    <div class="label">Tags</div>
-                    <div class="value">
-                        <select class="tag-select">
-                            <option>Dashboard</option>
-                        </select>
-                    </div>
-
-                    <div class="label">Priority</div>
-                    <div class="value">
-                        <span class="badge urgent">Urgent</span>
-                    </div>
-
-                    <div class="label">Description</div>
-                    <div class="value description-text">
-                        Create wireframe for Dashboard page
-                    </div>
-                </div>
-
-                <div class="attachments-section">
-                    <h4>
-                        🔗 Attachment (2)
-                        <span class="download-all">Download All</span>
-                    </h4>
-
-                    <div class="attachments-grid">
-                        <div class="attachment-card">
-                            <div class="file-icon pdf">Word</div>
-                            <div class="file-info">
-                                <strong>Design brief.pdf</strong>
-                                <span>1.5 MB · <a href="#">Download file</a></span>
-                            </div>
-                        </div>
-
-                        <div class="attachment-card">
-                            <div class="file-icon figma">Fig</div>
-                            <div class="file-info">
-                                <strong>ABC Dashboard.fig</strong>
-                                <span>2.5 MB</span>
-                            </div>
-                        </div>
-
-                        <button class="add-attachment">+</button>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <script src="p.js"></script>
 </body>
 </html>
