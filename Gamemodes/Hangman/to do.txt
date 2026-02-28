@@ -1,1 +1,4 @@
 when the user uses the part to guess the whole word let it only take the word as correct if they spell the whole word properly in the box
+
+add the input on top of the leters
+to guess the word
