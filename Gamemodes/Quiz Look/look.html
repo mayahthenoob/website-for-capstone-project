@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Database</title>
+    <link rel="stylesheet" href="look.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <div class="brand">
+                <h1>Employee Database</h1>
+                <p>Manage your team efficiently</p>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-value">10</span>
+                    <span class="stat-label">EMPLOYEES</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">KSh 90,300</span>
+                    <span class="stat-label">AVG SALARY</span>
+                </div>
+            </div>
+            <button class="btn-add">+ Add Employee</button>
+        </header>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search employees..." class="search-input">
+            <div class="sort-by">
+                Sort by: <select><option>Name (A-Z)</option></select>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            <aside class="employee-list">
+                <h3>EMPLOYEE LIST</h3>
+                <ul>
+                    <li>David Kamau <span class="actions">✎ ×</span></li>
+                    <li>Elizabeth Wambui <span class="actions">✎ ×</span></li>
+                    <li>Faith Akinyi <span class="actions">✎ ×</span></li>
+                    <li class="active">John Ochieng <span class="actions">✎ ×</span></li>
+                    <li>Mary Njoroge <span class="actions">✎ ×</span></li>
+                </ul>
+            </aside>
+
+            <section class="employee-info">
+                <h3>EMPLOYEE INFORMATION</h3>
+                <div class="profile-card">
+                    <div class="avatar-container">
+                        <img src="https://via.placeholder.com/150" alt="Profile" class="avatar">
+                    </div>
+                    <h2>JOHN OCHIENG</h2>
+                    <div class="salary-badge">KSh 85,000</div>
+                    <div class="contact-info">
+                        <p>📧 john.ochieng@gmail.com</p>
+                        <p>📱 712345678</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

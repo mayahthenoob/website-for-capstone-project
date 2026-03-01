@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     const wordDisplay = document.getElementById('word-display');
     const keyboard = document.getElementById('keyboard');
-    const gameMessageEl = document.getElementById('game-message');
-    const resetBtn = document.getElementById('reset-btn');
     const categoryEl = document.getElementById('category');
+
+    const guessType = document.getElementById('guess-type');
+    const guessInput = document.getElementById('guess-input');
 
     const hangmanParts = [
         document.getElementById('head'),
@@ -29,18 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
         correctLetters = [];
         wrongLetters = [];
         gameOver = false;
-        gameMessageEl.textContent = '';
-        
+        guessInput.value = '';
+
         const categories = Object.keys(wordCategories);
         const randomCategory = categories[Math.floor(Math.random() * categories.length)];
         selectedWord = wordCategories[randomCategory][Math.floor(Math.random() * wordCategories[randomCategory].length)];
 
-        categoryEl.textContent = `(Nouns) ${randomCategory}`;
+        categoryEl.textContent = randomCategory;
 
-        // Reset Drawing
         hangmanParts.forEach(part => part.style.display = 'none');
 
-        // Create Word Slots
         wordDisplay.innerHTML = '';
         selectedWord.split('').forEach(letter => {
             const letterEl = document.createElement('div');
@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             wordDisplay.appendChild(letterEl);
         });
 
-        // Create Keyboard
         keyboard.innerHTML = '';
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(letter => {
             const keyEl = document.createElement('button');
@@ -70,12 +69,28 @@ document.addEventListener('DOMContentLoaded', () => {
             correctLetters.push(letter);
             updateWordDisplay();
             key.classList.add('correct', 'used');
-            if (checkWin()) endGame(true);
+            if (checkWin()) endGame();
         } else {
             wrongLetters.push(letter);
             key.classList.add('wrong', 'used');
             updateHangmanDrawing();
-            if (wrongLetters.length === hangmanParts.length) endGame(false);
+            if (wrongLetters.length === hangmanParts.length) endGame();
+        }
+    }
+
+    function handleFullWordGuess(word) {
+        if (gameOver) return;
+
+        if (word === selectedWord) {
+            correctLetters = selectedWord.split('');
+            updateWordDisplay();
+            endGame();
+        } else {
+            wrongLetters.push(word);
+            updateHangmanDrawing();
+            if (wrongLetters.length === hangmanParts.length) {
+                endGame();
+            }
         }
     }
 
@@ -98,18 +113,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return selectedWord.split('').every(l => correctLetters.includes(l));
     }
 
-    function endGame(win) {
+    function endGame() {
         gameOver = true;
-        gameMessageEl.textContent = win ? 'Winner!' : `The word was: ${selectedWord}`;
-        gameMessageEl.style.color = win ? '#2ecc71' : '#e74c3c';
-        
-        // Reveal missing letters
         document.querySelectorAll('.word-letter').forEach(el => {
             el.textContent = el.dataset.letter;
         });
+        setTimeout(initGame, 2000);
     }
 
-    resetBtn.addEventListener('click', initGame);
+    // Handle Enter key for guesses
+    guessInput.addEventListener('keydown', e => {
+        const value = guessInput.value.trim().toUpperCase();
+        if (e.key === 'Enter' && value) {
+            if (guessType.value === 'letter' && /^[A-Z]$/.test(value)) {
+                handleGuess(value);
+            } else if (guessType.value === 'word') {
+                handleFullWordGuess(value);
+            }
+            guessInput.value = '';
+        }
+    });
+
     document.addEventListener('keydown', e => {
         const char = e.key.toUpperCase();
         if (/^[A-Z]$/.test(char)) handleGuess(char);

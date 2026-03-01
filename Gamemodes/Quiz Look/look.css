@@ -1,0 +1,118 @@
+:root {
+    --primary-blue: #1e3a5f;
+    --accent-blue: #3b82f6;
+    --bg-light: #f0f4f8;
+    --text-dark: #333;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+    margin: 0;
+    padding: 20px;
+}
+
+.dashboard-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(90deg, #1e3a5f, #2c5282);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0 10px;
+    display: inline-block;
+}
+
+.stat-value { display: block; font-size: 1.2rem; font-weight: bold; }
+.stat-label { font-size: 0.7rem; opacity: 0.8; }
+
+.btn-add {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Search Bar */
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.search-input {
+    width: 70%;
+    padding: 12px;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+}
+
+/* Main Layout */
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.employee-list, .employee-info {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.employee-list ul { list-style: none; padding: 0; }
+.employee-list li {
+    padding: 12px;
+    margin-bottom: 8px;
+    background: #f8fafc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.employee-list li.active {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.profile-card {
+    text-align: center;
+    padding: 20px;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--accent-blue);
+    object-fit: cover;
+}
+
+.salary-badge {
+    background: #48bb78;
+    color: white;
+    display: inline-block;
+    padding: 8px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 15px 0;
+}

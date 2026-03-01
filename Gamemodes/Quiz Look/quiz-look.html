@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Look</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        :root {
+            --accent-blue: #3b82f6;
+            --bg-light: #f0f4f8;
+            --text-dark: #333;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #1e3a5f, #2c5282);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .timer-container {
+            display: flex;
+            justify-content: flex-end;
+            margin: 30px 0;
+        }
+
+        .timer-wrapper {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .timer-wrapper i {
+            font-size: 20px;
+            color: var(--accent-blue);
+            margin-right: 10px;
+        }
+
+        .timer-display {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .employee-info {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .profile-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .salary-badge {
+            background: #48bb78;
+            color: white;
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <header class="header">
+            <div class="brand">
+                <h1>Mathematics</h1>
+                <p>Mrs. C. Williams</p>
+            </div>
+        </header>
+
+        <div class="timer-container">
+            <div class="timer-wrapper">
+                <i class='bx bx-timer'></i>
+                <div id="timer-display" class="timer-display">00:00:30</div>
+            </div>
+        </div>
+
+        <section class="employee-info">
+            <h3>QUESTION DETAILS</h3>
+            <div class="profile-card">
+                <h2>Question 1</h2>
+                <div class="salary-badge">Answer Area</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Timer
+        let timerSeconds = 30;
+        const timerDisplayEl = document.getElementById('timer-display');
+
+        function updateTimerDisplay() {
+            const hours = String(Math.floor(timerSeconds / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, '0');
+            const seconds = String(timerSeconds % 60).padStart(2, '0');
+            timerDisplayEl.textContent = `${hours}:${minutes}:${seconds}`;
+
+            if(timerSeconds > 0) {
+                timerSeconds--;
+            } else {
+                clearInterval(timerInterval);
+                alert("Time's up!");
+            }
+        }
+
+        const timerInterval = setInterval(updateTimerDisplay, 1000);
+    </script>
+
+</body>
+</html>
