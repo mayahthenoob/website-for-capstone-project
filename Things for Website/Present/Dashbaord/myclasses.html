@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 40px;
+            background-color: white;
+            font-family: 'Inter', sans-serif;
+            color: #1d2125;
+        }
+
+        /* --- Top Header Section --- */
+        .header-section {
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+        }
+
+        h1 { font-size: 32px; margin: 0 0 10px 0; font-weight: 700; }
+        h2 { font-size: 18px; margin: 0 0 20px 0; font-weight: 700; }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* --- Custom Dropdown Styling (The "Sort By" Look) --- */
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-trigger {
+            background-color: #f0f4ff; /* Light blue from image */
+            color: #003366; /* Deep blue text */
+            border: 1px solid #dce4f5;
+            padding: 10px 24px;
+            border-radius: 50px; /* Pill shape */
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+        }
+
+        .dropdown-trigger:hover {
+            background-color: #e2e9ff;
+            border-color: #cbd5e1;
+        }
+
+        .dropdown-menu {
+            display: none; /* Hidden by default */
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: white;
+            min-width: 180px;
+            border-radius: 16px; /* High rounding from image */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            padding: 8px 0;
+            border: 1px solid #f0f0f0;
+        }
+
+        /* Show class for JS toggle */
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1d2125;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #0056b3;
+        }
+
+        /* Search and static buttons */
+        .btn-filter-static {
+            border: 1px solid #868e96;
+            border-radius: 8px;
+            padding: 8px 16px;
+            background: white;
+            font-size: 14px;
+            color: #495057;
+            cursor: pointer;
+        }
+
+        .search-input {
+            border: 1px solid #868e96;
+            border-radius: 8px;
+            padding: 10px 12px;
+            background: white;
+            font-size: 14px;
+            color: #495057;
+            flex-grow: 1;
+            max-width: 350px;
+            outline: none;
+        }
+
+        /* --- Card Grid --- */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px; 
+            max-width: 1200px;
+            margin: 20px auto 0 auto;
+        }
+
+        .course-grid.list-view {
+            display: block;
+        }
+
+        .card-container {
+            width: 100%; 
+            height: 200px;    
+            border-radius: 12px; 
+            overflow: hidden;   
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: flex-end;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s ease;
+        }
+
+        .course-grid.list-view .card-container {
+            height: 80px;
+            margin-bottom: 10px;
+            background-image: none !important; /* Hide image in list view */
+            background-color: #f8f9fa;
+            box-shadow: none;
+            border: 1px solid #eee;
+        }
+
+        .card-container:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1));
+        }
+
+        .course-grid.list-view .card-container::before { display: none; }
+
+        .content {
+            position: relative;
+            padding: 20px;
+            color: white;
+            width: 100%;
+        }
+
+        .course-grid.list-view .content {
+            padding: 15px 20px;
+            color: #1d2125;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .content h3 { font-size: 16px; margin: 0 0 4px 0; font-weight: 700; }
+        .content p { font-size: 12px; margin: 0; opacity: 0.9; }
+
+        .btn-primary {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2); 
+            color: white;
+            border: 1.5px solid white;          
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            backdrop-filter: blur(4px);
+            margin-top: 10px;
+        }
+
+        .course-grid.list-view .btn-primary {
+            background: #1d2125;
+            color: white;
+            border: none;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-section">
+    <h1>My courses</h1>
+    <h2>Course overview</h2>
+    
+    <div class="controls">
+        <button class="btn-filter-static">All</button>
+        
+        <input type="text" class="search-input" placeholder="Search">
+        
+        <div class="custom-dropdown" id="sortDropdown">
+            <button class="dropdown-trigger">Sort By</button>
+            <div class="dropdown-menu">
+                <div class="dropdown-item">Date</div>
+                <div class="dropdown-item">Class</div>
+            </div>
+        </div>
+        
+        <div class="custom-dropdown" id="viewDropdown">
+            <button class="dropdown-trigger">View</button>
+            <div class="dropdown-menu">
+                <div class="dropdown-item" data-view="card">Card</div>
+                <div class="dropdown-item" data-view="list">List</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="course-grid" id="courseGrid">
+    <a href="#" class="card-container" style="background-image: url('https://img.freepik.com/free-vector/blue-geometric-shapes-background_52683-38337.jpg');">
+        <div class="content">
+            <div>
+                <h3>Networking 2 - 2026</h3>
+                <p>Computer and Electronics Department</p>
+            </div>
+            <span class="btn-primary">Visit</span>
+        </div>
+    </a>
+
+    <a href="#" class="card-container" style="background-image: url('https://img.freepik.com/free-vector/purple-fluid-background-frame_53876-99014.jpg');">
+        <div class="content">
+            <div>
+                <h3>Data Security 2026</h3>
+                <p>Computer and Electronics Department</p>
+            </div>
+            <span class="btn-primary">Visit</span>
+        </div>
+    </a>
+
+    <a href="#" class="card-container" style="background-image: url('https://img.freepik.com/free-vector/white-abstract-background_23-2148810353.jpg');">
+        <div class="content">
+            <div>
+                <h3>Networking 1 - 2026</h3>
+                <p>Computer and Electronics Department</p>
+            </div>
+            <span class="btn-primary">Visit</span>
+        </div>
+    </a>
+</div>
+
+<script>
+    const courseGrid = document.getElementById('courseGrid');
+
+    // Toggle Dropdown Menus
+    document.querySelectorAll('.dropdown-trigger').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const menu = trigger.nextElementSibling;
+            
+            // Close other open menus
+            document.querySelectorAll('.dropdown-menu').forEach(m => {
+                if (m !== menu) m.classList.remove('show');
+            });
+            
+            menu.classList.toggle('show');
+        });
+    });
+
+    // Handle View Selection
+    document.querySelectorAll('#viewDropdown .dropdown-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            const viewType = item.getAttribute('data-view');
+            const trigger = item.closest('.custom-dropdown').querySelector('.dropdown-trigger');
+            
+            if (viewType === 'list') {
+                courseGrid.classList.add('list-view');
+                trigger.textContent = 'View: List';
+            } else {
+                courseGrid.classList.remove('list-view');
+                trigger.textContent = 'View: Card';
+            }
+        });
+    });
+
+    // Handle Sort Selection (Visual only)
+    document.querySelectorAll('#sortDropdown .dropdown-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            const trigger = item.closest('.custom-dropdown').querySelector('.dropdown-trigger');
+            trigger.textContent = 'Sort By: ' + item.textContent;
+        });
+    });
+
+    // Close menus when clicking anywhere else
+    window.addEventListener('click', () => {
+        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    });
+</script>
+
+</body>
+</html>
