@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendar</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
     <style>
         :root {
             --bg-body: #f8f9fa;
@@ -85,6 +87,7 @@
             margin: 0 0 28px 0;
         }
 
+        /* UPDATED CONTROLS */
         .controls {
             display: flex;
             justify-content: space-between;
@@ -92,19 +95,28 @@
             margin-bottom: 28px;
         }
 
-        .nav-arrows i {
-            font-size: 24px;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 8px;
-            background: transparent;
-            transition: var(--transition);
-            outline: none;
-            border: none;
-            user-select: none;
+        .selector-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .nav-arrows i:hover {
+        .selectors {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-btn {
+            font-size: 26px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
             background: var(--accent-blue);
         }
 
@@ -114,19 +126,10 @@
             border: 1px solid var(--border-color);
             font-size: 14px;
             cursor: pointer;
-            outline: none;
             background-color: white;
             appearance: none;
-            -webkit-appearance: none;
-            padding-right: 30px;
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-        }
-
-        select:focus, select:active {
-            outline: none;
-            box-shadow: none;
-            border-color: #d0d0d0;
+            text-align: center;
+            text-align-last: center;
         }
 
         .btn-today {
@@ -136,7 +139,6 @@
             font-size: 14px;
             cursor: pointer;
             background: white;
-            outline: none;
         }
 
         .btn-today:hover {
@@ -165,7 +167,6 @@
             border-radius: 12px;
             cursor: pointer;
             transition: var(--transition);
-            user-select: none;
         }
 
         .day-cell:hover {
@@ -182,7 +183,6 @@
 
         .day-cell.today {
             background: var(--current-day); 
-            border: none;
         }
     </style>
 </head>
@@ -204,19 +204,23 @@
 
     <hr>
 
+    <!-- UPDATED CONTROLS -->
     <div class="controls">
-        <div class="nav-arrows">
-            <i class='bx bx-chevrons-left' id="prev-month"></i>
-            <i class='bx bx-chevrons-right' id="next-month"></i>
-        </div>
-
-        <div>
-            <select id="year-select"></select>
-            <select id="month-select"></select>
-            <select id="day-select"></select>
-        </div>
 
         <button class="btn-today" id="today-btn">Today</button>
+
+        <div class="selector-wrapper">
+            <i class='bx bx-chevrons-left nav-btn' id="prev-month"></i>
+
+            <div class="selectors">
+                <select id="year-select"></select>
+                <select id="month-select"></select>
+                <select id="day-select"></select>
+            </div>
+
+            <i class='bx bx-chevrons-right nav-btn' id="next-month"></i>
+        </div>
+
     </div>
 
     <div class="calendar-grid" id="calendar-grid"></div>
@@ -335,20 +339,9 @@
             Math.abs(diff) + " days from now";
     }
 
-    monthSelect.onchange=()=>{
-        currentMonth=parseInt(monthSelect.value);
-        renderCalendar();
-    };
-
-    yearSelect.onchange=()=>{
-        currentYear=parseInt(yearSelect.value);
-        renderCalendar();
-    };
-
-    daySelect.onchange=()=>{
-        selectedDate=new Date(currentYear,currentMonth,parseInt(daySelect.value));
-        renderCalendar();
-    };
+    monthSelect.onchange=()=>{ currentMonth=parseInt(monthSelect.value); renderCalendar(); };
+    yearSelect.onchange=()=>{ currentYear=parseInt(yearSelect.value); renderCalendar(); };
+    daySelect.onchange=()=>{ selectedDate=new Date(currentYear,currentMonth,parseInt(daySelect.value)); renderCalendar(); };
 
     document.getElementById("prev-month").onclick=()=>{
         currentMonth--;

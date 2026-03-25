@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendar</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
     <style>
         :root {
             --bg-body: #f8f9fa;
@@ -85,26 +87,41 @@
             margin: 0 0 28px 0;
         }
 
+        /* ✅ CENTERED CONTROLS */
         .controls {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
             margin-bottom: 28px;
         }
 
-        .nav-arrows i {
-            font-size: 24px;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 8px;
-            background: transparent;
-            transition: var(--transition);
-            outline: none;
-            border: none;
-            user-select: none;
+        .today-wrapper {
+            justify-self: start;
         }
 
-        .nav-arrows i:hover {
+        .selector-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-self: center;
+        }
+
+        .selectors {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-btn {
+            font-size: 26px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
             background: var(--accent-blue);
         }
 
@@ -114,19 +131,10 @@
             border: 1px solid var(--border-color);
             font-size: 14px;
             cursor: pointer;
-            outline: none;
             background-color: white;
             appearance: none;
-            -webkit-appearance: none;
-            padding-right: 30px;
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-        }
-
-        select:focus, select:active {
-            outline: none;
-            box-shadow: none;
-            border-color: #d0d0d0;
+            text-align: center;
+            text-align-last: center;
         }
 
         .btn-today {
@@ -136,7 +144,6 @@
             font-size: 14px;
             cursor: pointer;
             background: white;
-            outline: none;
         }
 
         .btn-today:hover {
@@ -165,7 +172,6 @@
             border-radius: 12px;
             cursor: pointer;
             transition: var(--transition);
-            user-select: none;
         }
 
         .day-cell:hover {
@@ -182,7 +188,6 @@
 
         .day-cell.today {
             background: var(--current-day); 
-            border: none;
         }
     </style>
 </head>
@@ -193,8 +198,8 @@
 
     <div class="header-top">
         <div class="selected-date-box">
-            <span class="box-day-name" id="box-day-name"></span>
-            <span class="box-day-num" id="box-day-num"></span>
+            <span id="box-day-name"></span>
+            <span id="box-day-num"></span>
         </div>
         <div class="header-info">
             <h2 id="display-month-year"></h2>
@@ -204,19 +209,27 @@
 
     <hr>
 
+    <!-- ✅ CENTERED CONTROLS -->
     <div class="controls">
-        <div class="nav-arrows">
-            <i class='bx bx-chevrons-left' id="prev-month"></i>
-            <i class='bx bx-chevrons-right' id="next-month"></i>
+
+        <div class="today-wrapper">
+            <button class="btn-today" id="today-btn">Today</button>
         </div>
 
-        <div>
-            <select id="year-select"></select>
-            <select id="month-select"></select>
-            <select id="day-select"></select>
+        <div class="selector-wrapper">
+            <i class='bx bx-chevrons-left nav-btn' id="prev-month"></i>
+
+            <div class="selectors">
+                <select id="year-select"></select>
+                <select id="month-select"></select>
+                <select id="day-select"></select>
+            </div>
+
+            <i class='bx bx-chevrons-right nav-btn' id="next-month"></i>
         </div>
 
-        <button class="btn-today" id="today-btn">Today</button>
+        <div></div>
+
     </div>
 
     <div class="calendar-grid" id="calendar-grid"></div>
@@ -237,19 +250,13 @@
     const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     const dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
-    const fragment = document.createDocumentFragment();
     for (let y = 1; y <= 9999; y++) {
-        let opt = document.createElement('option');
-        opt.value = y;
-        opt.text = y;
-        fragment.appendChild(opt);
+        let opt = new Option(y, y);
+        yearSelect.appendChild(opt);
     }
-    yearSelect.appendChild(fragment);
 
     for(let i=0;i<12;i++){
-        let opt=document.createElement('option');
-        opt.value=i;
-        opt.text=monthNames[i];
+        let opt=new Option(monthNames[i], i);
         monthSelect.appendChild(opt);
     }
 
@@ -257,10 +264,7 @@
         daySelect.innerHTML = "";
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         for (let d = 1; d <= daysInMonth; d++) {
-            let opt = document.createElement("option");
-            opt.value = d;
-            opt.text = d;
-            daySelect.appendChild(opt);
+            daySelect.appendChild(new Option(d, d));
         }
         daySelect.value = selectedDate.getDate();
     }
@@ -316,59 +320,19 @@
             grid.appendChild(cell);
         }
 
-        updateHeader();
-    }
-
-    function updateHeader(){
         document.getElementById("box-day-name").innerText =
             dayNames[selectedDate.getDay()] + ".";
         document.getElementById("box-day-num").innerText =
             selectedDate.getDate();
-
-        const d1 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        const d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
-        let diff = Math.floor((d1 - d2) / (1000*60*60*24));
-        
-        document.getElementById("extra-info").innerText =
-            diff === 0 ? "Today" :
-            diff > 0 ? diff + " days ago" :
-            Math.abs(diff) + " days from now";
     }
 
-    monthSelect.onchange=()=>{
-        currentMonth=parseInt(monthSelect.value);
-        renderCalendar();
-    };
+    monthSelect.onchange=()=>{ currentMonth=parseInt(monthSelect.value); renderCalendar(); };
+    yearSelect.onchange=()=>{ currentYear=parseInt(yearSelect.value); renderCalendar(); };
+    daySelect.onchange=()=>{ selectedDate=new Date(currentYear,currentMonth,parseInt(daySelect.value)); renderCalendar(); };
 
-    yearSelect.onchange=()=>{
-        currentYear=parseInt(yearSelect.value);
-        renderCalendar();
-    };
-
-    daySelect.onchange=()=>{
-        selectedDate=new Date(currentYear,currentMonth,parseInt(daySelect.value));
-        renderCalendar();
-    };
-
-    document.getElementById("prev-month").onclick=()=>{
-        currentMonth--;
-        if(currentMonth<0){ currentMonth=11; currentYear--; }
-        renderCalendar();
-    };
-
-    document.getElementById("next-month").onclick=()=>{
-        currentMonth++;
-        if(currentMonth>11){ currentMonth=0; currentYear++; }
-        renderCalendar();
-    };
-
-    document.getElementById("today-btn").onclick=()=>{
-        today = new Date();
-        currentMonth=today.getMonth();
-        currentYear=today.getFullYear();
-        selectedDate=new Date();
-        renderCalendar();
-    };
+    document.getElementById("prev-month").onclick=()=>{ currentMonth--; if(currentMonth<0){ currentMonth=11; currentYear--; } renderCalendar(); };
+    document.getElementById("next-month").onclick=()=>{ currentMonth++; if(currentMonth>11){ currentMonth=0; currentYear++; } renderCalendar(); };
+    document.getElementById("today-btn").onclick=()=>{ today=new Date(); currentMonth=today.getMonth(); currentYear=today.getFullYear(); selectedDate=new Date(); renderCalendar(); };
 
     renderCalendar();
 </script>
