@@ -1,0 +1,117 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.navbar {
+    background: white;
+    padding: 10px 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+h1 { font-size: 2rem; margin-bottom: 20px; }
+
+.status-badge {
+    background-color: #e9ecef;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+.check-icon { color: #28a745; margin-right: 5px; }
+
+.quiz-info {
+    font-size: 0.95rem;
+    margin-bottom: 40px;
+}
+
+hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
+
+.results h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.attempts-table {
+    width: 100%;
+    max-width: 500px;
+    border-collapse: collapse;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.attempts-table th {
+    background-color: #f1f3f5;
+    text-align: left;
+    padding: 12px;
+    font-size: 1.1rem;
+}
+
+.attempts-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f1f3f5;
+    font-size: 0.9rem;
+}
+
+.attempts-table td:first-child {
+    font-weight: bold;
+    width: 30%;
+    text-align: right;
+    background-color: #fafafa;
+}
+
+.review-cell {
+    background: #fff;
+    color: #666;
+    font-size: 0.8rem !important;
+    text-align: left !important;
+}
+
+.actions {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.seb-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.btn-secondary { background-color: #ced4da; color: #495057; }
+.btn-secondary:hover { background-color: #adb5bd; }
+
+.btn-primary { background-color: #adb5bd; color: #333; }
+.btn-primary:hover { background-color: #8e9499; }
