@@ -20,6 +20,7 @@
     --current-color: #ffd166;
     --flax: #eddc82;
     --gray: #808080; 
+    --soft-jade: #abd1c6;
     --jet: #302f2b;
     --color1: #5e4074; 
     --color2: #f7f9ec;
@@ -86,16 +87,15 @@
     font-size: 20px; 
   }
 
-  /* FIXED HIGHLIGHT STYLES */
   .pill-highlight,
   #temp-pill {
     position: absolute;
-    height: 40px;           /* Slightly smaller than cell for better aesthetics */
+    height: 42px; 
+    margin-top: -21px; 
     border-radius: 20px;
     pointer-events: none;
     z-index: 1;
-    transform-origin: 20px center; /* Origin set to the center of the first circle cap */
-    margin-top: -20px;      /* Vertically centers the pill on its 'top' coordinate */
+    transform-origin: 25px center; 
   }
 
   .pill-highlight {
@@ -174,9 +174,39 @@ const gridData = [
 const words = ["ANGRY", "HAPPY", "SCARED", "WORRIED", "SURPRISED", "NERVOUS", "CALM", "TIRED", "SAD", "EXCITED", "TED"];
 
 const colors = [
-  "var(--curious-blue)", "var(--blush)", "var(--san-juan)", "var(--tiber)",
-  "var(--cherry-red)", "var(--mulled-wine)", "var(--pesto)", "var(--sorbet-orange)",
-  "var(--forest-green)", "var(--soft-jade)", "var(--flax)", "#FF6B6B", "#4ECDC4"
+  "var(--curious-blue)",
+  "var(--blush)",
+  "var(--san-juan)",
+  "var(--tiber)",
+  "var(--cherry-red)",
+  "var(--mulled-wine)",
+  "var(--pesto)",
+  "var(--sorbet-orange)",
+  "var(--forest-green)",
+  "var(--soft-jade)",
+  "var(--flax)",
+
+  "#FF6B6B",
+  "#4ECDC4",
+  "#45B7D1",
+  "#96CEB4",
+  "#FFEAA7",
+  "#DDA0DD",
+  "#FF9FF3",
+  "#54A0FF",
+  "#5F27CD",
+  "#00D2D3",
+  "#FF9F43",
+  "#10AC84",
+  "#EE5253",
+  "#341F97",
+  "#F368E0",
+  "#C8D6E5",
+  "#576574",
+  "#1DD1A1",
+  "#FF6348",
+  "#2ED573",
+  "#3742FA"
 ];
 
 let colorIndex = 0;
@@ -223,8 +253,10 @@ function buildWords() {
 function handleStart(cell) {
   isSelecting = true;
   startCell = cell;
+
   const color = colors[colorIndex % colors.length];
   document.documentElement.style.setProperty("--current-color", color);
+
   tempPill.style.display = "block";
   updateSelection(cell);
 }
@@ -236,12 +268,12 @@ function handleDrag(cell) {
 
 document.addEventListener("mouseup", () => {
   if (!isSelecting) return;
+
   isSelecting = false;
   checkSelection();
   tempPill.style.display = "none";
 });
 
-// FIXED COORDINATE MATH
 function updateSelection(endCell) {
   const r1 = parseInt(startCell.dataset.row);
   const c1 = parseInt(startCell.dataset.col);
@@ -253,26 +285,21 @@ function updateSelection(endCell) {
   const absDr = Math.abs(dr);
   const absDc = Math.abs(dc);
 
-  // Constraint: Only horizontal, vertical, or 45-degree diagonal
   if (!(dr === 0 || dc === 0 || absDr === absDc)) return;
 
   const cellSize = 50;
   const steps = Math.max(absDr, absDc);
   
-  // Calculate distance between start-center and end-center
   const actualDist = Math.sqrt(dr * dr + dc * dc) * cellSize;
-  // Total width = distance + the diameter of the rounded caps (40px)
-  const pillWidth = actualDist + 40; 
+  const pillWidth = actualDist + 42; 
 
   const angle = Math.atan2(dr, dc) * (180 / Math.PI);
 
-  // Center coordinates of the start cell
   const startX = c1 * cellSize + (cellSize / 2);
   const startY = r1 * cellSize + (cellSize / 2);
 
-  // Position logic
   tempPill.style.width = `${pillWidth}px`;
-  tempPill.style.left = `${startX - 20}px`; // Offset by pill radius to center the cap
+  tempPill.style.left = `${startX - 21}px`; 
   tempPill.style.top = `${startY}px`;
   tempPill.style.transform = `rotate(${angle}deg)`;
 
@@ -295,6 +322,7 @@ function updateSelection(endCell) {
 function checkSelection() {
   const word = currentSelection.cells.map(c => c.textContent).join("");
   const reversed = word.split("").reverse().join("");
+
   const match = words.find(w => (w === word || w === reversed) && !wordColors[w]);
 
   if (match) {
@@ -314,6 +342,7 @@ function checkSelection() {
     const li = document.getElementById(match);
     li.classList.add("found");
     li.style.color = color;
+
     colorIndex++;
   }
 }
