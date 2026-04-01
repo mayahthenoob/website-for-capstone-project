@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            margin: 0;
+        }
+
+        .modal {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 60px 30px;
+        }
+
+        .modal-content {
+            display: flex;
+            gap: 70px;
+            flex-wrap: wrap;
+        }
+
+        .sidebar {
+            width: 250px;
+            text-align: center;
+        }
+
+        .profile-pic-container {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 30px auto;
+            background: #eee;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .name {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .subject {
+            margin: 8px 0;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .main-info {
+            flex: 1;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 25px;
+            border-bottom: 2px solid #eee;
+            margin: 40px 0;
+        }
+
+        .tab {
+            padding: 14px 0;
+            font-size: 15px;
+            color: #888;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab.active {
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #1a1a1a;
+        }
+
+        .details {
+            position: relative;
+            min-height: 250px;
+        }
+
+        .tab-panel {
+            display: none;
+            width: 100%;
+            transition: opacity 0.3s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .detail-item {
+            margin-bottom: 25px;
+        }
+
+        .label {
+            display: block;
+            font-weight: 700;
+            font-size: 13px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .value {
+            font-size: 16px;
+            color: #1a1a1a;
+            line-height: 1.7;
+        }
+
+        /* Class List Styling */
+        .class-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .class-item {
+            margin-bottom: 12px;
+            color: #0066cc; /* Matches the blue link style in image */
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .class-item:hover {
+            text-decoration: underline;
+        }
+
+        .actions {
+            margin-top: 50px;
+            display: flex;
+            gap: 20px;
+        }
+
+        button.btn-action {
+            cursor: pointer;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .btn-save {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+        }
+
+        .btn-cancel {
+            background: none;
+            border: 1px solid #ddd;
+            color: #666;
+        }
+
+        /* Certificate Gallery */
+        .certificate-gallery .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .certificate-gallery .certificate {
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .certificate-gallery .certificate:hover {
+            transform: scale(1.05);
+        }
+
+        .certificate-gallery .certificate img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Modal for Certificates */
+        .cert-modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.8);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .cert-modal.show {
+            opacity: 1;
+        }
+
+        .cert-modal img {
+            max-width: 80vw;
+            max-height: 80vh;
+            border-radius: 10px;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .cert-modal.show img {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            .sidebar { width: 100%; }
+            .tabs { overflow-x: auto; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal">
+    <div class="modal-content">
+
+        <div class="sidebar">
+            <div class="profile-pic-container">
+                <img src="R.jpg" class="profile-pic" alt="Profile">
+            </div>
+            <h2 class="name">Alan Walker</h2>
+            <p class="subject">Information Technology</p>
+        </div>
+
+        <div class="main-info">
+            <div class="tabs">
+                <button class="tab active" data-tab="about">About Me</button>
+                <button class="tab" data-tab="general">General</button>
+                <button class="tab" data-tab="contact">Contact</button>
+                <button class="tab" data-tab="courses">Classes</button>
+                <button class="tab" data-tab="certificates">Certificates</button>
+            </div>
+
+            <div class="details">
+                <div class="tab-panel active" id="about">
+                    <div class="detail-item">
+                        <span class="label">Bio</span>
+                        <span class="value">Hi! I'm Alan Walker, a passionate IT enthusiast who loves coding and exploring new technologies.</span>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="general">
+                    <div class="detail-item">
+                        <span class="label">Education Level</span>
+                        <span class="value">Undergraduate Student</span>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="contact">
+                    <div class="detail-item">
+                        <span class="label">Email Address</span>
+                        <span class="value">alan.walker@example.com</span>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="courses">
+                    <div class="detail-item">
+                        <span class="label">Registered Classes</span>
+                        <ul class="class-list">
+                            <li class="class-item">Mathematics - John Roberts</li>
+                            <li class="class-item">English - Solange White</li>
+                            <li class="class-item">Programming - Adrian Matthew</li>
+                            <li class="class-item">Information Technology - Dariel Willians</li>
+                            <li class="class-item">Technical Drawing - Akel Bridgeman</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="certificates">
+                    <div class="certificate-gallery">
+                        <div class="container" id="certificateContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn-action btn-save">Update Profile</button>
+                <button class="btn-action btn-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cert-modal" id="certModal">
+    <i class='bx bx-x close-btn' onclick="closeModal()"></i>
+    <img id="modalImg" src="" alt="Certificate Preview">
+</div>
+
+<script>
+    // Tab Switching Logic
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.tab-panel');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const target = tab.getAttribute('data-tab');
+            panels.forEach(panel => {
+                panel.classList.toggle('active', panel.id === target);
+            });
+        });
+    });
+
+    // Populate Certificates
+    const certificates = [
+        { image: "R.jpg" },
+        { image: "R.jpg" },
+        { image: "R.jpg" }
+    ];
+
+    const container = document.getElementById("certificateContainer");
+    certificates.forEach(cert => {
+        const div = document.createElement("div");
+        div.className = "certificate";
+        div.innerHTML = `<img src="${cert.image}" alt="Certificate">`;
+        div.onclick = () => openModal(cert.image);
+        container.appendChild(div);
+    });
+
+    // Modal Logic
+    const modal = document.getElementById("certModal");
+    const modalImg = document.getElementById("modalImg");
+
+    function openModal(src) {
+        modalImg.src = src;
+        modal.style.display = "flex";
+        setTimeout(() => {
+            modal.classList.add("show");
+        }, 10);
+    }
+
+    function closeModal() {
+        modal.classList.remove("show");
+        setTimeout(() => {
+            modal.style.display = "none";
+        }, 300);
+    }
+</script>
+
+</body>
+</html>

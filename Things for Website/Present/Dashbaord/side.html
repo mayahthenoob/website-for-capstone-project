@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Carnival - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+
+  :root {
+    --primary: #4318FF;
+    --bg-body: #f4f6f9;
+    --text-main: #1b2559;
+    --text-muted: #a3aed0;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(0,0,0,0.05);
+    --danger: #ee5d50;
+  }
+
+  body {
+    display: flex;
+    background: var(--bg-body);
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    width: 220px;
+    background-color: #111827;
+    color: #9ca3af;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    height: 100vh;
+  }
+
+  .sidebar-top {
+    display: flex;
+    align-items: center;
+    width: 85%;
+    padding: 20px 0;
+  }
+
+  .logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    margin-right: 10px;
+    overflow: hidden;
+  }
+  .logo-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand { font-weight: 600; color: #fff; }
+  .tagline { font-size: 11px; }
+
+  .sidebar-center { width: 85%; margin-top: 30px; }
+  .list { list-style: none; }
+  .list-item { margin-bottom: 10px; }
+  .list-item a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+  }
+  .list-item:hover a { background-color: #374151; color: #fff; }
+
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 220px; 
+  }
+
+  .header {
+    height: 80px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 30px;
+    border-bottom: 1px solid #e6e9ef;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-right { display: flex; align-items: center; gap: 25px; }
+  .msg-icon { font-size: 24px; color: #555; cursor: pointer; }
+
+  .profile-container { position: relative; }
+  .profile { display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 5px 10px; border-radius: 8px; }
+  .profile:hover { background: #f0f2f5; }
+  .profile img { width: 40px; height: 40px; border-radius: 50%; }
+  .dropdown-menu {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 200px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+    display: none;
+    flex-direction: column;
+  }
+  .dropdown-menu.show { display: flex; }
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+  }
+  .dropdown-item i {
+    min-width: 20px;
+    text-align: center;
+    font-size: 18px;
+  }
+  .dropdown-item:hover { background: #f8f9fa; color: var(--primary); }
+
+  @media (max-width: 768px) {
+    .sidebar { width: 70px; }
+    .main { margin-left: 70px; }
+    .brand-text, .list-item-text { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <div class="logo-img">
+      <img src="logo.png" alt="Quiz Carnival Logo">
+    </div> 
+    <div class="brand-text">
+      <span class="brand">Quiz Carnival</span>
+      <span class="tagline">Design & Play Quizzes</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-center">
+    <ul class="list">
+      <li class="list-item"><a href="#"><i class='bx bx-plus'></i><span class="list-item-text">Create</span></a></li>
+      <li class="list-item"><a href="#"><i class='bx bx-home'></i><span class="list-item-text">Homepage</span></a></li>
+      <li class="list-item"><a href="#"><i class='bx bxs-dashboard'></i><span class="list-item-text">Dashboard</span></a></li>
+      <li class="list-item"><a href="#"><i class='bx bx-book'></i><span class="list-item-text">My Classes</span></a></li>
+      <li class="list-item"><a href="#"><i class='bx bx-library'></i><span class="list-item-text">Classes</span></a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="header">
+    <div class="header-right">
+      <div class="msg-icon"><i class='bx bx-bell'></i></div>
+      <div class="msg-icon"><i class='bx bx-message'></i></div>
+      <div class="profile-container">
+        <div class="profile" onclick="toggleDropdown()">
+          <img src="R.jpg" alt="Profile">
+          <span>Alan Walker</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="dropdown-menu" id="profileDropdown">
+          <a href="full-profile.html" class="dropdown-item"><i class='bx bxs-user-circle'></i> Profile</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-line-chart'></i> Grades</a>
+          <a href="calender.html" class="dropdown-item"><i class='bx bx-calendar'></i> Calendar</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-message'></i> Messages</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-share-alt'></i> Share</a>
+          <hr style="border: 0; border-top: 1px solid #eee; margin: 5px 0;">
+          <a href="#" class="dropdown-item"><i class='bx bx-log-in'></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Sidebar Dropdown
+  function toggleDropdown() {
+    document.getElementById("profileDropdown").classList.toggle("show");
+  }
+
+  // Close dropdown on outside click
+  window.onclick = function(event) {
+    if (!event.target.closest('.profile-container')) {
+      document.getElementById("profileDropdown").classList.remove("show");
+    }
+  }
+</script>
+</body>
+</html>

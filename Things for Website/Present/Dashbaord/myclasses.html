@@ -15,7 +15,6 @@
             color: #1d2125;
         }
 
-        /* --- Top Header Section --- */
         .header-section {
             max-width: 1200px;
             margin: 0 auto 20px auto;
@@ -32,60 +31,74 @@
             align-items: center;
         }
 
-        /* --- Custom Dropdown Styling (The "Sort By" Look) --- */
         .custom-dropdown {
             position: relative;
             display: inline-block;
         }
 
-        .dropdown-trigger {
-            background-color: #f0f4ff; /* Light blue from image */
-            color: #003366; /* Deep blue text */
-            border: 1px solid #dce4f5;
-            padding: 10px 24px;
-            border-radius: 50px; /* Pill shape */
-            font-size: 15px;
-            font-weight: 600;
+        /* Buttons & dropdowns (same height) */
+        .dropdown-trigger,
+        .btn-filter-static {
+            border: 1px solid #868e96;
+            border-radius: 8px;
+            padding: 0 16px;
+            background: white;
+            font-size: 14px;
+            color: #495057;
             cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
             font-family: 'Inter', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             min-width: 100px;
+            height: 40px;
+            box-sizing: border-box;
         }
 
-        .dropdown-trigger:hover {
-            background-color: #e2e9ff;
-            border-color: #cbd5e1;
+        .dropdown-trigger:hover,
+        .btn-filter-static:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* ✅ Fixed search input */
+        .search-input {
+            border: 1px solid #868e96;
+            border-radius: 8px;
+            padding: 0 12px;
+            background: white;
+            font-size: 14px;
+            color: #495057;
+            flex-grow: 1;
+            max-width: 350px;
+            outline: none;
+            height: 40px;
+            box-sizing: border-box;
         }
 
         .dropdown-menu {
-            display: none; /* Hidden by default */
+            display: none;
             position: absolute;
             top: calc(100% + 8px);
             left: 0;
             background: white;
             min-width: 180px;
-            border-radius: 16px; /* High rounding from image */
+            border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             z-index: 100;
             padding: 8px 0;
             border: 1px solid #f0f0f0;
         }
 
-        /* Show class for JS toggle */
         .dropdown-menu.show {
             display: block;
         }
 
         .dropdown-item {
             padding: 12px 20px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
             color: #1d2125;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
         .dropdown-item:hover {
@@ -93,30 +106,6 @@
             color: #0056b3;
         }
 
-        /* Search and static buttons */
-        .btn-filter-static {
-            border: 1px solid #868e96;
-            border-radius: 8px;
-            padding: 8px 16px;
-            background: white;
-            font-size: 14px;
-            color: #495057;
-            cursor: pointer;
-        }
-
-        .search-input {
-            border: 1px solid #868e96;
-            border-radius: 8px;
-            padding: 10px 12px;
-            background: white;
-            font-size: 14px;
-            color: #495057;
-            flex-grow: 1;
-            max-width: 350px;
-            outline: none;
-        }
-
-        /* --- Card Grid --- */
         .course-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -148,7 +137,7 @@
         .course-grid.list-view .card-container {
             height: 80px;
             margin-bottom: 10px;
-            background-image: none !important; /* Hide image in list view */
+            background-image: none !important;
             background-color: #f8f9fa;
             box-shadow: none;
             border: 1px solid #eee;
@@ -269,13 +258,11 @@
 <script>
     const courseGrid = document.getElementById('courseGrid');
 
-    // Toggle Dropdown Menus
     document.querySelectorAll('.dropdown-trigger').forEach(trigger => {
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
             const menu = trigger.nextElementSibling;
             
-            // Close other open menus
             document.querySelectorAll('.dropdown-menu').forEach(m => {
                 if (m !== menu) m.classList.remove('show');
             });
@@ -284,7 +271,6 @@
         });
     });
 
-    // Handle View Selection
     document.querySelectorAll('#viewDropdown .dropdown-item').forEach(item => {
         item.addEventListener('click', (e) => {
             const viewType = item.getAttribute('data-view');
@@ -300,7 +286,6 @@
         });
     });
 
-    // Handle Sort Selection (Visual only)
     document.querySelectorAll('#sortDropdown .dropdown-item').forEach(item => {
         item.addEventListener('click', (e) => {
             const trigger = item.closest('.custom-dropdown').querySelector('.dropdown-trigger');
@@ -308,7 +293,6 @@
         });
     });
 
-    // Close menus when clicking anywhere else
     window.addEventListener('click', () => {
         document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
     });
