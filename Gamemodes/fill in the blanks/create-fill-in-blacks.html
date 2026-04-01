@@ -259,16 +259,25 @@
                 }
             });
 
+            // Set cursor to end on focus
             textarea.addEventListener("focus", function () {
-                this.setSelectionRange(prefix.length, prefix.length);
+                this.setSelectionRange(this.value.length, this.value.length);
             });
 
+            // Replace (_) with double line and space
             textarea.addEventListener("input", function () {
                 const cursorPos = this.selectionStart;
-                const newValue = this.value.replace(/\(_\)/g, "_____");
+                const before = this.value.slice(0, cursorPos);
+                const after = this.value.slice(cursorPos);
+                
+                // Replace all (_) with ____
+                const newValue = this.value.replace(/\(_\)/g, "____ ");
                 if (this.value !== newValue) {
                     this.value = newValue;
-                    this.setSelectionRange(cursorPos, cursorPos);
+
+                    // Adjust cursor to be after the inserted space
+                    const newCursorPos = before.replace(/\(_\)/g, "____ ").length;
+                    this.setSelectionRange(newCursorPos, newCursorPos);
                 }
             });
 
