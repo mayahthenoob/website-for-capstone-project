@@ -1,2 +1,0 @@
-make it go to results page when finished
-add a sound and effects

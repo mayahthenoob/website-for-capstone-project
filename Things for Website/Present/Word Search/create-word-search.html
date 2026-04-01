@@ -187,6 +187,7 @@ input:focus, textarea:focus {
     user-select: text;
     font-size: 18px;
     overflow: hidden;
+    line-height: 1;
 }
 
 /* Responsive */
@@ -341,7 +342,9 @@ input:focus, textarea:focus {
 </div>
 
 <script>
-// Generate word inputs dynamically
+// ------------------------
+// Words to Find Uppercase
+// ------------------------
 const amountInput = document.getElementById("amount");
 const wordsContainer = document.getElementById("wordsContainer");
 
@@ -356,11 +359,19 @@ amountInput.addEventListener("input", function () {
         input.type = "text";
         input.placeholder = "Word " + i;
         input.required = true;
+
+        // Convert input to uppercase automatically
+        input.addEventListener("input", () => {
+            input.value = input.value.toUpperCase().replace(/[^A-Z]/g, '');
+        });
+
         wordsContainer.appendChild(input);
     }
 });
 
+// ------------------------
 // Description default/custom
+// ------------------------
 const defaultRadio = document.getElementById("default");
 const customRadio = document.getElementById("custom");
 const descriptionField = document.getElementById("description");
@@ -378,7 +389,9 @@ customRadio.addEventListener("change", function () {
     }
 });
 
+// ------------------------
 // Format Opens/Closes
+// ------------------------
 function formatDateTime(value) {
     if (!value) return "";
     const date = new Date(value);
@@ -406,7 +419,9 @@ closesInput.addEventListener("change", function () {
         formatDateTime(this.value);
 });
 
+// ------------------------
 // Time Limit display
+// ------------------------
 const timeLimitInput = document.getElementById("timeLimit");
 const totalTimeDisplay = document.getElementById("totalTime");
 
@@ -429,11 +444,18 @@ timeLimitInput.addEventListener("input", function () {
 });
 
 // ------------------------
-// Word Search Design Grid
+// Word Search Design Grid with Paste Support
 // ------------------------
 const designGrid = document.getElementById("designGrid");
 const gridSize = 10;
 let designMode = "custom";
+
+// Helper: get next cell by row and column
+function getNextCell(r, c) {
+    if (c < gridSize - 1) return designGrid.querySelector(`.cell[data-row='${r}'][data-col='${c+1}']`);
+    if (r < gridSize - 1) return designGrid.querySelector(`.cell[data-row='${r+1}'][data-col='0']`);
+    return null;
+}
 
 // Create grid
 for (let r = 0; r < gridSize; r++) {
@@ -443,40 +465,77 @@ for (let r = 0; r < gridSize; r++) {
         cell.dataset.row = r;
         cell.dataset.col = c;
 
-        // Make each cell editable directly
         cell.contentEditable = true;
         cell.style.textAlign = "center";
         cell.style.userSelect = "text";
+
+        // Input handler: only letters, auto-uppercase, move to next cell
+        cell.addEventListener("input", () => {
+            let char = cell.textContent.toUpperCase().replace(/[^A-Z]/g, '');
+            char = char.charAt(0) || "";
+            cell.textContent = char;
+
+            if (char.length > 0) {
+                const nextCell = getNextCell(r, c);
+                if (nextCell) nextCell.focus();
+            }
+        });
+
+        // Paste handler: spread letters across cells
+        cell.addEventListener("paste", (e) => {
+            e.preventDefault();
+            let pasteText = (e.clipboardData || window.clipboardData).getData('text');
+            pasteText = pasteText.toUpperCase().replace(/[^A-Z]/g, '');
+            let currentRow = r;
+            let currentCol = c;
+
+            for (let i = 0; i < pasteText.length; i++) {
+                const targetCell = designGrid.querySelector(`.cell[data-row='${currentRow}'][data-col='${currentCol}']`);
+                if (!targetCell) break;
+                targetCell.textContent = pasteText[i];
+
+                // Move to next cell
+                if (currentCol < gridSize - 1) currentCol++;
+                else if (currentRow < gridSize - 1) {
+                    currentCol = 0;
+                    currentRow++;
+                } else break;
+            }
+
+            const lastCell = designGrid.querySelector(`.cell[data-row='${currentRow}'][data-col='${currentCol}']`);
+            if (lastCell) lastCell.focus();
+        });
+
+        // Allow only letters on keydown
+        cell.addEventListener("keydown", (e) => {
+            if (e.key.length === 1 && !e.key.match(/[a-zA-Z]/)) {
+                e.preventDefault();
+            }
+        });
 
         designGrid.appendChild(cell);
     }
 }
 
-// Handle mode radio buttons
+// Mode radio buttons (custom/default)
 const modeCustomRadio = document.getElementById("modeCustom");
 const modeDefaultRadio = document.getElementById("modeDefault");
 
-modeCustomRadio.addEventListener("change", () => {
-    if (modeCustomRadio.checked) designMode = "custom";
-});
-
+modeCustomRadio.addEventListener("change", () => { if (modeCustomRadio.checked) designMode = "custom"; });
 modeDefaultRadio.addEventListener("change", () => {
     if (modeDefaultRadio.checked) {
         designMode = "default";
-
-        // Fill empty cells with random letters
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const cells = designGrid.querySelectorAll(".cell");
         cells.forEach(cell => {
             if (!cell.textContent.trim()) {
-                const randLetter = letters.charAt(Math.floor(Math.random() * letters.length));
-                cell.textContent = randLetter;
+                cell.textContent = letters.charAt(Math.floor(Math.random() * letters.length));
             }
         });
     }
 });
 
-// Save design grid data on publish
+// Save design grid on publish
 const publishBtn = document.querySelector(".publish-btn");
 publishBtn.addEventListener("click", () => {
     const gridData = [];
