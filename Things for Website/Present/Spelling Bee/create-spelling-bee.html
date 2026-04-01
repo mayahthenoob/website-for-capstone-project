@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create Spelling Bee Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f04e84 0%, #7c3a91 100%);
+    padding: 20px;
+}
+
+.form-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 800px;
+}
+
+h2 {
+    margin: 0 0 30px;
+    color: #666;
+    font-weight: 500;
+    text-align: center;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: span 2;
+}
+
+label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+input, textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+input:focus, textarea:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+.radio-group {
+    display: flex;
+    gap: 25px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.radio-option input {
+    width: auto;
+    accent-color: #4a90e2;
+    cursor: pointer;
+}
+
+#wordsContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.formatted-date, .total-time {
+    font-size: 14px;
+    color: #555;
+    margin-top: 6px;
+}
+
+/* BUTTONS */
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.action-btn {
+    border: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.preview-btn {
+    background-color: #999;
+    color: white;
+}
+
+.preview-btn:hover {
+    background-color: #777;
+}
+
+.publish-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.publish-btn:hover {
+    background-color: #1e7e34;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: span 1;
+    }
+
+    #wordsContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    #wordsContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .button-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="form-container">
+<h2>Spelling Bee Form</h2>
+
+<form>
+<div class="form-grid">
+
+<div class="form-group full-width">
+<label>Title</label>
+<input type="text" id="title" required>
+</div>
+
+<div class="form-group full-width">
+<label>Description</label>
+<textarea id="description"></textarea>
+
+<div class="radio-group">
+<label class="radio-option">
+<input type="radio" name="descriptionMode" value="default"> Default
+</label>
+<label class="radio-option">
+<input type="radio" name="descriptionMode" value="custom"> Custom
+</label>
+</div>
+</div>
+
+<div class="form-group full-width">
+<label>Speaker Voice</label>
+<div class="radio-group">
+<label class="radio-option"><input type="radio" name="speakerVoice" value="default"> Default</label>
+<label class="radio-option"><input type="radio" name="speakerVoice" value="random"> Random</label>
+<label class="radio-option"><input type="radio" name="speakerVoice" value="select"> Select</label>
+</div>
+</div>
+
+<div class="form-group">
+<label>Category</label>
+<input type="text" id="category">
+</div>
+
+<div class="form-group">
+<label>Amount</label>
+<input type="number" id="amount" min="1" max="32" required>
+</div>
+
+<div class="form-group full-width">
+<label>Words to Spell</label>
+<div id="wordsContainer"></div>
+</div>
+
+<div class="form-group full-width">
+<label>Re-attempt</label>
+<div class="radio-group">
+<label class="radio-option"><input type="radio" name="reattempt" value="none"> None</label>
+<label class="radio-option"><input type="radio" name="reattempt" value="two"> Two</label>
+<label class="radio-option"><input type="radio" name="reattempt" value="three"> Three</label>
+</div>
+</div>
+
+<div class="form-group">
+<label>Opens</label>
+<input type="datetime-local" id="opens">
+<div id="opensFormatted" class="formatted-date"></div>
+</div>
+
+<div class="form-group">
+<label>Closes</label>
+<input type="datetime-local" id="closes">
+<div id="closesFormatted" class="formatted-date"></div>
+</div>
+
+<div class="form-group full-width">
+<label>Time Limit (Minutes)</label>
+<input type="number" id="timeLimit" min="0">
+<div id="totalTime" class="total-time"></div>
+</div>
+
+</div>
+
+<div class="button-row">
+<button type="button" class="action-btn preview-btn">Preview</button>
+<button type="submit" class="action-btn publish-btn">Publish</button>
+</div>
+
+</form>
+</div>
+
+<script>
+// WORD GENERATOR
+const amountInput = document.getElementById("amount");
+const wordsContainer = document.getElementById("wordsContainer");
+
+amountInput.addEventListener("input", function () {
+    let amount = parseInt(this.value);
+    if (amount > 32) { amount = 32; this.value = 32; }
+    if (amount < 1 || isNaN(amount)) { wordsContainer.innerHTML = ""; return; }
+
+    wordsContainer.innerHTML = "";
+    for (let i = 1; i <= amount; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = "Word " + i;
+        input.required = true;
+        wordsContainer.appendChild(input);
+    }
+});
+
+// DESCRIPTION MODE
+const descRadios = document.querySelectorAll("input[name='descriptionMode']");
+const descriptionField = document.getElementById("description");
+
+descRadios.forEach(radio => {
+    radio.addEventListener("change", function () {
+        if (this.value === "default") {
+            descriptionField.value = "Spell each word correctly within the allotted time.";
+            descriptionField.readOnly = true;
+        } else {
+            descriptionField.value = "";
+            descriptionField.readOnly = false;
+        }
+    });
+});
+
+// FORMAT DATES
+function formatDateTime(value) {
+    if (!value) return "";
+    const date = new Date(value);
+    return date.toLocaleString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    });
+}
+
+document.getElementById("opens").addEventListener("change", function () {
+    document.getElementById("opensFormatted").textContent = formatDateTime(this.value);
+});
+
+document.getElementById("closes").addEventListener("change", function () {
+    document.getElementById("closesFormatted").textContent = formatDateTime(this.value);
+});
+
+// TIME LIMIT
+const timeLimitInput = document.getElementById("timeLimit");
+const totalTimeDisplay = document.getElementById("totalTime");
+
+timeLimitInput.addEventListener("input", function () {
+    const minutes = parseInt(this.value);
+    if (isNaN(minutes) || minutes < 0) { totalTimeDisplay.textContent = ""; return; }
+
+    if (minutes < 60) {
+        totalTimeDisplay.textContent = `${minutes} Minute${minutes !== 1 ? 's' : ''}`;
+    } else {
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+
+        totalTimeDisplay.textContent =
+            remainingMinutes === 0
+            ? `${hours} Hour${hours !== 1 ? 's' : ''}`
+            : `${hours} Hour${hours !== 1 ? 's' : ''} : ${remainingMinutes} Minute${remainingMinutes !== 1 ? 's' : ''}`;
+    }
+});
+
+// PREVIEW
+document.querySelector(".preview-btn").addEventListener("click", () => {
+    const words = [];
+    document.querySelectorAll("#wordsContainer input").forEach(i => words.push(i.value));
+
+    alert(
+`PREVIEW
+
+Title: ${document.getElementById("title").value}
+Description: ${document.getElementById("description").value}
+Words: ${words.join(", ")}
+Time Limit: ${document.getElementById("timeLimit").value} minutes`
+    );
+});
+
+// SUBMIT
+document.querySelector("form").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const data = {
+        title: document.getElementById("title").value,
+        description: document.getElementById("description").value,
+        category: document.getElementById("category").value,
+        amount: document.getElementById("amount").value,
+        timeLimit: document.getElementById("timeLimit").value,
+        opens: document.getElementById("opens").value,
+        closes: document.getElementById("closes").value,
+        reattempt: document.querySelector("input[name='reattempt']:checked").value,
+        words: []
+    };
+
+    document.querySelectorAll("#wordsContainer input").forEach(i => data.words.push(i.value));
+
+    console.log("SUBMITTED DATA:", data);
+    alert("Form submitted! Check console.");
+});
+</script>
+
+</body>
+</html>
