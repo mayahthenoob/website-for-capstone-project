@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Screen - Large</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-circle-progress/1.2.2/circle-progress.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-deep: #050b1d;
+            --card-blue: #0b2559;
+            --border-glow: #3081d0;
+            --neon-cyan: #00d2ff;
+            --win-green: #5effa3;
+            --gold: #f1c40f;
+        }
+
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Scaled up from 420px to 600px */
+        .game-card {
+            width: 600px;
+            background: linear-gradient(180deg, #0d2a5a 0%, #051025 100%);
+            border: 4px solid var(--border-glow);
+            padding: 70px 30px 90px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 210, 255, 0.3);
+            border-radius: 8px;
+        }
+
+        /* Scaled up Header */
+        .header-tab {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(180deg, #2ecc71, #1e8449);
+            color: white;
+            padding: 10px 70px;
+            font-weight: 900;
+            font-size: 2rem;
+            letter-spacing: 4px;
+            border: 3px solid var(--win-green);
+            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+            white-space: nowrap;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .inner-frame {
+            border: 1px solid rgba(48, 129, 208, 0.4);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 4px;
+        }
+
+        .circles-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .circle-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Scaled up from 90px to 130px */
+        .circle {
+            position: relative;
+            height: 130px;
+            width: 130px;
+        }
+
+        .circle .box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 80%;
+            width: 80%;
+            background: var(--bg-deep);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(48, 129, 208, 0.3);
+        }
+
+        .circle .box span {
+            font-size: 24px; /* Bigger text */
+            font-weight: 900;
+            color: var(--neon-cyan);
+        }
+
+        .circle-label {
+            margin-top: 18px;
+            font-size: 14px; /* Bigger label */
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .nav-buttons {
+            position: absolute;
+            bottom: -35px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .btn {
+            background: var(--border-glow);
+            color: white;
+            border: 2px solid var(--neon-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 0 25px;
+            text-transform: uppercase;
+            font-size: 14px;
+            white-space: nowrap;
+            text-decoration: none; /* for <a> links */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            filter: brightness(1.2);
+            transform: scale(1.08);
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* Hexagon shape remains responsive to the med class */
+        .hex { clip-path: polygon(12% 0%, 88% 0%, 100% 50%, 88% 100%, 12% 100%, 0% 50%); }
+        .med { width: 200px; height: 70px; }
+    </style>
+</head>
+<body>
+
+    <div class="game-card">
+        <div class="header-tab">1ST</div>
+        
+        <div class="inner-frame">
+            <div class="circles-container">
+                <div class="circle-item">
+                    <div class="circle correct">
+                        <div class="bar"></div>
+                        <div class="box"><span>0%</span></div>
+                    </div>
+                    <div class="circle-label">Correct</div>
+                </div>
+                <div class="circle-item">
+                    <div class="circle speed">
+                        <div class="bar"></div>
+                        <div class="box"><span>0%</span></div>
+                    </div>
+                    <div class="circle-label">Speed</div>
+                </div>
+                <div class="circle-item">
+                    <div class="circle streak">
+                        <div class="bar"></div>
+                        <div class="box"><span>0%</span></div>
+                    </div>
+                    <div class="circle-label">Streak</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="https://example.com/class" class="btn hex med">Back to Class</a>
+            <a href="dashboard.html" class="btn hex med">Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        // Updated size to 130 and thickness to 10
+        let baseOptions = {
+            startAngle: -1.55,
+            size: 130,
+            thickness: 10,
+            fill: {gradient: ['#00d2ff', '#3081d0']} 
+        }
+
+        // Correct %
+        $(".correct .bar").circleProgress({
+            ...baseOptions,
+            value: 0.92,
+            fill: {gradient: ['#5effa3', '#2ecc71']}
+        }).on('circle-animation-progress', function(event, progress, stepValue) {
+            $(this).parent().find("span").text(Math.round(stepValue * 100) + "%");
+        });
+
+        // Speed %
+        $(".speed .bar").circleProgress({
+            ...baseOptions,
+            value: 0.75,
+            fill: {gradient: ['#00d2ff', '#3081d0']}
+        }).on('circle-animation-progress', function(event, progress, stepValue) {
+            $(this).parent().find("span").text(Math.round(stepValue * 100) + "%");
+        });
+
+        // Streak %
+        $(".streak .bar").circleProgress({
+            ...baseOptions,
+            value: 0.80,
+            fill: {gradient: ['#f1c40f', '#e67e22']}
+        }).on('circle-animation-progress', function(event, progress, stepValue) {
+            $(this).parent().find("span").text(Math.round(stepValue * 100) + "%");
+        });
+    </script>
+
+</body>
+</html>

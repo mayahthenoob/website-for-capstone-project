@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Carnival - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+
+  :root {
+    --primary: #4318FF;
+    --bg-body: #f4f6f9;
+    --text-main: #1b2559;
+    --text-muted: #a3aed0;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(0,0,0,0.05);
+    --danger: #ee5d50;
+  }
+
+  body {
+    display: flex;
+    background: var(--bg-body);
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    width: 220px;
+    background-color: #111827;
+    color: #9ca3af;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    height: 100vh;
+  }
+
+  .sidebar-top {
+    display: flex;
+    align-items: center;
+    width: 85%;
+    padding: 20px 0;
+  }
+
+  .logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    margin-right: 10px;
+    overflow: hidden;
+  }
+  .logo-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand { font-weight: 600; color: #fff; }
+  .tagline { font-size: 11px; }
+
+  .sidebar-center { width: 85%; margin-top: 30px; }
+  .list { list-style: none; }
+  .list-item { margin-bottom: 10px; }
+  .list-item a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+  }
+  .list-item:hover a { background-color: #374151; color: #fff; }
+
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 220px; 
+  }
+
+  .header {
+    height: 80px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 30px;
+    border-bottom: 1px solid #e6e9ef;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-right { display: flex; align-items: center; gap: 25px; }
+  .msg-icon { font-size: 24px; color: #555; cursor: pointer; }
+
+  .profile-container { position: relative; }
+  .profile { display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 5px 10px; border-radius: 8px; }
+  .profile:hover { background: #f0f2f5; }
+  .profile img { width: 40px; height: 40px; border-radius: 50%; }
+  .dropdown-menu {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 200px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+    display: none;
+    flex-direction: column;
+  }
+  .dropdown-menu.show { display: flex; }
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+  }
+  .dropdown-item i {
+    min-width: 20px;
+    text-align: center;
+    font-size: 18px;
+  }
+  .dropdown-item:hover { background: #f8f9fa; color: var(--primary); }
+
+  .content {
+    padding: 40px;
+    background: var(--white);
+    min-height: calc(100vh - 80px);
+  }
+
+  h1.user-greeting { font-size: 32px; font-weight: 700; margin-bottom: 30px; color: var(--text-main); }
+  
+  .courses-section, .timeline-section {
+    margin-bottom: 40px;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .section-header h2, .timeline-section h2 { font-size: 20px; font-weight: 700; color: var(--text-main); }
+
+  .scroll-controls button {
+    border: none; width: 35px; height: 35px; border-radius: 10px;
+    cursor: pointer; color: var(--primary); font-size: 24px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: 0.3s; background: #f4f7fe;
+  }
+  .scroll-controls button:hover { background: var(--primary); color: white; }
+
+  .course-grid {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+    justify-content: center; /* Center cards */
+    scrollbar-width: none;
+  }
+  .course-grid::-webkit-scrollbar { display: none; }
+
+  .card-container {
+    min-width: 300px; height: 200px; border-radius: 20px;
+    overflow: hidden; position: relative; background-size: cover;
+    background-position: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex; align-items: flex-end; text-decoration: none;
+    transition: transform 0.4s ease; flex-shrink: 0;
+  }
+  .card-container:hover { transform: translateY(-5px); }
+  .card-container::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1));
+  }
+
+  .card-content {
+    position: relative; padding: 20px; color: white;
+    opacity: 0; transform: translateY(10px); transition: 0.4s ease; width: 100%;
+  }
+  .card-container:hover .card-content { opacity: 1; transform: translateY(0); }
+  .card-content h3 { font-size: 18px; margin-bottom: 4px; font-weight: 700; }
+  .btn-visit {
+    display: inline-block; border: 2px solid white; padding: 6px 14px;
+    border-radius: 8px; font-weight: 600; font-size: 12px; margin-top: 10px;
+  }
+
+  /* Timeline Styling */
+  .timeline-controls {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 15px; margin-top: 20px; margin-bottom: 20px;
+  }
+  .custom-dropdown { position: relative; width: 160px; }
+  .custom-dropdown button {
+    width: 100%; background: #f4f7fe; border: 1px solid #e0e5f2;
+    border-radius: 12px; padding: 10px 15px; text-align: left;
+    font-weight: 600; cursor: pointer; color: var(--text-main);
+  }
+  .custom-dropdown-content {
+    display: none; position: absolute; background: white; min-width: 100%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 12px;
+    z-index: 10; margin-top: 5px;
+  }
+  .custom-dropdown-content div { padding: 10px 15px; cursor: pointer; }
+  .custom-dropdown-content div:hover { background: #f4f7fe; color: var(--primary); }
+
+  .search-bar input {
+    padding: 12px 20px; width: 300px; border-radius: 30px;
+    border: 1px solid #e0e5f2; background: #f4f7fe;
+  }
+
+  .date-group { font-weight: 700; font-size: 13px; color: var(--text-muted); margin: 25px 0 15px; text-transform: uppercase; }
+  .timeline-item {
+    display: flex; align-items: center; gap: 20px; padding: 16px;
+    border-radius: 16px; transition: 0.2s; border: 1px solid transparent;
+  }
+  .timeline-item:hover { background: #fbfcfe; border-color: #e0e5f2; }
+  .time-label { font-size: 13px; font-weight: 600; color: var(--text-muted); min-width: 50px; }
+  .icon-box {
+    width: 45px; height: 45px; background: #f4f7fe; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary); font-size: 20px;
+  }
+  .item-details { flex-grow: 1; }
+  .item-title { font-weight: 700; font-size: 15px; color: var(--text-main); }
+  .badge-overdue { background: #fff5f5; color: var(--danger); padding: 2px 8px; border-radius: 6px; font-size: 11px; }
+
+  @media (max-width: 768px) {
+    .sidebar { width: 70px; }
+    .main { margin-left: 70px; }
+    .brand-text, .list-item-text { display: none; }
+    .search-bar input { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <div class="logo-img">
+      <img src="logo.png" alt="Quiz Carnival Logo">
+    </div> 
+    <div class="brand-text">
+      <span class="brand">Quiz Carnival</span>
+      <span class="tagline">Design & Play Quizzes</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-center">
+    <ul class="list">
+      <li class="list-item"><a href="#"><i class='bx bx-plus'></i><span class="list-item-text">Create</span></a></li>
+      <li class="list-item"><a href="#"><i class='bx bx-home'></i><span class="list-item-text">Homepage</span></a></li>
+      <li class="list-item"><a href="#"><i class='bx bxs-dashboard'></i><span class="list-item-text">Dashboard</span></a></li>
+      <li class="list-item"><a href="#"><i class='bx bx-book'></i><span class="list-item-text">My Classes</span></a></li>
+      <li class="list-item"><a href="#"><i class='bx bx-library'></i><span class="list-item-text">Classes</span></a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="header">
+    <div class="header-right">
+      <div class="msg-icon"><i class='bx bx-bell'></i></div>
+      <div class="msg-icon"><i class='bx bx-message'></i></div>
+      <div class="profile-container">
+        <div class="profile" onclick="toggleDropdown()">
+          <img src="R.jpg" alt="Profile">
+          <span>Alan Walker</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="dropdown-menu" id="profileDropdown">
+          <a href="full-profile.html" class="dropdown-item"><i class='bx bxs-user-circle'></i> Profile</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-line-chart'></i> Grades</a>
+          <a href="calender.html" class="dropdown-item"><i class='bx bx-calendar'></i> Calendar</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-message'></i> Messages</a>
+          <a href="#" class="dropdown-item"><i class='bx bx-share-alt'></i> Share</a>
+          <hr style="border: 0; border-top: 1px solid #eee; margin: 5px 0;">
+          <a href="#" class="dropdown-item"><i class='bx bx-log-in'></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1 class="user-greeting">Hi, Alan</h1>
+
+    <section class="courses-section">
+      <div class="section-header">
+        <h2>Recently Visited Classes</h2>
+        <div class="scroll-controls">
+          <button onclick="scrollGrid(-320)"><i class='bx bx-chevron-left'></i></button>
+          <button onclick="scrollGrid(320)"><i class='bx bx-chevron-right'></i></button>
+        </div>
+      </div>
+
+      <div class="course-grid" id="courseGrid">
+        <a href="#" class="card-container" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400')">
+          <div class="card-content">
+            <h3>Networking 1</h3>
+            <p>Computer Science Dept.</p>
+            <span class="btn-visit">Visit</span>
+          </div>
+        </a>
+        <a href="#" class="card-container" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400')">
+          <div class="card-content">
+            <h3>CIT 248 Intro</h3>
+            <p>Mr. C. Williams</p>
+            <span class="btn-visit">Visit</span>
+          </div>
+        </a>
+        <a href="#" class="card-container" style="background-image: url('https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&q=80&w=400')">
+          <div class="card-content">
+            <h3>Advance Programming</h3>
+            <p>Software Engineering</p>
+            <span class="btn-visit">Visit</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="timeline-section">
+      <h2>Timeline</h2>
+      <div class="timeline-controls">
+        <div style="display: flex; gap: 10px;">
+          <div class="custom-dropdown">
+            <button id="dropdownBtn">All Tasks</button>
+            <div class="custom-dropdown-content" id="dropdownContent">
+              <div>All</div><div>Current</div><div>Overdue</div>
+            </div>
+          </div>
+          <div class="custom-dropdown">
+            <button id="sortBtn">Sort By</button>
+            <div class="custom-dropdown-content" id="sortContent">
+              <div>Date</div><div>Class</div>
+            </div>
+          </div>
+        </div>
+        <div class="search-bar">
+          <input type="text" placeholder="Search activity...">
+        </div>
+      </div>
+
+      <div class="timeline-list">
+        <div class="date-group">Friday, 20 February 2026</div>
+        <div class="timeline-item">
+          <div class="time-label">04:25</div>
+          <div class="icon-box"><i class='bx bx-code-alt'></i></div>
+          <div class="item-details">
+            <div class="item-title">Graded Prototype Activity <span class="badge-overdue">Overdue</span></div>
+            <div class="item-subtitle">Capstone Project 2025-2026</div>
+          </div>
+        </div>
+
+        <div class="date-group">Monday, 23 February 2026</div>
+        <div class="timeline-item">
+          <div class="time-label">09:00</div>
+          <div class="icon-box"><i class='bx bx-cloud'></i></div>
+          <div class="item-details">
+            <div class="item-title">Week 6 Lab Submission</div>
+            <div class="item-subtitle">Networking 2 - 2026</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  // Sidebar Dropdown
+  function toggleDropdown() {
+    document.getElementById("profileDropdown").classList.toggle("show");
+  }
+
+  // Horizontal Scroll
+  const grid = document.getElementById('courseGrid');
+  function scrollGrid(distance) {
+    grid.scrollBy({ left: distance, behavior: 'smooth' });
+  }
+
+  // Generic Dropdown Logic for Timeline
+  function setupDropdown(btnId, contentId) {
+    const btn = document.getElementById(btnId);
+    const content = document.getElementById(contentId);
+    if(!btn || !content) return;
+    
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
+
+    content.querySelectorAll('div').forEach(item => {
+      item.addEventListener('click', () => {
+        btn.textContent = item.textContent;
+        content.style.display = 'none';
+      });
+    });
+  }
+
+  setupDropdown('dropdownBtn', 'dropdownContent');
+  setupDropdown('sortBtn', 'sortContent');
+
+  // Close everything on outside click
+  window.onclick = function(event) {
+    if (!event.target.closest('.profile-container')) {
+      document.getElementById("profileDropdown").classList.remove("show");
+    }
+    if (!event.target.closest('.custom-dropdown')) {
+      document.querySelectorAll('.custom-dropdown-content').forEach(d => d.style.display = 'none');
+    }
+  }
+</script>
+</body>
+</html>
