@@ -1,0 +1,20 @@
+<?php
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/functions.php';
+header('Content-Type: application/json');
+requireTeacher();
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') jsonError('Method not allowed', 405);
+$data  = json_decode(file_get_contents('php://input'), true);
+$name  = trim($data['name'] ?? '');
+$desc  = trim($data['description'] ?? '');
+$color = $data['color'] ?? '#4318FF';
+if (!$name) jsonError('Class name is required');
+$allowedColors = classColors();
+if (!preg_match('/^#[0-9a-fA-F]{6}$/', $color)) $color = '#4318FF';
+$pdo = getDB();
+$uid = currentUser()['id'];
+$stmt = $pdo->prepare("INSERT INTO classes (name, description, teacher_id, color) VALUES (?,?,?,?)");
+$stmt->execute([$name, $desc, $uid, $color]);
+jsonSuccess(['class_id' => $pdo->lastInsertId()]);
